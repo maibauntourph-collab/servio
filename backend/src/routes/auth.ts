@@ -121,7 +121,7 @@ auth.get('/me', async (c) => {
             return c.json({ success: false, message: '인증 토큰이 필요합니다.' }, 401);
 
         const token = authHeader.split(' ')[1];
-        const payload = await verify(token, c.env.JWT_SECRET) as any;
+        const payload = (await verify(token, c.env.JWT_SECRET, 'HS256')) as { userId: string; email: string; role: string };
 
         const sql = getDb(c.env.DATABASE_URL);
         const rows = await sql`

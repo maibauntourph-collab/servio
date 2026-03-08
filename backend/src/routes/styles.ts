@@ -96,7 +96,7 @@ styles.patch('/:id', async (c) => {
 
         const result = await sql`
             UPDATE hairstyles
-            SET ${sql(updateData)}
+            SET ${sql(updateData) as any}
             WHERE id = ${id}
             RETURNING *
         `;
