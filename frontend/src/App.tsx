@@ -13,6 +13,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MyPage from './pages/MyPage';
 import AdminPage from './pages/AdminPage';
+import AdminStylesPage from './pages/AdminStylesPage';
 
 function App() {
     return (
@@ -36,6 +37,7 @@ function App() {
                             <Route path="/mypage" element={<MyPage />} />
                             {/* 관리자 페이지 */}
                             <Route path="/admin" element={<AdminPage />} />
+                            <Route path="/admin/styles" element={<AdminStylesPage />} />
                         </Routes>
                     </div>
                 </BrowserRouter>

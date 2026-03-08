@@ -62,6 +62,16 @@ app.get('/', async (c) => {
 // ── 공개 라우트 (로그인 불필요) ──
 app.route('/api/auth', auth);
 app.route('/api/styles', styles);
+
+// 스타일 수정 (PATCH) 보호 - 로그인 필요
+app.use('/api/styles/:id', async (c, next) => {
+  if (c.req.method === 'PATCH') {
+    return supabaseAuth()(c, next);
+  } else {
+    await next();
+  }
+});
+
 app.route('/api/designers', designers);
 
 // ── 보호 라우트: 👨‍🏫 Supabase 인증 미들웨어 적용 (로그인 필요) ──

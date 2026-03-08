@@ -1,4 +1,4 @@
-name = "barbershop-api"
+name = "corleone-api"
 main = "src/index.ts"
 compatibility_date = "2024-03-03"
 

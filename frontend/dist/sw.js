@@ -39,6 +39,11 @@ self.addEventListener('activate', (event) => {
 
 // 요청 처리: Stale-While-Revalidate 전략
 self.addEventListener('fetch', (event) => {
+    // 👨‍🏫 http/https 스킴이 아닌 요청(예: chrome-extension)은 캐싱에서 제외합니다.
+    if (!event.request.url.startsWith('http')) {
+        return;
+    }
+
     // API 호출(백엔드 데이터)은 캐싱 제외
     if (event.request.url.includes('/api/')) {
         return;

@@ -70,4 +70,46 @@ styles.get('/:id', async (c) => {
     }
 });
 
+// ──────────────────────────────────────────────────
+// PATCH /api/styles/:id  스타일 수정 (이미지 URL, 가격 등)
+// ──────────────────────────────────────────────────
+styles.patch('/:id', async (c) => {
+    try {
+        const id = Number(c.req.param('id'));
+        if (isNaN(id)) return c.json({ success: false, message: '잘못된 ID입니다.' }, 400);
+
+        const body = await c.req.json();
+        const sql = getDb(c.env.DATABASE_URL);
+
+        // 업데이트할 필드 동적 생성
+        const updateData: Record<string, any> = {};
+        if (body.img_url) updateData.img_url = body.img_url;
+        if (body.price) updateData.price = Number(body.price);
+        if (body.ko) updateData.ko = body.ko;
+        if (body.en) updateData.en = body.en;
+        if (body.category) updateData.category = body.category;
+        if (body.is_active !== undefined) updateData.is_active = body.is_active;
+
+        if (Object.keys(updateData).length === 0) {
+            return c.json({ success: false, message: '수정할 데이터가 없습니다.' }, 400);
+        }
+
+        const result = await sql`
+            UPDATE hairstyles
+            SET ${sql(updateData)}
+            WHERE id = ${id}
+            RETURNING *
+        `;
+
+        if (result.length === 0) {
+            return c.json({ success: false, message: '해당 스타일을 찾을 수 없거나 수정에 실패했습니다.' }, 404);
+        }
+
+        return c.json({ success: true, data: result[0], message: '스타일 정보가 업데이트되었습니다.' });
+    } catch (err: any) {
+        console.error('스타일 수정 에러:', err);
+        return c.json({ success: false, message: '수정 처리 중 에러가 발생했습니다.' }, 500);
+    }
+});
+
 export default styles;

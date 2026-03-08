@@ -99,7 +99,7 @@ export default function LoginPage() {
                 </div>
 
                 <div className="glass-card p-8 rounded-2xl">
-                    <h1 className="text-2xl font-bold mb-6">{t.title}</h1>
+                    <h1 className="text-3xl font-bold tracking-tighter text-white">CORLEONE</h1>
 
                     {error && (
                         <div className="mb-4 px-4 py-3 bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl text-sm">

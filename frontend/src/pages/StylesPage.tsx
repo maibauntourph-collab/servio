@@ -86,10 +86,14 @@ export default function StylesPage() {
     const [selectedCat, setSelectedCat] = useState<string>(t.all);
     const [search, setSearch] = useState('');
 
-    // 카테고리 + 검색어 필터링
+    // 카테고리 + 검색어 필터링 (2026-03-08 업데이트: 언어 중립적 필터링)
     const filtered = useMemo(() => {
+        // translations 리소스에서 '전체' 또는 'ALL'에 해당하는 값을 가져옵니다.
+        const allLabel = t.all;
         return hairstyles.filter(h => {
-            const matchCat = selectedCat === t.all || h.category === selectedCat;
+            // 현재 선택된 카테고리가 '전체'이거나, 스타일의 카테고리(DB 값)와 일치하는지 확인
+            // h.category는 DB 원본 값이므로 언어 전환과 관계없이 일관성을 유지합니다.
+            const matchCat = selectedCat === allLabel || h.category === selectedCat;
             const term = search.toLowerCase();
             const matchSearch = !term
                 || h.ko.toLowerCase().includes(term)

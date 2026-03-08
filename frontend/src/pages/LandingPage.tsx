@@ -4,7 +4,7 @@
  * 특징: Framer Motion을 활용한 프리미엄 애니메이션과 Glassmorphism 디자인 적용
  */
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Clock, ChevronRight, Menu, X, Star, MapPin, Instagram, MessageCircle, Globe, ArrowRight, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthContext } from '../context/AuthContext';
@@ -43,6 +43,8 @@ const translations: Record<string, any> = {
             days: ["오늘", "내일", "모레", "3.08", "3.09"],
             stepHour: "시간 선택", stepMinute: "분 선택",
             selectedLabel: "선택한 일정:", bookingRequested: "예약이 요청되었습니다.",
+            timeAlert: "시간을 선택해주세요.", refAlert: "결제 참조 번호(8자리 이상)를 입력해주세요.",
+            errorMsg: "예약 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
             paymentTitle: "결제 방법 선택", paymentMethod: "GCash로 결제하기",
             paymentGuide: "QR 코드를 스캔하거나 등록된 번호로 결제해 주세요.",
             priceLabel: "서비스 예상 금액", priceValue: "₱ 500",
@@ -51,15 +53,15 @@ const translations: Record<string, any> = {
             verifyBtn: "결제 확인 요청", finishBtn: "홈으로 돌아가기"
         },
         sectionInstall: {
-            title: "K-Barber를 앱으로 만나보세요",
+            title: "CORLEONE를 앱으로 만나보세요",
             desc: "QR 코드를 스캔하여 홈 화면에 추가하고, 더 빠르고 간편하게 예약하세요.",
             guide: "스캔하여 즉시 설치",
             btnText: "설치 가이드 보기"
         },
         footer: {
             desc1: "최고의 남성 그루밍 문화를 선도합니다.", desc2: "프리미엄 바버샵에서 진정한 휴식을 경험하세요.",
-            contact: "Contact Info", address: "서울특별시 강남구 도산대로 123", time: "매일 10:00 - 21:00 (화요일 휴무)",
-            support: "Customer Support", copyright: "© 2026 K-Barber Premium Salon. All rights reserved."
+            contact: "Contact Info", address: "CORLEONE BARBERSHOP", time: "매일 10:00 - 21:00 (화요일 휴무)",
+            support: "Customer Support", copyright: "© 2026 CORLEONE BARBERSHOP. All rights reserved."
         }
     },
     en: {
@@ -90,6 +92,8 @@ const translations: Record<string, any> = {
             days: ["Today", "Tomorrow", "After", "3.08", "3.09"],
             stepHour: "Select Hour", stepMinute: "Select Minute",
             selectedLabel: "Selected Schedule:", bookingRequested: "Reservation has been requested.",
+            timeAlert: "Please select time.", refAlert: "Please enter the 8-digit Reference No.",
+            errorMsg: "An error occurred during booking. Please try again later.",
             paymentTitle: "Select Payment Method", paymentMethod: "Pay with GCash",
             paymentGuide: "Please scan the QR code or pay to the registered mobile number.",
             priceLabel: "Estimated Price", priceValue: "₱ 500",
@@ -98,22 +102,22 @@ const translations: Record<string, any> = {
             verifyBtn: "Request Verification", finishBtn: "Back to Home"
         },
         sectionInstall: {
-            title: "Experience K-Barber as an App",
-            desc: "Scan the QR code to add to your home screen and book faster and easier.",
-            guide: "Scan to Install Instantly",
-            btnText: "View Install Guide"
+            title: "Get CORLEONE on your mobile",
+            desc: "Scan the QR code to add to your home screen for faster and easier booking.",
+            guide: "Scan to install immediately",
+            btnText: "Show Install Guide"
         },
         footer: {
-            desc1: "Leading the best men's grooming culture.", desc2: "Experience true relaxation in a premium barbershop.",
-            contact: "Contact Info", address: "123 Dosan-daero, Gangnam-gu, Seoul", time: "Daily 10:00 - 21:00 (Closed on Tuesdays)",
-            support: "Customer Support", copyright: "© 2026 K-Barber Premium Salon. All rights reserved."
+            desc1: "Leading the best men's grooming culture.", desc2: "Experience true relaxation at our premium barbershop.",
+            contact: "Contact Info", address: "CORLEONE BARBERSHOP", time: "Daily 10:00 - 21:00 (Closed on Tuesdays)",
+            support: "Customer Support", copyright: "© 2026 CORLEONE BARBERSHOP. All rights reserved."
         }
     },
     tl: {
         services: [
-            { title: "Signature Barber Cut", price: "45,000 KRW", desc: "Premium custom cut na iniakma sa hugis ng iyong ulo at uri ng buhok." },
-            { title: "Classic Hot Towel Shave", price: "35,000 KRW", desc: "Tradisyonal na ahit na may mainit na tuwalya at premium na lather." },
-            { title: "Ivy League Down Perm", price: "60,000 KRW", desc: "Down perm na perpektong kumokontrol sa buhok sa tagiliran at itaas." },
+            { title: "Signature Barber Cut", price: "₱ 1,800", desc: "Premium custom cut na iniakma sa hugis ng iyong ulo at uri ng buhok." },
+            { title: "Classic Hot Towel Shave", price: "₱ 1,400", desc: "Tradisyonal na ahit na may mainit na tuwalya at premium na lather." },
+            { title: "Ivy League Down Perm", price: "₱ 2,200", desc: "Down perm na perpektong kumokontrol sa buhok sa tagiliran at itaas." },
         ],
         nav: { services: "Mga Serbisyo", portfolio: "Portfolio", booking: "Pag-book", bookNow: "Mag-book Ngayon", admin: "Admin", myPage: "Profile", logout: "Logout", login: "Login" },
         hero: {
@@ -137,6 +141,8 @@ const translations: Record<string, any> = {
             days: ["Ngayon", "Bukas", "Sunod", "3.08", "3.09"],
             stepHour: "Piliin ang Oras", stepMinute: "Piliin ang Minuto",
             selectedLabel: "Napiling Iskedyul:", bookingRequested: "Hiniling na ang reserbasyon.",
+            timeAlert: "Mangyaring pumili ng oras.", refAlert: "Mangyaring ilagay ang 8-digit Reference No.",
+            errorMsg: "Nagkaroon ng error sa pag-book. Pakisubukang muli mamaya.",
             paymentTitle: "Piliin ang Paraan ng Pagbabayad", paymentMethod: "Magbayad gamit ang GCash",
             paymentGuide: "Mangyaring i-scan ang QR code o magbayad sa rehistradong numero.",
             priceLabel: "Tinatayang Presyo", priceValue: "₱ 500",
@@ -158,9 +164,9 @@ const translations: Record<string, any> = {
     },
     ceb: {
         services: [
-            { title: "Signature Barber Cut", price: "45,000 KRW", desc: "Premium custom cut nga gipahaum sa porma sa imong ulo ug klase sa buhok." },
-            { title: "Classic Hot Towel Shave", price: "35,000 KRW", desc: "Tradisyonal nga pag-alot nga adunay init nga tualya ug premium nga lather." },
-            { title: "Ivy League Down Perm", price: "60,000 KRW", desc: "Down perm nga hingpit nga nagdumala sa buhok sa kilid ug ibabaw." },
+            { title: "Signature Barber Cut", price: "₱ 1,800", desc: "Premium custom cut nga gipahaum sa porma sa imong ulo ug klase sa buhok." },
+            { title: "Classic Hot Towel Shave", price: "₱ 1,400", desc: "Tradisyonal nga pag-alot nga adunay init nga tualya ug premium nga lather." },
+            { title: "Ivy League Down Perm", price: "₱ 2,200", desc: "Down perm nga hingpit nga nagdumala sa buhok sa kilid ug ibabaw." },
         ],
         nav: { services: "Mga Serbisyo", portfolio: "Portfolio", booking: "Pag-book", bookNow: "Pag-book Karon", admin: "Admin", myPage: "Profile", logout: "Logout", login: "Login" },
         hero: {
@@ -184,6 +190,8 @@ const translations: Record<string, any> = {
             days: ["Karon", "Ugma", "Sunod", "3.08", "3.09"],
             stepHour: "Pagpili og Oras", stepMinute: "Pagpili og Minuto",
             selectedLabel: "Napili nga Iskedyul:", bookingRequested: "Gipangayo na ang reserbasyon.",
+            timeAlert: "Palihug pilia ang oras.", refAlert: "Palihug isulod ang 8-digit Reference No.",
+            errorMsg: "Naay error sa pag-book. Palihug sulayi pag-usab unya.",
             paymentTitle: "Pagpili og Paagi sa Pagbayad", paymentMethod: "Pagbayad gamit ang GCash",
             paymentGuide: "Palihug i-scan ang QR code o magbayad sa rehistradong numero.",
             priceLabel: "Gibanabana nga Presyo", priceValue: "₱ 500",
@@ -207,6 +215,7 @@ const translations: Record<string, any> = {
 
 
 export default function LandingPage() {
+    const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { language, setLanguage } = useLanguage();
     const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
@@ -217,7 +226,7 @@ export default function LandingPage() {
     // QR 프레임 상태
     const [qrFrame, setQrFrame] = useState('premium-qr-original-A.png');
 
-    const [selectedDayIdx, setSelectedDayIdx] = useState(1); // 기본값 '내일'
+    const [selectedDayIdx, setSelectedDayIdx] = useState(0); // 👨‍🏫 초기값 0(오늘)으로 통일
     const [selectedHour, setSelectedHour] = useState<string | null>(null);
     const [selectedMinute, setSelectedMinute] = useState<string | null>(null);
 
@@ -248,20 +257,22 @@ export default function LandingPage() {
     const hours = Array.from({ length: 10 }, (_, i) => (10 + i).toString().padStart(2, '0'));
     const minutes = ["00", "10", "20", "30", "40", "50"];
 
-    const handleBook = async () => {
-        // 👨‍🏫 로그인이 안 되어 있다면 우아한 로그인 모달을 띄웁니다.
-        if (!isLoggedIn) {
+    const handleBookingClick = () => {
+        if (user) {
+            navigate('/booking');
+        } else {
             setIsLoginModalOpen(true);
-            return;
         }
+    };
 
+    const handleBook = async () => {
         if (!selectedHour || !selectedMinute) {
-            alert(language === 'ko' ? '시간을 선택해주세요.' : 'Please select time.');
+            alert(t.sectionBooking.timeAlert || 'Please select time.');
             return;
         }
 
         if (referenceNumber.length < 8) {
-            alert(language === 'ko' ? '결제 참조 번호(8자리 이상)를 입력해주세요.' : 'Please enter the 8-digit Reference No.');
+            alert(t.sectionBooking.refAlert || 'Please enter the 8-digit Reference No.');
             return;
         }
 
@@ -291,7 +302,7 @@ export default function LandingPage() {
             }
         } catch (err) {
             console.error('Booking Error:', err);
-            alert(language === 'ko' ? '예약 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.' : 'An error occurred during booking. Please try again later.');
+            alert(t.sectionBooking.errorMsg || 'An error occurred during booking. Please try again later.');
             setPaymentStep(1);
         }
     };
@@ -302,7 +313,7 @@ export default function LandingPage() {
             {/* Navigation */}
             <nav className="fixed top-0 w-full z-50 glass border-b-0 py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
                 <div className="text-2xl font-black tracking-tighter gold-gradient-text uppercase">
-                    K-Barber
+                    CORLEONE
                 </div>
 
                 {/* Desktop Menu */}
@@ -474,9 +485,12 @@ export default function LandingPage() {
                                 </div>
                                 <p className="text-muted-foreground leading-relaxed">{service.desc}</p>
 
-                                <div className="mt-8 flex items-center text-sm font-medium text-white/50 group-hover:text-primary transition-colors">
-                                    {t.sectionService.bookText} <ChevronRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-                                </div>
+                                <button
+                                    onClick={handleBookingClick}
+                                    className="mt-8 flex items-center text-sm font-medium text-white/50 group-hover:text-primary transition-colors group/btn"
+                                >
+                                    {t.sectionService.bookText} <ChevronRight size={16} className="ml-1 group-hover/btn:translate-x-1 transition-transform" />
+                                </button>
                             </motion.div>
                         ))}
                     </div>
@@ -496,15 +510,17 @@ export default function LandingPage() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 whileHover={{ y: -10 }}
                                 transition={{ duration: 0.4 }}
-                                className="relative overflow-hidden rounded-2xl group aspect-[4/5]"
+                                className="relative overflow-hidden rounded-2xl group aspect-[4/5] cursor-pointer"
                             >
-                                <img src={item.img} alt={item.style} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 opacity-80 group-hover:opacity-100 transition-opacity">
-                                    <h4 className="text-xl font-bold text-white mb-1">{item.style}</h4>
-                                    <p className="text-primary font-medium text-sm flex items-center">
-                                        <Star size={14} className="mr-1 fill-primary" /> {item.designer}
-                                    </p>
-                                </div>
+                                <Link to="/styles" className="block w-full h-full">
+                                    <img src={item.img} alt={item.style} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 opacity-80 group-hover:opacity-100 transition-opacity">
+                                        <h1 className="text-xl font-bold tracking-tighter text-white">CORLEONE</h1>
+                                        <p className="text-primary font-medium text-sm flex items-center">
+                                            <Star size={14} className="mr-1 fill-primary" /> {item.designer}
+                                        </p>
+                                    </div>
+                                </Link>
                             </motion.div>
                         ))}
                     </div>
@@ -638,17 +654,15 @@ export default function LandingPage() {
                                                     {t.sectionBooking.days[selectedDayIdx]} • {selectedHour}:{selectedMinute}
                                                 </div>
                                             </div>
-                                            <button
-                                                onClick={() => {
-                                                    // 👨‍🏫 비로그인 사용자도 결제 모달까지는 열 수 있도록 허용합니다.
-                                                    setIsPaymentModalOpen(true);
-                                                    setPaymentStep(1);
-                                                }}
-                                                className="w-full sm:w-auto px-10 py-4 bg-primary text-black rounded-full font-black text-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-all flex items-center justify-center gap-2 group"
+                                            <motion.button
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                onClick={handleBookingClick}
+                                                className="w-full sm:w-auto px-10 py-4 bg-primary text-black rounded-full font-black text-lg hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-all flex items-center justify-center gap-2 group"
                                             >
                                                 {t.nav.bookNow}
                                                 <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                                            </button>
+                                            </motion.button>
                                         </div>
                                     </motion.div>
                                 )}
