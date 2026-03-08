@@ -149,6 +149,8 @@ export default function BookingPage() {
         const autoSubmit = sessionStorage.getItem('booking_auto_submit') === 'true';
         if (saved) {
             try {
+                const data = JSON.parse(saved);
+                let restoredTreatment = selectedTreatment;
                 if (data.styleId) {
                     const treatment = treatments.find(t_item => t_item.id === data.styleId);
                     if (treatment) { setSelectedTreatment(treatment); restoredTreatment = treatment; }
