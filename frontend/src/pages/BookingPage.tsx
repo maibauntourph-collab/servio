@@ -149,8 +149,6 @@ export default function BookingPage() {
         const autoSubmit = sessionStorage.getItem('booking_auto_submit') === 'true';
         if (saved) {
             try {
-                const data = JSON.parse(saved);
-                let restoredStyle = selectedStyle;
                 if (data.styleId) {
                     const treatment = treatments.find(t_item => t_item.id === data.styleId);
                     if (treatment) { setSelectedTreatment(treatment); restoredTreatment = treatment; }
@@ -237,7 +235,7 @@ export default function BookingPage() {
                 {step === 2 && (
                     <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                         <h2 className="text-2xl font-bold mb-2">{t.step2.title}</h2>
-                        {selectedStyle && <p className="text-muted-foreground mb-6">{t.step2.selected}: <span className="text-primary">{selectedStyle[language as keyof typeof selectedStyle] as string}</span></p>}
+                        {selectedTreatment && <p className="text-muted-foreground mb-6">{t.step2.selected}: <span className="text-primary">{selectedTreatment[language as keyof typeof selectedTreatment] as string}</span></p>}
                         <div className="space-y-3">
                             {THERAPISTS.map(d_name => (
                                 <button key={d_name} onClick={() => { setSelectedTherapist(d_name); setStep(3); }} className={`w-full glass-card rounded-xl p-4 flex items-center gap-4 hover:border-primary/50 transition-all ${selectedTherapist === d_name ? 'border-primary' : ''}`}>
