@@ -1,21 +1,57 @@
 /**
- * 👨‍🏫 로그인 페이지 (2026-03-03)
- * 이메일/비밀번호 입력 → API 호출 → JWT 저장 → 메인으로 이동
+ * 👨‍🏫 로그인 페이지 (2026-03-08 업데이트)
+ * Supabase Auth를 통해 이메일/비밀번호 로그인을 처리합니다.
+ * 학습 포인트: 비동기 처리(async/await)와 에러 핸들링을 통해 사용자에게 피드백을 주는 흐름을 확인할 수 있습니다.
  */
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, LogIn, Eye, EyeOff, Chrome, Facebook, MessageCircle } from 'lucide-react';
 import { useAuthContext } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { supabase } from '../lib/supabase';
+
+const translations: Record<string, any> = {
+    ko: {
+        title: "로그인", subtitle: "프리미엄 바버샵 예약 서비스", email: "이메일", password: "비밀번호",
+        pwPlaceholder: "비밀번호를 입력하세요", loginBtn: "로그인", loggingIn: "로그인 중...",
+        errorMatch: "이메일 또는 비밀번호가 일치하지 않습니다.",
+        errorServer: "서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.",
+        footer: "아직 회원이 아니신가요?", register: "회원가입", snsLabel: "OR SNS LOGIN"
+    },
+    en: {
+        title: "Login", subtitle: "Premium Barbershop Reservation", email: "Email", password: "Password",
+        pwPlaceholder: "Enter your password", loginBtn: "Login", loggingIn: "Logging in...",
+        errorMatch: "Email or password does not match.",
+        errorServer: "Server connection failed. Please try again later.",
+        footer: "Not a member yet?", register: "Sign Up", snsLabel: "OR SNS LOGIN"
+    },
+    tl: {
+        title: "Login", subtitle: "Premium Barbershop Reservation", email: "Email", password: "Password",
+        pwPlaceholder: "Ilagay ang iyong password", loginBtn: "Login", loggingIn: "Naglo-log in...",
+        errorMatch: "Ang email o password ay hindi tumutugma.",
+        errorServer: "Nabigo ang koneksyon sa server. Pakisubukan muli mamaya.",
+        footer: "Hindi ka pa miyembro?", register: "Mag-sign Up", snsLabel: "OR SNS LOGIN"
+    },
+    ceb: {
+        title: "Login", subtitle: "Premium Barbershop Reservation", email: "Email", password: "Password",
+        pwPlaceholder: "Isulod ang imong password", loginBtn: "Login", loggingIn: "Nag-log in...",
+        errorMatch: "Ang email o password wala nagtugma.",
+        errorServer: "Napakyas ang koneksyon sa server. Palihug sulayi pag-usab sa ulahi.",
+        footer: "Dili pa miyembro?", register: "Mag-sign Up", snsLabel: "OR SNS LOGIN"
+    }
+};
 
 export default function LoginPage() {
     const navigate = useNavigate();
     const { login } = useAuthContext();
+    const { language } = useLanguage();
     const [form, setForm] = useState({ email: '', password: '' });
     const [showPw, setShowPw] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    const t = translations[language] || translations.en;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,10 +62,10 @@ export default function LoginPage() {
             if (!error) {
                 navigate('/');
             } else {
-                setError('이메일 또는 비밀번호가 일치하지 않습니다.');
+                setError(t.errorMatch);
             }
         } catch {
-            setError('서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.');
+            setError(t.errorServer);
         } finally {
             setLoading(false);
         }
@@ -59,11 +95,11 @@ export default function LoginPage() {
                 {/* 헤더 */}
                 <div className="text-center mb-10">
                     <Link to="/" className="text-3xl font-black tracking-tighter gold-gradient-text uppercase">K-Barber</Link>
-                    <p className="text-muted-foreground mt-2">프리미엄 바버샵 예약 서비스</p>
+                    <p className="text-muted-foreground mt-2">{t.subtitle}</p>
                 </div>
 
                 <div className="glass-card p-8 rounded-2xl">
-                    <h1 className="text-2xl font-bold mb-6">로그인</h1>
+                    <h1 className="text-2xl font-bold mb-6">{t.title}</h1>
 
                     {error && (
                         <div className="mb-4 px-4 py-3 bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl text-sm">
@@ -74,7 +110,7 @@ export default function LoginPage() {
                     <form onSubmit={handleSubmit} className="space-y-5">
                         {/* 이메일 */}
                         <div>
-                            <label className="text-sm text-muted-foreground mb-1.5 block">이메일</label>
+                            <label className="text-sm text-muted-foreground mb-1.5 block">{t.email}</label>
                             <div className="relative">
                                 <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                                 <input
@@ -91,7 +127,7 @@ export default function LoginPage() {
 
                         {/* 비밀번호 */}
                         <div>
-                            <label className="text-sm text-muted-foreground mb-1.5 block">비밀번호</label>
+                            <label className="text-sm text-muted-foreground mb-1.5 block">{t.password}</label>
                             <div className="relative">
                                 <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                                 <input
@@ -100,7 +136,7 @@ export default function LoginPage() {
                                     required
                                     value={form.password}
                                     onChange={e => setForm({ ...form, password: e.target.value })}
-                                    placeholder="비밀번호를 입력하세요"
+                                    placeholder={t.pwPlaceholder}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-10 py-3 text-sm focus:outline-none focus:border-primary/50"
                                 />
                                 <button type="button" onClick={() => setShowPw(!showPw)}
@@ -116,14 +152,14 @@ export default function LoginPage() {
                             disabled={loading}
                             className="w-full bg-primary text-primary-foreground py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
                         >
-                            {loading ? '로그인 중...' : (<><LogIn size={18} /> 로그인</>)}
+                            {loading ? t.loggingIn : (<><LogIn size={18} /> {t.loginBtn}</>)}
                         </button>
                     </form>
 
                     {/* 구분선 */}
                     <div className="relative my-8">
                         <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10"></div></div>
-                        <div className="relative flex justify-center text-xs uppercase"><span className="bg-[#1a1c1e] px-2 text-muted-foreground font-bold tracking-widest">OR SNS LOGIN</span></div>
+                        <div className="relative flex justify-center text-xs uppercase"><span className="bg-[#1a1c1e] px-2 text-muted-foreground font-bold tracking-widest">{t.snsLabel}</span></div>
                     </div>
 
                     {/* SNS 버튼 그룹 */}
@@ -140,8 +176,8 @@ export default function LoginPage() {
                     </div>
 
                     <p className="text-center text-sm text-muted-foreground mt-8">
-                        아직 회원이 아니신가요?{' '}
-                        <Link to="/register" className="text-primary hover:underline font-bold">회원가입</Link>
+                        {t.footer}{' '}
+                        <Link to="/register" className="text-primary hover:underline font-bold">{t.register}</Link>
                     </p>
                 </div>
             </motion.div>

@@ -26,9 +26,9 @@ const app = new Hono<{ Bindings: Bindings }>();
 // ── CORS 미들웨어: 모든 Cloudflare Pages 도메인 및 로컬 환경 허용 ──
 app.use('/*', cors({
   origin: (origin) => {
-    // 로컬 개발 환경 및 barbershop-ui 관련 모든 도메인 허용
-    if (origin.endsWith('localhost:5173') || origin.endsWith('pages.dev')) {
-      return origin;
+    // 로컬 개발 환경 (http/https, localhost/127.0.0.1) 및 barbershop-ui 관련 모든 도메인 허용
+    if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1') || origin.endsWith('pages.dev')) {
+      return origin || 'https://barbershop-ui.pages.dev';
     }
     return 'https://barbershop-ui.pages.dev';
   },

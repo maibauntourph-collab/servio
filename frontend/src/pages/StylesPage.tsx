@@ -1,7 +1,7 @@
 /**
- * 👨‍🏫 스타일 갤러리 페이지 (2026-03-03)
- * hairstyles 데이터를 카테고리별로 필터링해서 보여주는 갤러리 페이지입니다.
- * 클릭하면 예약 페이지로 이동합니다.
+ * 👨‍🏫 스타일 갤러리 페이지 (2026-03-08 업데이트)
+ * 주요 기능: hairstyles 데이터를 카테고리별로 필터링하여 전시, 검색 기능 제공
+ * 특징: 10분 단위 예약 시스템과 연동되어 있으며, 클릭 시 해당 스타일의 예약 페이지로 이동
  */
 import { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,48 +10,111 @@ import { Search, X, ArrowLeft, Clock } from 'lucide-react';
 import { hairstyles, categories } from '../data/hairstyles';
 import { useAuthContext } from '../context/AuthContext';
 
-// 가격 포맷 함수: 45000 → "45,000원"
-const fmtPrice = (p: number) => p.toLocaleString('ko-KR') + '원';
+// 👨‍🏫 가격 포맷 함수 (2026-03-08 표준화)
+// 모든 통화를 필리핀 페소(₱)로 통일하여 표시합니다.
+// 학습 포인트: toLocaleString()은 숫자에 천 단위 구분 쉼표를 자동으로 추가해줍니다.
+const fmtPrice = (p: number) => {
+    return '₱ ' + p.toLocaleString();
+};
+
+const translations: Record<string, any> = {
+    ko: {
+        all: "전체",
+        searchPlaceholder: "스타일명 검색...",
+        totalStyles: "총 {count}가지 프리미엄 남성 헤어스타일",
+        styleCount: "{count}개의 스타일",
+        noResult: "검색 결과가 없습니다.",
+        bookBtn: "예약하기",
+        gallery: "갤러리",
+        title: "스타일",
+        min: "분",
+        home: "홈으로",
+        myPage: "마이페이지",
+        login: "로그인"
+    },
+    en: {
+        all: "ALL",
+        searchPlaceholder: "Search styles...",
+        totalStyles: "Total {count} premium men's styles",
+        styleCount: "{count} styles found",
+        noResult: "No styles found for your search.",
+        bookBtn: "Book Now",
+        gallery: "Gallery",
+        title: "Style",
+        min: "min",
+        home: "Home",
+        myPage: "My Page",
+        login: "Login"
+    },
+    tl: {
+        all: "LAHAT",
+        searchPlaceholder: "Maghanap ng istilo...",
+        totalStyles: "Kabuuang {count} premium na istilo para sa lalaki",
+        styleCount: "{count} istilo ang nahanap",
+        noResult: "Walang nahanap na istilo.",
+        bookBtn: "Mag-book Ngayon",
+        gallery: "Gallery",
+        title: "Istilo",
+        min: "min",
+        home: "Home",
+        myPage: "Profile",
+        login: "Login"
+    },
+    ceb: {
+        all: "TANAN",
+        searchPlaceholder: "Pangita og estilo...",
+        totalStyles: "Tanan nga {count} premium nga estilo para sa lalaki",
+        styleCount: "{count} estilo ang nakit-an",
+        noResult: "Walay nakit-an nga estilo.",
+        bookBtn: "Pag-book Karon",
+        gallery: "Gallery",
+        title: "Estilo",
+        min: "min",
+        home: "Home",
+        myPage: "Profile",
+        login: "Login"
+    }
+};
+
+import { useLanguage } from '../context/LanguageContext';
 
 export default function StylesPage() {
     const navigate = useNavigate();
     const { isLoggedIn } = useAuthContext();
-    const [selectedCat, setSelectedCat] = useState<string>('전체');
+    const { language } = useLanguage();
+    const t = translations[language] || translations.en;
+    const [selectedCat, setSelectedCat] = useState<string>(t.all);
     const [search, setSearch] = useState('');
-    const [language, setLanguage] = useState<'ko' | 'en'>('ko');
 
     // 카테고리 + 검색어 필터링
     const filtered = useMemo(() => {
         return hairstyles.filter(h => {
-            const matchCat = selectedCat === '전체' || h.category === selectedCat;
+            const matchCat = selectedCat === t.all || h.category === selectedCat;
             const term = search.toLowerCase();
             const matchSearch = !term
                 || h.ko.toLowerCase().includes(term)
                 || h.en.toLowerCase().includes(term)
-                || h.category.includes(term);
+                || h.tl.toLowerCase().includes(term)
+                || h.ceb.toLowerCase().includes(term)
+                || h.category.toLowerCase().includes(term);
             return matchCat && matchSearch;
         });
-    }, [selectedCat, search]);
+    }, [selectedCat, search, language, t.all]);
 
-    const allCategories = ['전체', ...categories];
+    const allCategories = [t.all, ...categories];
 
     return (
         <div className="min-h-screen bg-background">
             {/* 내비게이션 */}
             <nav className="fixed top-0 w-full z-50 glass border-b border-white/5 py-4 px-6 flex items-center justify-between">
                 <button onClick={() => navigate('/')} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                    <ArrowLeft size={18} /> 홈으로
+                    <ArrowLeft size={18} /> {t.home}
                 </button>
                 <span className="text-xl font-black gold-gradient-text tracking-tighter uppercase">K-Barber</span>
                 <div className="flex items-center gap-3">
-                    {/* 언어 전환 */}
-                    <button onClick={() => setLanguage(l => l === 'ko' ? 'en' : 'ko')}
-                        className="text-xs bg-white/10 px-3 py-1.5 rounded-full hover:bg-white/20 transition-colors">
-                        {language === 'ko' ? 'EN' : 'KO'}
-                    </button>
                     {isLoggedIn
-                        ? <Link to="/mypage" className="text-sm text-primary">마이페이지</Link>
-                        : <Link to="/login" className="bg-primary text-primary-foreground px-4 py-1.5 rounded-full text-sm font-bold">로그인</Link>
+                        ? <Link to="/mypage" className="text-sm text-primary">{t.myPage}</Link>
+                        : <Link to="/login" className="bg-primary text-primary-foreground px-4 py-1.5 rounded-full text-sm font-bold">{t.login}</Link>
                     }
                 </div>
             </nav>
@@ -61,9 +124,9 @@ export default function StylesPage() {
                 <motion.h1
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                     className="text-4xl md:text-6xl font-extrabold mb-4">
-                    스타일 <span className="gold-gradient-text">갤러리</span>
+                    {t.title} <span className="gold-gradient-text">{t.gallery}</span>
                 </motion.h1>
-                <p className="text-muted-foreground text-lg">총 {hairstyles.length}가지 프리미엄 남성 헤어스타일</p>
+                <p className="text-muted-foreground text-lg">{t.totalStyles.replace('{count}', hairstyles.length.toString())}</p>
             </section>
 
             {/* 검색창 */}
@@ -75,7 +138,7 @@ export default function StylesPage() {
                         type="text"
                         value={search}
                         onChange={e => setSearch(e.target.value)}
-                        placeholder="스타일명 검색..."
+                        placeholder={t.searchPlaceholder}
                         className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-10 py-3 text-sm focus:outline-none focus:border-primary/50"
                     />
                     {search && <button onClick={() => setSearch('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -113,9 +176,9 @@ export default function StylesPage() {
 
             {/* 결과 카운트 */}
             <div className="px-6 max-w-7xl mx-auto mb-6">
-                <p className="text-sm text-muted-foreground">{filtered.length}개의 스타일</p>
+                <p className="text-sm text-muted-foreground">{t.styleCount.replace('{count}', filtered.length.toString())}</p>
             </div>
-
+            Broadway
             {/* 스타일 그리드 */}
             <div className="px-6 max-w-7xl mx-auto pb-20">
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -148,13 +211,13 @@ export default function StylesPage() {
                                 {/* 정보 */}
                                 <div className="p-3">
                                     <h3 className="font-bold text-sm truncate">
-                                        {language === 'ko' ? style.ko : style.en}
+                                        {style[language as keyof typeof style] as string}
                                     </h3>
                                     <p className="text-xs text-muted-foreground truncate mt-0.5">{style.designer}</p>
                                     <div className="flex items-center justify-between mt-2">
                                         <span className="text-primary font-semibold text-sm">{fmtPrice(style.price)}</span>
                                         <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                                            <Clock size={11} /> {style.duration}분
+                                            <Clock size={11} /> {style.duration}{t.min}
                                         </span>
                                     </div>
                                     {/* 예약 버튼 */}
@@ -162,7 +225,7 @@ export default function StylesPage() {
                                         id={`book-${style.id}`}
                                         className="mt-2 w-full text-xs py-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all font-medium"
                                     >
-                                        예약하기
+                                        {t.bookBtn}
                                     </button>
                                 </div>
                             </motion.div>
@@ -173,7 +236,7 @@ export default function StylesPage() {
                 {filtered.length === 0 && (
                     <div className="text-center py-20 text-muted-foreground">
                         <p className="text-5xl mb-4">✂️</p>
-                        <p>검색 결과가 없습니다.</p>
+                        <p>{t.noResult}</p>
                     </div>
                 )}
             </div>

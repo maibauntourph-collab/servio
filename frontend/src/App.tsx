@@ -1,6 +1,7 @@
 /**
- * 👨‍🏫 App.tsx — 라우팅 설정 파일 (2026-03-03)
- * React Router v6를 이용해 각 URL에 맞는 페이지 컴포넌트를 연결합니다.
+ * 👨‍🏫 App.tsx — 라우팅 및 전역 프로바이더 설정 (2026-03-08 업데이트)
+ * React Router v6를 이용해 페이지를 연결하고, Auth/Language 컨텍스트를 앱 전체에 주입합니다.
+ * 학습 포인트: 최상위 컴포넌트에서 Context Provider로 가로채기(Wrapping)를 하여 전역 상태를 관리하는 구조입니다.
  */
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';

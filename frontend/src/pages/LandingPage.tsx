@@ -1,3 +1,8 @@
+/**
+ * 👨‍🏫 K-Barber 메인 랜딩 페이지 (2026-03-08 업데이트)
+ * 주요 기능: 서비스 소개, 포트폴리오(스타일북), 간편 온라인 예약, GCash 결제 연동, PWA 설치 안내
+ * 특징: Framer Motion을 활용한 프리미엄 애니메이션과 Glassmorphism 디자인 적용
+ */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Clock, ChevronRight, Menu, X, Star, MapPin, Instagram, MessageCircle, Globe, ArrowRight, Check } from 'lucide-react';
@@ -12,9 +17,9 @@ import { usePWAInstall } from '../hooks/usePWAInstall';
 const translations: Record<string, any> = {
     ko: {
         services: [
-            { title: "시그니처 바버 커트", price: "45,000원", desc: "개인의 두상과 모질을 고려한 맞춤형 프리미엄 커트" },
-            { title: "클래식 핫타월 면도", price: "35,000원", desc: "따뜻한 타월과 최고급 거품을 이용한 전통 면도" },
-            { title: "아이비리그 다운펌", price: "60,000원", desc: "뜨는 옆머리와 윗머리를 완벽하게 잡아주는 다운펌" },
+            { title: "시그니처 바버 커트", price: "₱ 1,800", desc: "개인의 두상과 모질을 고려한 맞춤형 프리미엄 커트" },
+            { title: "클래식 핫타월 면도", price: "₱ 1,400", desc: "따뜻한 타월과 최고급 거품을 이용한 전통 면도" },
+            { title: "아이비리그 다운펌", price: "₱ 2,200", desc: "뜨는 옆머리와 윗머리를 완벽하게 잡아주는 다운펌" },
         ],
         nav: { services: "서비스", portfolio: "스타일북", booking: "온라인 예약", bookNow: "예약하기", admin: "관리자", myPage: "마이페이지", logout: "로그아웃", login: "로그인" },
         hero: {
@@ -59,9 +64,9 @@ const translations: Record<string, any> = {
     },
     en: {
         services: [
-            { title: "Signature Barber Cut", price: "45,000 KRW", desc: "Premium custom cut tailored to your head shape and hair type." },
-            { title: "Classic Hot Towel Shave", price: "35,000 KRW", desc: "Traditional shave with hot towel and premium lather." },
-            { title: "Ivy League Down Perm", price: "60,000 KRW", desc: "Down perm that perfectly manages side and top hair." },
+            { title: "Signature Barber Cut", price: "₱ 1,800", desc: "Premium custom cut tailored to your head shape and hair type." },
+            { title: "Classic Hot Towel Shave", price: "₱ 1,400", desc: "Traditional shave with hot towel and premium lather." },
+            { title: "Ivy League Down Perm", price: "₱ 2,200", desc: "Down perm that perfectly manages side and top hair." },
         ],
         nav: { services: "Services", portfolio: "Portfolio", booking: "Booking", bookNow: "Book Now", admin: "Admin", myPage: "My Page", logout: "Logout", login: "Login" },
         hero: {
@@ -226,7 +231,7 @@ export default function LandingPage() {
     const fetchGcashInfo = async () => {
         try {
             const res = await settingsApi.getGcash();
-            if (res.success) setGcashInfo(res.data);
+            if (res.ok) setGcashInfo(res.data);
         } catch (err) { console.error('Failed to fetch GCash info:', err); }
     };
 
@@ -237,7 +242,9 @@ export default function LandingPage() {
 
     const t = translations[language];
 
-    // 👨‍🏫 시간/분 슬롯 데이터
+    // 👨‍🏫 예약 시간/분 슬롯 데이터 생성 (2026-03-08 업데이트)
+    // 사용자의 요청에 따라 10:00 ~ 19:00 범위를 생성하며, 분 단위는 10분 간격으로 설정합니다.
+    // 학습 포인트: Array.from을 활용하여 선언적으로 리스트를 생성할 수 있습니다.
     const hours = Array.from({ length: 10 }, (_, i) => (10 + i).toString().padStart(2, '0'));
     const minutes = ["00", "10", "20", "30", "40", "50"];
 
@@ -274,12 +281,12 @@ export default function LandingPage() {
                 ref_number: referenceNumber
             });
 
-            if (res.success) {
+            if (res.ok) {
                 // 👨‍🏫 예약 성공 시 성공 단계로 이동
                 setPaymentStep(3);
             } else {
                 // 👨‍🏫 실패 시 사용자에게 알림 후 입력 단계로 복귀
-                alert(res.message);
+                alert(res.data.message || 'Booking failed');
                 setPaymentStep(1);
             }
         } catch (err) {

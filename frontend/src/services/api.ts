@@ -1,15 +1,24 @@
 /**
- * 👨‍🏫 API 통신 헬퍼 서비스 (2026-03-03)
- * 백엔드 fetch 요청을 한 곳에서 관리합니다.
- * 마치 회사의 대외 비서처럼, 모든 외부 통신을 여기서 처리!
+ * 👨‍🏫 API 통신 헬퍼 서비스 (2026-03-08 업데이트)
+ * 백엔드 fetch 요청을 한 곳에서 관리하며, 모든 요청에 JWT 인증 토큰을 자동으로 첨부합니다.
+ * 학습 포인트: 중복되는 fetch 로직을 apiFetch라는 하나의 함수로 캡슐화하여 유지보수성을 높였습니다.
  */
+
+import { supabase } from '../lib/supabase';
 
 // 백엔드 API 주소: 개발 중에는 로컬, 배포 시에는 real URL
 const API_BASE = (import.meta as any).env.VITE_API_URL || 'https://barbershop-api.maibauntourph.workers.dev';
 
 // 💡 공통 fetch 함수: JWT 토큰 자동 첨부, 에러 처리 통합
 async function apiFetch(path: string, options: RequestInit = {}) {
-    const token = localStorage.getItem('k_barber_token');
+    // 💡 [2026-03-08] 최신 세션 토큰 가져오기 (만료 대비)
+    const { data: { session } } = await supabase.auth.getSession();
+    let token = session?.access_token || localStorage.getItem('k_barber_token');
+
+    if (session?.access_token) {
+        localStorage.setItem('k_barber_token', session.access_token);
+    }
+
     const headers: Record<string, string> = {
         'Content-Type': 'application/json',
         ...(options.headers as Record<string, string>),
@@ -17,26 +26,38 @@ async function apiFetch(path: string, options: RequestInit = {}) {
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
     console.log(`📡 Sending request to: ${API_BASE}${path}`);
-    const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
-    console.log(`📥 Response status: ${res.status} from ${path}`);
-    const data = await res.json();
+    try {
+        const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
+        console.log(`📥 Response status: ${res.status} from ${path}`);
 
-    // 401 자동 로그아웃
-    if (res.status === 401) {
-        localStorage.removeItem('k_barber_token');
-        localStorage.removeItem('k_barber_user');
+        // 401 자동 로그아웃
+        if (res.status === 401) {
+            localStorage.removeItem('k_barber_token');
+            localStorage.removeItem('k_barber_user');
+        }
+
+        const contentType = res.headers.get('content-type');
+        let data;
+        if (contentType && contentType.includes('application/json')) {
+            data = await res.json();
+        } else {
+            data = { message: await res.text() };
+        }
+
+        return { ok: res.ok, status: res.status, data };
+    } catch (err: any) {
+        console.error('🌐 Network Error or Fetch Failure:', err);
+        return { ok: false, status: 0, data: { message: err.message || 'Network connection failed' } };
     }
-
-    return { ok: res.ok, status: res.status, data };
 }
 
 // 💡 관리자용이나 커스텀 요청을 위한 범용 api 객체
 export const api = {
-    get: (path: string) => apiFetch(path).then(r => ({ success: r.ok, ...r.data })),
-    post: (path: string, body: any) => apiFetch(path, { method: 'POST', body: JSON.stringify(body) }).then(r => ({ success: r.ok, ...r.data })),
-    patch: (path: string, body: any) => apiFetch(path, { method: 'PATCH', body: JSON.stringify(body) }).then(r => ({ success: r.ok, ...r.data })),
-    put: (path: string, body: any) => apiFetch(path, { method: 'PUT', body: JSON.stringify(body) }).then(r => ({ success: r.ok, ...r.data })),
-    delete: (path: string) => apiFetch(path, { method: 'DELETE' }).then(r => ({ success: r.ok, ...r.data })),
+    get: (path: string) => apiFetch(path),
+    post: (path: string, body: any) => apiFetch(path, { method: 'POST', body: JSON.stringify(body) }),
+    patch: (path: string, body: any) => apiFetch(path, { method: 'PATCH', body: JSON.stringify(body) }),
+    put: (path: string, body: any) => apiFetch(path, { method: 'PUT', body: JSON.stringify(body) }),
+    delete: (path: string) => apiFetch(path, { method: 'DELETE' }),
 };
 
 // ── Auth API ──

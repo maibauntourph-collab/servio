@@ -1,7 +1,7 @@
 /**
- * 👨‍🏫 글로벌 언어 상태 관리 (LanguageContext) (2026-03-04)
+ * 👨‍🏫 글로벌 언어 상태 관리 (LanguageContext) (2026-03-08 업데이트)
  * 앱 전체의 언어 설정(en, ko, tl, ceb)을 관리하며, 기본값은 영어(en)입니다.
- * 어느 페이지에서든 동일한 언어를 유지할 수 있게 해줍니다.
+ * 학습 포인트: useEffect를 통해 브라우저 로컬 스토리지에 사용자의 언어 설정을 기억합니다.
  */
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 

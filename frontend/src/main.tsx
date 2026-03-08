@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 
-// 👨‍🏫 최적화: 서비스 워커를 바로 등록하여 백그라운드에서 즉시 정적 에셋(앱 리소스)들을 캐싱하게 만듭니다.
+// 👨‍🏫 main.tsx — 애플리케이션 엔트리 포인트 (2026-03-08 업데이트)
+// 최적화: 서비스 워커를 등록하여 PWA 기능을 활성화하고 오프라인 캐싱을 지원합니다.
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')

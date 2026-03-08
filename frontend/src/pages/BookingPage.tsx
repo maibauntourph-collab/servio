@@ -10,10 +10,75 @@ import { ArrowLeft, Check, Calendar, Clock, User as UserIcon } from 'lucide-reac
 import { hairstyles } from '../data/hairstyles';
 import { bookingsApi } from '../services/api';
 import { useAuthContext } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import LoginModal from '../components/auth/LoginModal';
+import GcashPaymentModal from '../components/booking/GcashPaymentModal';
+
+// 👨‍🏫 예약 페이지 번역 데이터
+const translations: Record<string, any> = {
+    ko: {
+        title: "실시간 온라인 예약",
+        step1: { title: "1. 스타일 선택", more: "전체 스타일 보기 →" },
+        step2: { title: "2. 디자이너 선택", selected: "선택한 스타일" },
+        step3: { title: "3. 날짜 & 시간", date: "날짜 선택 (화요일 휴무)", time: "시간 선택" },
+        step4: { title: "4. 예약 확인", style: "스타일", price: "가격", designer: "디자이너", date: "날짜", time: "시간", duration: "소요 시간", notes: "요청사항이 있으면 입력해주세요 (선택)" },
+        btn: { next: "다음 →", backStyle: "← 스타일 다시 선택", backDesigner: "← 디자이너 다시 선택", backTime: "← 날짜/시간 다시 선택", confirm: "✅ 예약 확정하기", booking: "예약 중...", login: "3초 만에 예약 로그인하기", loginMsg: "예약을 확정하시려면 로그인이 필요합니다.", snsMsg: "간편하게 SNS로 로그인하시면 바로 예약이 진행됩니다." },
+        msg: { success: "예약이 완료되었습니다!", fail: "예약에 실패했습니다.", error: "서버 연결 실패. 잠시 후 다시 시도해주세요." }
+    },
+    en: {
+        title: "Online Booking",
+        step1: { title: "1. Select Style", more: "View All Styles →" },
+        step2: { title: "2. Select Designer", selected: "Selected Style" },
+        step3: { title: "3. Date & Time", date: "Select Date (Closed on Tue)", time: "Select Time" },
+        step4: { title: "4. Confirmation", style: "Style", price: "Price", designer: "Designer", date: "Date", time: "Time", duration: "Duration", notes: "Notes or special requests (optional)" },
+        btn: { next: "Next →", backStyle: "← Change Style", backDesigner: "← Change Designer", backTime: "← Change Date/Time", confirm: "✅ Confirm Booking", booking: "Booking...", login: "Login to Book", loginMsg: "Login is required to confirm booking.", snsMsg: "Quick login with SNS to proceed immediately." },
+        msg: { success: "Booking confirmed!", fail: "Booking failed.", error: "Server error. Please try again later." }
+    },
+    tl: {
+        title: "Online Booking",
+        step1: { title: "1. Pumili ng Istilo", more: "Tingnan ang Lahat ng Istilo →" },
+        step2: { title: "2. Pumili ng Designer", selected: "Napiling Istilo" },
+        step3: { title: "3. Petsa at Oras", date: "Pumili ng Petsa (Sarado ng Martes)", time: "Pumili ng Oras" },
+        step4: { title: "4. Kumpirmasyon", style: "Istilo", price: "Presyo", designer: "Designer", date: "Petsa", time: "Oras", duration: "Katagalan", notes: "Mga kahilingan o tala (opsyonal)" },
+        btn: { next: "Susunod →", backStyle: "← Baguhin ang Istilo", backDesigner: "← Baguhin ang Designer", backTime: "← Baguhin ang Petsa/Oras", confirm: "✅ Kumpirmahin ang Booking", booking: "Nagbu-book...", login: "Mag-login para Mag-book", loginMsg: "Kailangan ang login para makumpirma ang booking.", snsMsg: "Mabilis na pag-login gamit ang SNS para tumuloy agad." },
+        msg: { success: "Kumpirmado na ang booking!", fail: "Bigo ang pag-book.", error: "May error sa server. Subukan muli mamaya." }
+    },
+    ceb: {
+        title: "Online Booking",
+        step1: { title: "1. Pagpili og Estilo", more: "Tan-awa ang Tanan nga Estilo →" },
+        step2: { title: "2. Pagpili og Designer", selected: "Napili nga Estilo" },
+        step3: { title: "3. Petsa ug Oras", date: "Pagpili og Petsa (Sira matag Martes)", time: "Pagpili og Oras" },
+        step4: { title: "4. Kumpirmasyon", style: "Estilo", price: "Presyo", designer: "Designer", date: "Petsa", time: "Oras", duration: "Gidugayon", notes: "Mga hangyo o mubo nga sulat (opsyonal)" },
+        btn: { next: "Sunod →", backStyle: "← Usba ang Estilo", backDesigner: "← Usba ang Designer", backTime: "← Usba ang Petsa/Oras", confirm: "✅ Kumpirmaha ang Booking", booking: "Nag-book...", login: "Mag-login aron Mag-book", loginMsg: "Kinahanglan ang login aron makumpirma ang booking.", snsMsg: "Dali nga pag-login gamit ang SNS aron mapadayon dayon." },
+        msg: { success: "Kumpirmado na ang booking!", fail: "Napakyas ang pag-book.", error: "Naay error sa server. Palihug suwayi pag-usab unya." }
+    }
+};
+
+
+
+// 👨‍🏫 예약 가능한 시간 슬롯을 생성하는 함수 (2026-03-08)
+// 사용자의 요청에 따라 오전 10시부터 오후 8시까지 10분 단위로 예약 옵션을 생성합니다.
+// 학습 포인트: Array.from과 padStart를 사용하여 간결하게 시간 포맷팅을 할 수 있습니다.
+function generateTimeSlots(): string[] {
+    const slots: string[] = [];
+    const START_HOUR = 10;
+    const END_HOUR = 20;
+
+    for (let hour = START_HOUR; hour <= END_HOUR; hour++) {
+        for (let minute = 0; minute < 60; minute += 10) {
+            // 오후 8시(20:00) 이후로는 생성하지 않음 (선택 사항)
+            if (hour === END_HOUR && minute > 0) break;
+
+            const h = hour.toString().padStart(2, '0');
+            const m = minute.toString().padStart(2, '0');
+            slots.push(`${h}:${m}`);
+        }
+    }
+    return slots;
+}
 
 const DESIGNERS = ['Master Kim', 'Barber Lee', 'Director Park', 'Stylist Choi', 'Senior Jung'];
-const TIME_SLOTS = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'];
+const TIME_SLOTS = generateTimeSlots();
 
 // 오늘부터 14일 후까지 예약 가능일 생성
 function getAvailableDates(): string[] {
@@ -34,6 +99,8 @@ export default function BookingPage() {
     const { styleId } = useParams<{ styleId?: string }>();
     const navigate = useNavigate();
     const { isLoggedIn } = useAuthContext();
+    const { language } = useLanguage();
+    const t = translations[language] || translations.en;
 
     // 👨‍🏫 즉시 로그인 리다이렉트는 제거합니다. (비회원 스타일 탐색 허용)
     // useEffect(() => {
@@ -54,6 +121,7 @@ export default function BookingPage() {
     const [done, setDone] = useState(false);
     const [error, setError] = useState('');
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isGcashModalOpen, setIsGcashModalOpen] = useState(false);
 
     // 👨‍🏫 예약 실행 함수
     const handleBook = async (directData?: any) => {
@@ -73,18 +141,21 @@ export default function BookingPage() {
                 booking_date: date,
                 booking_time: time,
                 notes: bNotes,
+                ref_number: directData?.ref_number,
             });
             if (res.ok) {
                 setDone(true);
                 sessionStorage.removeItem('pending_booking');
                 sessionStorage.removeItem('booking_auto_submit');
             } else {
-                setError(res.data.message ?? '예약에 실패했습니다.');
+                setError(res.data.message || t.msg.fail);
             }
-        } catch {
-            setError('서버 연결 실패. 잠시 후 다시 시도해주세요.');
+        } catch (err: any) {
+            console.error('❌ Booking Failure Details:', err);
+            setError(`${t.msg.error} (${err.message || 'Network/Server Error'})`);
         } finally {
             setLoading(false);
+            setIsGcashModalOpen(false);
         }
     };
 
@@ -204,7 +275,7 @@ export default function BookingPage() {
                                     className={`glass-card rounded-xl p-3 cursor-pointer hover:border-primary/50 transition-all ${selectedStyle?.id === h.id ? 'border-primary' : ''}`}>
                                     <img src={h.img} alt={h.ko} className="w-full aspect-video object-cover rounded-lg mb-2" />
                                     <p className="text-sm font-bold truncate">{h.ko}</p>
-                                    <p className="text-xs text-primary">{h.price.toLocaleString()}원</p>
+                                    <p className="text-xs text-primary">₱ {h.price.toLocaleString()}</p>
                                 </div>
                             ))}
                         </div>
@@ -261,8 +332,11 @@ export default function BookingPage() {
                         {/* 시간 선택 */}
                         {selectedDate && (
                             <>
-                                <p className="text-sm text-muted-foreground mb-3 flex items-center gap-2"><Clock size={16} /> 시간 선택</p>
-                                <div className="grid grid-cols-4 gap-2 mb-6">
+                                <p className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
+                                    <Clock size={16} /> {t.step3.time} (10분 단위 선택 가능)
+                                </p>
+                                {/* 👨‍🏫 학습 포인트: 시간 옵션이 많아졌으므로 max-height와 overflow-y-auto를 사용하여 UI가 너무 길어지는 것을 방지합니다. */}
+                                <div className="grid grid-cols-4 gap-2 mb-6 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
                                     {TIME_SLOTS.map(t => (
                                         <button key={t} id={`time-${t}`}
                                             onClick={() => setSelectedTime(t)}
@@ -286,7 +360,7 @@ export default function BookingPage() {
                         <h2 className="text-2xl font-bold mb-6">4. 예약 확인</h2>
                         <div className="glass-card rounded-2xl p-6 space-y-4 mb-6">
                             <div className="flex justify-between"><span className="text-muted-foreground">스타일</span><span className="font-bold">{selectedStyle?.ko}</span></div>
-                            <div className="flex justify-between"><span className="text-muted-foreground">가격</span><span className="text-primary font-bold">{selectedStyle?.price.toLocaleString()}원</span></div>
+                            <div className="flex justify-between"><span className="text-muted-foreground">가격</span><span className="text-primary font-bold">₱ {selectedStyle?.price.toLocaleString()}</span></div>
                             <div className="flex justify-between"><span className="text-muted-foreground">디자이너</span><span className="font-bold">{selectedDesigner}</span></div>
                             <div className="flex justify-between"><span className="text-muted-foreground">날짜</span><span className="font-bold">{selectedDate}</span></div>
                             <div className="flex justify-between"><span className="text-muted-foreground">시간</span><span className="font-bold">{selectedTime}</span></div>
@@ -301,7 +375,7 @@ export default function BookingPage() {
                         {error && <div className="mb-4 px-4 py-3 bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl text-sm">{error}</div>}
 
                         {isLoggedIn ? (
-                            <button id="confirm-booking" onClick={handleBook} disabled={loading}
+                            <button id="confirm-booking" onClick={() => setIsGcashModalOpen(true)} disabled={loading}
                                 className="w-full bg-primary text-primary-foreground py-4 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity disabled:opacity-50">
                                 {loading ? '예약 중...' : '✅ 예약 확정하기'}
                             </button>
@@ -328,6 +402,15 @@ export default function BookingPage() {
 
             {/* 로그인 모달 연동 */}
             <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+
+            {/* GCash 결제 모달 연동 */}
+            <GcashPaymentModal
+                isOpen={isGcashModalOpen}
+                onClose={() => setIsGcashModalOpen(false)}
+                onConfirm={(ref) => handleBook({ ref_number: ref })}
+                amount={selectedStyle?.price || 0}
+                loading={loading}
+            />
         </div>
     );
 }

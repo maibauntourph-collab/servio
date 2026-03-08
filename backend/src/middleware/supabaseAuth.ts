@@ -18,20 +18,32 @@ export const supabaseAuth = () => {
 
         try {
             // 💡 Supabase의 JWT_SECRET을 환경 변수에서 가져와 검증합니다.
-            // Supabase는 기본적으로 HS256 알고리즘을 사용합니다.
-            const payload = await verify(token, (c.env as any).SUPABASE_JWT_SECRET, 'HS256');
+            const secret = (c.env as any).SUPABASE_JWT_SECRET;
+            if (!secret) {
+                console.error('❌ Missing SUPABASE_JWT_SECRET in environment variables');
+                return c.json({ success: false, message: 'Server configuration error.' }, 500);
+            }
+
+            const payload = await verify(token, secret, 'HS256');
 
             // 검증 성공 시 페이로드에서 유저 ID 추출하여 Context에 저장
             if (payload && payload.sub) {
                 c.set('userId' as any, payload.sub);
                 c.set('userEmail' as any, payload.email);
-                console.log(`🔒 Authenticated User: ${payload.email}`);
+                console.log(`🔒 Authenticated User: ${payload.email} (ID: ${payload.sub})`);
+            } else {
+                console.warn('⚠️ JWT payload verified but missing "sub" field.');
             }
 
             await next();
         } catch (err: any) {
-            console.error('❌ Supabase Auth Error:', err.message);
-            return c.json({ success: false, message: '만료되었거나 유효하지 않은 인증 토큰입니다.' }, 401);
+            console.error('❌ Supabase Auth Verification Failed:', err.message);
+            // 학생들에게 디버그 팁: Secret이 틀리면 'invalid signature' 에러가 발생합니다.
+            return c.json({
+                success: false,
+                message: '만료되었거나 유효하지 않은 인증 토큰입니다.',
+                debug: err.message // 개발 단계에서만 확인용
+            }, 401);
         }
     };
 };

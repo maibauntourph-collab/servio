@@ -103,17 +103,17 @@ export default function AdminPage() {
         try {
             if (activeTab === 'BOOKINGS') {
                 const res = await api.get('/bookings/all');
-                if (res.success) setBookings(res.data);
-                else setError(res.message);
+                if (res.ok) setBookings(res.data);
+                else setError(res.data.message || 'Error fetching bookings');
             } else if (activeTab === 'DESIGNERS') {
                 const res = await designersApi.list();
-                if (res.success) setDesigners(res.data);
-                else setError(res.message);
+                if (res.ok) setDesigners(res.data);
+                else setError(res.data.message || 'Error fetching designers');
             } else if (activeTab === 'SETTINGS') {
                 const { settingsApi } = await import('../services/api');
                 const res = await settingsApi.getGcash();
-                if (res.success) setGcashSettings(res.data);
-                else setError(res.message);
+                if (res.ok) setGcashSettings(res.data);
+                else setError(res.data.message || 'Error fetching settings');
             }
         } catch (err) {
             setError('데이터를 불러오는 중 에러가 발생했습니다.');
@@ -137,8 +137,8 @@ export default function AdminPage() {
         setActionLoading(id);
         try {
             const res = await api.patch(`/bookings/${id}/status`, { status });
-            if (res.success) setBookings(prev => prev.map(b => b.id === id ? { ...b, status } : b));
-            else alert(res.message);
+            if (res.ok) setBookings(prev => prev.map(b => b.id === id ? { ...b, status } : b));
+            else alert(res.data.message || 'Status update failed');
         } finally { setActionLoading(null); }
     };
 
@@ -165,10 +165,10 @@ export default function AdminPage() {
                 res = await designersApi.create(designerForm);
             }
 
-            if (res.success) {
+            if (res.ok) {
                 setIsDesignerModalOpen(false);
                 fetchData();
-            } else alert(res.message);
+            } else alert(res.data.message || 'Save failed');
         } finally { setActionLoading(null); }
     };
 
@@ -177,8 +177,8 @@ export default function AdminPage() {
         setActionLoading(id);
         try {
             const res = await designersApi.delete(id);
-            if (res.success) setDesigners(prev => prev.filter(d => d.id !== id));
-            else alert(res.message);
+            if (res.ok) setDesigners(prev => prev.filter(d => d.id !== id));
+            else alert(res.data.message || 'Delete failed');
         } finally { setActionLoading(null); }
     };
 
@@ -189,8 +189,8 @@ export default function AdminPage() {
         try {
             const { settingsApi } = await import('../services/api');
             const res = await settingsApi.updateGcash(gcashSettings);
-            if (res.success) alert(t.settings.success);
-            else alert(res.message);
+            if (res.ok) alert(t.settings.success);
+            else alert(res.data.message || 'Update failed');
         } finally { setActionLoading(null); }
     };
 
@@ -393,8 +393,8 @@ export default function AdminPage() {
                                     </div>
                                     <div className="p-4 bg-primary/10 rounded-2xl border border-primary/20">
                                         <p className="text-xs text-primary leading-relaxed">
-                                            💡 QR 코드 이미지가 없을 경우, 구글 드라이브나 이미지 호스팅 서비스의 직링크를 사용하세요.
-                                            기본값은 0917 번호를 포함한 자동 생성 QR 주소입니다.
+                                            💡 👨‍🏫 관리자 팁: 모든 결제는 필리핀 페소(₱) 기준으로 처리됩니다.
+                                            QR 코드 이미지는 결제 정확도를 높이기 위해 항상 최신으로 유지해 주세요.
                                         </p>
                                     </div>
                                     <button

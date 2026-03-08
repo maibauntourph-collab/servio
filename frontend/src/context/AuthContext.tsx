@@ -1,7 +1,7 @@
 /**
- * 👨‍🏫 전역 로그인 상태 관리 (AuthContext) (2026-03-05)
- * Supabase Auth와 실시간으로 연동되도록 고도화되었습니다.
- * 이제 구글, 페이스북, 이메일 로그인을 통합적으로 관리합니다.
+ * 👨‍🏫 전역 로그인 상태 관리 (AuthContext) (2026-03-08 업데이트)
+ * Supabase Auth와 실시간으로 연동되어 구글, 페이스북, 이메일 로그인을 통합 관리합니다.
+ * 학습 포인트: Context API를 사용하면 하위 모든 컴포넌트에서 prop drilling 없이 유저 정보에 접근할 수 있습니다.
  */
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '../lib/supabase';
@@ -68,10 +68,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         // 2. 인증 상태 변경 감지 (로그인, 로그아웃, 토큰 갱신 등)
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            console.log(`👨‍🏫 Auth Event: ${_event}`);
+            // 👨‍🏫 학습 포인트: onAuthStateChange는 인증 이벤트가 발생할 때마다 실행되는 옵저버입니다.
+            console.log(`👨‍🏫 Auth Event [2026-03-08]: ${_event}`);
             setSession(session);
             setUser(mapSupabaseUser(session?.user ?? null));
             setIsLoading(false);
+
+            // 💡 [2026-03-07] 토큰 동기화: apiFetch에서 사용할 수 있도록 저장
+            // 실시간 보안을 위해 로컬 스토리지와 동의화합니다.
+            if (session?.access_token) {
+                localStorage.setItem('k_barber_token', session.access_token);
+                localStorage.setItem('k_barber_user', JSON.stringify(mapSupabaseUser(session.user)));
+            } else if (_event === 'SIGNED_OUT') {
+                localStorage.removeItem('k_barber_token');
+                localStorage.removeItem('k_barber_user');
+            }
         });
 
         return () => {
