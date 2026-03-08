@@ -7,13 +7,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { LanguageProvider } from './context/LanguageContext';
 import LandingPage from './pages/LandingPage';
-import StylesPage from './pages/StylesPage';
+import TreatmentsPage from './pages/TreatmentsPage';
 import BookingPage from './pages/BookingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MyPage from './pages/MyPage';
 import AdminPage from './pages/AdminPage';
-import AdminStylesPage from './pages/AdminStylesPage';
+import AdminTreatmentsPage from './pages/AdminTreatmentsPage';
 
 function App() {
     return (
@@ -25,8 +25,8 @@ function App() {
                         <Routes>
                             {/* 메인 랜딩 페이지 */}
                             <Route path="/" element={<LandingPage />} />
-                            {/* 스타일 갤러리 */}
-                            <Route path="/styles" element={<StylesPage />} />
+                            {/* 트리트먼트 갤러리 */}
+                            <Route path="/treatments" element={<TreatmentsPage />} />
                             {/* 예약 페이지 */}
                             <Route path="/booking" element={<BookingPage />} />
                             <Route path="/booking/:styleId" element={<BookingPage />} />
@@ -37,7 +37,7 @@ function App() {
                             <Route path="/mypage" element={<MyPage />} />
                             {/* 관리자 페이지 */}
                             <Route path="/admin" element={<AdminPage />} />
-                            <Route path="/admin/styles" element={<AdminStylesPage />} />
+                            <Route path="/admin/treatments" element={<AdminTreatmentsPage />} />
                         </Routes>
                     </div>
                 </BrowserRouter>

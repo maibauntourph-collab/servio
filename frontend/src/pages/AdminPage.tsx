@@ -5,10 +5,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    ArrowLeft, RefreshCcw, Calendar, Clock,
-    CheckCircle2, XCircle, UserPlus, Edit, Trash2, X
+    Users, Calendar, Settings, LogOut, Plus, Search,
+    MoreHorizontal, Check, X, CreditCard, ChevronRight,
+    Trash2, Edit2, AlertCircle, Menu
 } from 'lucide-react';
-import { api, designersApi } from '../services/api';
+import { therapistsApi, treatmentsApi, bookingsApi, settingsApi, api } from '../services/api';
 import { useAuthContext } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -102,15 +103,14 @@ export default function AdminPage() {
         setError('');
         try {
             if (activeTab === 'BOOKINGS') {
-                const res = await api.get('/bookings/all');
+                const res = await bookingsApi.list(); // Changed from api.get('/bookings/all')
                 if (res.ok) setBookings(res.data);
                 else setError(res.data.message || 'Error fetching bookings');
             } else if (activeTab === 'DESIGNERS') {
-                const res = await designersApi.list();
+                const res = await therapistsApi.list();
                 if (res.ok) setDesigners(res.data);
                 else setError(res.data.message || 'Error fetching designers');
             } else if (activeTab === 'SETTINGS') {
-                const { settingsApi } = await import('../services/api');
                 const res = await settingsApi.getGcash();
                 if (res.ok) setGcashSettings(res.data);
                 else setError(res.data.message || 'Error fetching settings');

@@ -2,27 +2,27 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Edit2, Check, X, Search, Image as ImageIcon } from 'lucide-react';
-import { stylesApi, api } from '../services/api';
+import { treatmentsApi, api } from '../services/api';
 import { useAuthContext } from '../context/AuthContext';
 
-interface Style {
+interface Treatment {
     id: number;
     ko: string;
     en: string;
     img_url: string;
     price: number;
     category: string;
-    designer: string;
+    therapist: string;
 }
 
-export default function AdminStylesPage() {
+export default function AdminTreatmentsPage() {
     const navigate = useNavigate();
     const { isLoggedIn } = useAuthContext();
-    const [styles, setStyles] = useState<Style[]>([]);
+    const [treatments, setTreatments] = useState<Treatment[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [editingId, setEditingId] = useState<number | null>(null);
-    const [editForm, setEditForm] = useState<Partial<Style>>({});
+    const [editForm, setEditForm] = useState<Partial<Treatment>>({});
 
     useEffect(() => {
         if (!isLoggedIn) navigate('/login');
@@ -31,8 +31,8 @@ export default function AdminStylesPage() {
 
     const loadStyles = async () => {
         try {
-            const res = await stylesApi.list();
-            if (res.ok) setStyles(res.data.data);
+            const res = await treatmentsApi.list();
+            if (res.ok) setTreatments(res.data.data);
         } catch (err) {
             console.error('Failed to load styles:', err);
         } finally {
@@ -40,9 +40,9 @@ export default function AdminStylesPage() {
         }
     };
 
-    const handleEdit = (style: Style) => {
-        setEditingId(style.id);
-        setEditForm(style);
+    const handleEdit = (treatment: Treatment) => {
+        setEditingId(treatment.id);
+        setEditForm(treatment);
     };
 
     const handleCancel = () => {
@@ -54,7 +54,7 @@ export default function AdminStylesPage() {
         try {
             const res = await api.patch(`/api/styles/${id}`, editForm);
             if (res.ok) {
-                setStyles(prev => prev.map(s => s.id === id ? { ...s, ...editForm } as Style : s));
+                setTreatments(prev => prev.map(s => s.id === id ? { ...s, ...editForm } as Treatment : s));
                 setEditingId(null);
             } else {
                 alert(res.data.message || '수정 실패');
@@ -64,7 +64,7 @@ export default function AdminStylesPage() {
         }
     };
 
-    const filtered = styles.filter(s =>
+    const filtered = treatments.filter(s =>
         (s.ko || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
         (s.en || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -75,13 +75,13 @@ export default function AdminStylesPage() {
                 <button onClick={() => navigate('/mypage')} className="flex items-center gap-2 text-muted-foreground hover:text-primary">
                     <ArrowLeft size={18} /> 관리홈
                 </button>
-                <span className="text-xl font-black gold-gradient-text tracking-tighter uppercase">Style Management</span>
+                <span className="text-xl font-black gold-gradient-text tracking-tighter uppercase">Treatment Management</span>
                 <div className="w-20"></div>
             </nav>
 
             <div className="pt-28 px-6 max-w-4xl mx-auto">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                    <h1 className="text-2xl font-bold">헤어스타일 라이브 관리</h1>
+                    <h1 className="text-2xl font-bold">트리트먼트 라이브 관리</h1>
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
                         <input
@@ -171,7 +171,7 @@ export default function AdminStylesPage() {
                                                 </div>
                                                 <div className="flex gap-2">
                                                     <span className="px-2 py-0.5 rounded-md bg-white/5 text-[10px] text-muted-foreground font-bold border border-white/5 uppercase tracking-tighter">{style.category}</span>
-                                                    <span className="px-2 py-0.5 rounded-md bg-white/5 text-[10px] text-muted-foreground font-bold border border-white/5 uppercase tracking-tighter">{style.designer}</span>
+                                                    <span className="px-2 py-0.5 rounded-md bg-white/5 text-[10px] text-muted-foreground font-bold border border-white/5 uppercase tracking-tighter">{style.therapist}</span>
                                                 </div>
                                             </>
                                         )}

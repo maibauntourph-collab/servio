@@ -451,7 +451,7 @@ export default function LandingPage() {
                                 className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground rounded-full font-bold text-lg hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-300 hover:-translate-y-1 text-center">
                                 {t.hero.btnMakeBooking}
                             </Link>
-                            <Link to="/styles"
+                            <Link to="/treatments"
                                 className="w-full sm:w-auto px-8 py-4 glass text-foreground rounded-full font-bold text-lg hover:bg-white/10 transition-all duration-300 border border-white/20 text-center">
                                 {t.hero.btnViewPortfolio}
                             </Link>
@@ -512,10 +512,10 @@ export default function LandingPage() {
                                 transition={{ duration: 0.4 }}
                                 className="relative overflow-hidden rounded-2xl group aspect-[4/5] cursor-pointer"
                             >
-                                <Link to="/styles" className="block w-full h-full">
+                                <Link to="/treatments" className="block w-full h-full">
                                     <img src={item.img} alt={item.style} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 opacity-80 group-hover:opacity-100 transition-opacity">
-                                        <h1 className="text-xl font-bold tracking-tighter text-white">CORLEONE</h1>
+                                        <h1 className="text-xl font-bold tracking-tighter text-white">MassageShop</h1>
                                         <p className="text-primary font-medium text-sm flex items-center">
                                             <Star size={14} className="mr-1 fill-primary" /> {item.designer}
                                         </p>

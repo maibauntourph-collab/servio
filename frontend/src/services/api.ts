@@ -71,8 +71,8 @@ export const authApi = {
     me: () => apiFetch('/api/auth/me'),
 };
 
-// ── Styles API ──
-export const stylesApi = {
+// ── Treatments API ──
+export const treatmentsApi = {
     list: () => apiFetch('/api/styles'),
     detail: (id: number) => apiFetch(`/api/styles/${id}`),
     byCategory: (cat: string) => apiFetch(`/api/styles/category/${encodeURIComponent(cat)}`),
@@ -89,8 +89,8 @@ export const bookingsApi = {
     cancel: (id: string) => api.delete(`/api/bookings/${id}`),
 };
 
-// ── Designer API ──
-export const designersApi = {
+// ── Therapists API ──
+export const therapistsApi = {
     list: () => api.get('/api/designers'),
     create: (body: { name: string; role: string; description: string; image_url: string }) => api.post('/api/designers', body),
     update: (id: number, body: { name: string; role: string; description: string; image_url: string }) => api.patch(`/api/designers/${id}`, body),

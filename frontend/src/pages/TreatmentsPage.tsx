@@ -7,8 +7,10 @@ import { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ArrowLeft, Clock } from 'lucide-react';
-import { hairstyles, categories } from '../data/hairstyles';
+import { treatments as treatmentsData, categories } from '../data/treatments';
 import { useAuthContext } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
+import { treatmentsApi } from '../services/api';
 
 // 👨‍🏫 가격 포맷 함수 (2026-03-08 표준화)
 // 모든 통화를 필리핀 페소(₱)로 통일하여 표시합니다.
@@ -21,12 +23,12 @@ const translations: Record<string, any> = {
     ko: {
         all: "전체",
         searchPlaceholder: "스타일명 검색...",
-        totalStyles: "총 {count}가지 프리미엄 남성 헤어스타일",
-        styleCount: "{count}개의 스타일",
+        totalStyles: "총 {count}가지 프리미엄 에스테틱 & 마사지 프로그램",
+        styleCount: "{count}개의 프로그램",
         noResult: "검색 결과가 없습니다.",
         bookBtn: "예약하기",
-        gallery: "갤러리",
-        title: "스타일",
+        gallery: "프로그램",
+        title: "트리트먼트",
         min: "분",
         home: "홈으로",
         myPage: "마이페이지",
@@ -39,8 +41,8 @@ const translations: Record<string, any> = {
         styleCount: "{count} styles found",
         noResult: "No styles found for your search.",
         bookBtn: "Book Now",
-        gallery: "Gallery",
-        title: "Style",
+        gallery: "Treatments",
+        title: "Program",
         min: "min",
         home: "Home",
         myPage: "My Page",
@@ -90,9 +92,7 @@ export default function StylesPage() {
     const filtered = useMemo(() => {
         // translations 리소스에서 '전체' 또는 'ALL'에 해당하는 값을 가져옵니다.
         const allLabel = t.all;
-        return hairstyles.filter(h => {
-            // 현재 선택된 카테고리가 '전체'이거나, 스타일의 카테고리(DB 값)와 일치하는지 확인
-            // h.category는 DB 원본 값이므로 언어 전환과 관계없이 일관성을 유지합니다.
+        return treatmentsData.filter(h => {
             const matchCat = selectedCat === allLabel || h.category === selectedCat;
             const term = search.toLowerCase();
             const matchSearch = !term
@@ -114,7 +114,7 @@ export default function StylesPage() {
                 <button onClick={() => navigate('/')} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
                     <ArrowLeft size={18} /> {t.home}
                 </button>
-                <span className="text-xl font-black gold-gradient-text tracking-tighter uppercase">K-Barber</span>
+                <span className="text-xl font-black gold-gradient-text tracking-tighter uppercase">MassageShop</span>
                 <div className="flex items-center gap-3">
                     {isLoggedIn
                         ? <Link to="/mypage" className="text-sm text-primary">{t.myPage}</Link>
@@ -130,7 +130,7 @@ export default function StylesPage() {
                     className="text-4xl md:text-6xl font-extrabold mb-4">
                     {t.title} <span className="gold-gradient-text">{t.gallery}</span>
                 </motion.h1>
-                <p className="text-muted-foreground text-lg">{t.totalStyles.replace('{count}', hairstyles.length.toString())}</p>
+                <p className="text-muted-foreground text-lg">{t.totalStyles.replace('{count}', treatments.length.toString())}</p>
             </section>
 
             {/* 검색창 */}
@@ -217,7 +217,7 @@ export default function StylesPage() {
                                     <h3 className="font-bold text-sm truncate">
                                         {style[language as keyof typeof style] as string}
                                     </h3>
-                                    <p className="text-xs text-muted-foreground truncate mt-0.5">{style.designer}</p>
+                                    <p className="text-xs text-muted-foreground truncate mt-0.5">{style.therapist}</p>
                                     <div className="flex items-center justify-between mt-2">
                                         <span className="text-primary font-semibold text-sm">{fmtPrice(style.price)}</span>
                                         <span className="flex items-center gap-1 text-xs text-muted-foreground">
