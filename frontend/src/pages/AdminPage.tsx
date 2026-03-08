@@ -16,22 +16,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 // 👨‍🏫 관리자 페이지 번역 데이터
 const translations: Record<string, any> = {
     en: {
-        nav: { home: "Back to Home", bookings: "Bookings", designers: "Designers" },
+        nav: { home: "Back to Home", bookings: "Bookings", designers: "Therapists" },
         stats: { total: "Total Bookings", pending: "Pending", confirmed: "Confirmed" },
         filter: { all: "ALL", pending: "PENDING", confirmed: "CONFIRMED", cancelled: "CANCELLED" },
-        table: { customer: "Customer", style: "Style/Designer", schedule: "Schedule", status: "Status", action: "Actions" },
-        designer: { title: "Designer Mgmt", add: "New Designer", edit: "Edit Designer", name: "Name", role: "Role", desc: "Description", img: "Image URL", submit: "Save", addBtn: "Add" },
+        table: { customer: "Customer", style: "Treatment/Therapist", schedule: "Schedule", status: "Status", action: "Actions" },
+        designer: { title: "Therapist Mgmt", add: "New Therapist", edit: "Edit Therapist", name: "Name", role: "Role", desc: "Description", img: "Image URL", submit: "Save", addBtn: "Add" },
         settings: { title: "Payment Settings", gcashNum: "GCash Number", qrUrl: "QR Code URL", save: "Update Settings", success: "Settings updated!" },
-        msg: { loading: "Loading...", fetchTalent: "Fetching Talent...", noDesigners: "No designers found.", confirmStatus: "Change status?", confirmDelete: "Delete this designer?", authError: "Authorized only. Please re-login if needed." }
+        msg: { loading: "Loading...", fetchTalent: "Fetching Therapists...", noDesigners: "No therapists found.", confirmStatus: "Change status?", confirmDelete: "Delete this therapist?", authError: "Authorized only. Please re-login if needed." }
     },
     ko: {
-        nav: { home: "홈으로", bookings: "예약 관리", designers: "디자이너 관리" },
+        nav: { home: "홈으로", bookings: "예약 관리", designers: "테라피스트 관리" },
         stats: { total: "전체 예약", pending: "승인 대기", confirmed: "예약 확정" },
         filter: { all: "전체", pending: "대기", confirmed: "확정", cancelled: "취소" },
-        table: { customer: "고객", style: "스타일/디자이너", schedule: "일정", status: "상태", action: "액션" },
-        designer: { title: "헤어디자이너 관리", add: "신규 등록", edit: "디자이너 수정", name: "이름", role: "직급", desc: "설명", img: "이미지 URL", submit: "저장하기", addBtn: "등록 완료" },
+        table: { customer: "고객", style: "트리트먼트/테라피스트", schedule: "일정", status: "상태", action: "액션" },
+        designer: { title: "테라피스트 관리", add: "신규 등록", edit: "테라피스트 수정", name: "이름", role: "직급", desc: "설명", img: "이미지 URL", submit: "저장하기", addBtn: "등록 완료" },
         settings: { title: "결제 설정 관리", gcashNum: "GCash 수금 번호", qrUrl: "QR 코드 이미지 URL", save: "설정 저장하기", success: "설정이 저장되었습니다!" },
-        msg: { loading: "데이터 로딩 중...", fetchTalent: "인재 정보를 불러오는 중...", noDesigners: "등록된 디자이너가 없습니다.", confirmStatus: "상태를 변경하시겠습니까?", confirmDelete: "정말 삭제하시겠습니까?", authError: "관리자 전용 페이지입니다. 권한이 있다면 로그아웃 후 다시 로그인해주세요!" }
+        msg: { loading: "데이터 로딩 중...", fetchTalent: "테라피스트 정보를 불러오는 중...", noDesigners: "등록된 테라피스트가 없습니다.", confirmStatus: "상태를 변경하시겠습니까?", confirmDelete: "정말 삭제하시겠습니까?", authError: "관리자 전용 페이지입니다. 권한이 있다면 로그아웃 후 다시 로그인해주세요!" }
     },
     tl: {
         nav: { home: "Bumalik sa Home", bookings: "Mga Booking", designers: "Mga Designer" },

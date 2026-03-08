@@ -17,28 +17,28 @@ import { usePWAInstall } from '../hooks/usePWAInstall';
 const translations: Record<string, any> = {
     ko: {
         services: [
-            { title: "시그니처 바버 커트", price: "₱ 1,800", desc: "개인의 두상과 모질을 고려한 맞춤형 프리미엄 커트" },
-            { title: "클래식 핫타월 면도", price: "₱ 1,400", desc: "따뜻한 타월과 최고급 거품을 이용한 전통 면도" },
-            { title: "아이비리그 다운펌", price: "₱ 2,200", desc: "뜨는 옆머리와 윗머리를 완벽하게 잡아주는 다운펌" },
+            { title: "시그니처 아로마 테라피", price: "₱ 2,500", desc: "천연 에센셜 오일을 활용한 고품격 전신 릴렉싱 케어" },
+            { title: "스웨디시 힐링 마사지", price: "₱ 2,200", desc: "부드러운 터치로 근육의 긴장을 완화하고 혈액순환을 돕는 마사지" },
+            { title: "딥 티슈 스포츠 케어", price: "₱ 2,800", desc: "심부 근육층을 자극하여 만성 통증과 피로를 해소하는 집중 관리" },
         ],
-        nav: { services: "서비스", portfolio: "스타일북", booking: "온라인 예약", bookNow: "예약하기", admin: "관리자", myPage: "마이페이지", logout: "로그아웃", login: "로그인" },
+        nav: { services: "프로그램", portfolio: "시설안내", booking: "온라인 예약", bookNow: "예약하기", admin: "관리자", myPage: "마이페이지", logout: "로그아웃", login: "로그인" },
         hero: {
-            title1: "당신의 가치를 증명하는", title2: "단 하나의 바버샵",
-            subtitle1: "최고의 기술과 품격 있는 서비스.", subtitle2: "남자의 진정한 멋을 완성하는 프라이빗 그루밍 라운지.",
-            btnMakeBooking: "지금 예약하기", btnViewPortfolio: "포트폴리오 보기"
+            title1: "지친 일상에 선사하는", title2: "최강의 휴식",
+            subtitle1: "숙련된 테라피스트의 정성 어린 손길.", subtitle2: "당신의 몸과 마음이 머무는 프리미엄 힐링 라운지.",
+            btnMakeBooking: "지금 예약하기", btnViewPortfolio: "시설 둘러보기"
         },
-        sectionService: { title: "Premium Services", desc: "기본에 충실하며 디테일의 차이를 만듭니다.", bookText: "예약하기" },
-        sectionPortfolio: { title: "Trend Portfolio", visitInsta: "인스타그램 방문하기" },
+        sectionService: { title: "Premium Therapy", desc: "숙련된 기술로 일상의 활력을 되찾아 드립니다.", bookText: "예약하기" },
+        sectionPortfolio: { title: "Relaxing Space", visitInsta: "인스타그램 방문하기" },
         portfolio: [
-            { img: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop", style: "버스트 페이드", designer: "Master Kim" },
-            { img: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop", style: "모던 울프 컷", designer: "Barber Lee" },
-            { img: "https://images.unsplash.com/photo-1593702288056-7cc91f2a4e9d?q=80&w=800&auto=format&fit=crop", style: "멀렛 페이드", designer: "Director Park" },
-            { img: "https://images.unsplash.com/photo-1583001931096-959e9a1a6223?q=80&w=800&auto=format&fit=crop", style: "리프 컷", designer: "Stylist Choi" },
-            { img: "https://images.unsplash.com/photo-1604004555489-723a93d6ce74?q=80&w=800&auto=format&fit=crop", style: "드롭 페이드", designer: "Senior Jung" },
-            { img: "https://images.unsplash.com/photo-1599580778813-fd70c39ee91d?q=80&w=800&auto=format&fit=crop", style: "네오 퀴프", designer: "Master Kim" },
+            { img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop", style: "프라이빗 룸", designer: "Level 1 Room" },
+            { img: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800&auto=format&fit=crop", style: "커플 스파", designer: "VIP Suite" },
+            { img: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=800&auto=format&fit=crop", style: "아로마 존", designer: "Healing Deck" },
+            { img: "https://images.unsplash.com/photo-1570172619380-410183ad1f55?q=80&w=800&auto=format&fit=crop", style: "라바 스톤", designer: "Zen Garden" },
+            { img: "https://images.unsplash.com/photo-1591343395902-1adcb454c2e4?q=80&w=800&auto=format&fit=crop", style: "타이 마사지", designer: "Traditional Area" },
+            { img: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop", style: "풋 스파", designer: "Relax Zone" },
         ],
         sectionBooking: {
-            title: "온라인 간편 예약", desc: "원하시는 디자이너와 시간을 선택해주세요.",
+            title: "온라인 간편 예약", desc: "원하시는 테라피스트와 시간을 선택해주세요.",
             step1: "1. 날짜 선택", step2: "2. 시간 선택",
             days: ["오늘", "내일", "모레", "3.08", "3.09"],
             stepHour: "시간 선택", stepMinute: "분 선택",
@@ -53,41 +53,41 @@ const translations: Record<string, any> = {
             verifyBtn: "결제 확인 요청", finishBtn: "홈으로 돌아가기"
         },
         sectionInstall: {
-            title: "CORLEONE를 앱으로 만나보세요",
+            title: "MassageShop를 앱으로 만나보세요",
             desc: "QR 코드를 스캔하여 홈 화면에 추가하고, 더 빠르고 간편하게 예약하세요.",
             guide: "스캔하여 즉시 설치",
             btnText: "설치 가이드 보기"
         },
         footer: {
-            desc1: "최고의 남성 그루밍 문화를 선도합니다.", desc2: "프리미엄 바버샵에서 진정한 휴식을 경험하세요.",
-            contact: "Contact Info", address: "CORLEONE BARBERSHOP", time: "매일 10:00 - 21:00 (화요일 휴무)",
-            support: "Customer Support", copyright: "© 2026 CORLEONE BARBERSHOP. All rights reserved."
+            desc1: "최고의 웰니스 문화를 선도합니다.", desc2: "프리미엄 마사지샵에서 진정한 휴식을 경험하세요.",
+            contact: "Contact Info", address: "MassageShop PREMIUM SPA", time: "매일 10:00 - 02:00 (전중무휴)",
+            support: "Customer Support", copyright: "© 2026 MassageShop PREMIUM SPA. All rights reserved."
         }
     },
     en: {
         services: [
-            { title: "Signature Barber Cut", price: "₱ 1,800", desc: "Premium custom cut tailored to your head shape and hair type." },
-            { title: "Classic Hot Towel Shave", price: "₱ 1,400", desc: "Traditional shave with hot towel and premium lather." },
-            { title: "Ivy League Down Perm", price: "₱ 2,200", desc: "Down perm that perfectly manages side and top hair." },
+            { title: "Signature Aroma Therapy", price: "₱ 2,500", desc: "Premium full body relaxing care using natural essential oils." },
+            { title: "Swedish Healing Massage", price: "₱ 2,200", desc: "Massage that relieves muscle tension and aids circulation with gentle touch." },
+            { title: "Deep Tissue Sports Care", price: "₱ 2,800", desc: "Intensive care targeting deep muscle layers to relieve chronic pain and fatigue." },
         ],
-        nav: { services: "Services", portfolio: "Portfolio", booking: "Booking", bookNow: "Book Now", admin: "Admin", myPage: "My Page", logout: "Logout", login: "Login" },
+        nav: { services: "Treatments", portfolio: "Facilities", booking: "Online Booking", bookNow: "Book Now", admin: "Admin", myPage: "My Page", logout: "Logout", login: "Login" },
         hero: {
-            title1: "Proving Your True Value", title2: "The Only Barbershop",
-            subtitle1: "The highest skill and classy service.", subtitle2: "A private grooming lounge perfecting men's true style.",
-            btnMakeBooking: "Book Now", btnViewPortfolio: "View Portfolio"
+            title1: "Ultimate Relaxation for", title2: "Your Busy Life",
+            subtitle1: "The heart-felt touch of skilled therapists.", subtitle2: "A premium healing lounge where your body and mind rest.",
+            btnMakeBooking: "Book Now", btnViewPortfolio: "View Facilities"
         },
-        sectionService: { title: "Premium Services", desc: "Faithful to the basics, creating a difference in details.", bookText: "Book Now" },
-        sectionPortfolio: { title: "Trend Portfolio", visitInsta: "Visit Instagram" },
+        sectionService: { title: "Premium Therapy", desc: "Restoring your daily vitality with skilled techniques.", bookText: "Book Now" },
+        sectionPortfolio: { title: "Relaxing Space", visitInsta: "Visit Instagram" },
         portfolio: [
-            { img: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop", style: "Ivy League Cut", designer: "Master Kim" },
-            { img: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=800&auto=format&fit=crop", style: "Slick Back Undercut", designer: "Barber Lee" },
-            { img: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=800&auto=format&fit=crop", style: "High Fade Cut", designer: "Director Park" },
-            { img: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=800&auto=format&fit=crop", style: "Skin Fade", designer: "Stylist Choi" },
-            { img: "https://images.unsplash.com/photo-1554774853-719586f82d77?q=80&w=800&auto=format&fit=crop", style: "Hot Towel Shave", designer: "Senior Jung" },
-            { img: "https://images.unsplash.com/photo-1583001931096-959e9a1a6223?q=80&w=800&auto=format&fit=crop", style: "Textured Undercut", designer: "Master Kim" },
+            { img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop", style: "Private Room", designer: "Level 1 Room" },
+            { img: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800&auto=format&fit=crop", style: "Couple Spa", designer: "VIP Suite" },
+            { img: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=800&auto=format&fit=crop", style: "Aroma Zone", designer: "Healing Deck" },
+            { img: "https://images.unsplash.com/photo-1570172619380-410183ad1f55?q=80&w=800&auto=format&fit=crop", style: "Lava Stone", designer: "Zen Garden" },
+            { img: "https://images.unsplash.com/photo-1591343395902-1adcb454c2e4?q=80&w=800&auto=format&fit=crop", style: "Thai Massage", designer: "Traditional Area" },
+            { img: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop", style: "Foot Spa", designer: "Relax Zone" },
         ],
         sectionBooking: {
-            title: "Easy Online Booking", desc: "Please select your preferred designer and time.",
+            title: "Easy Online Booking", desc: "Please select your preferred therapist and time.",
             step1: "1. Select Date", step2: "2. Select Time",
             days: ["Today", "Tomorrow", "After", "3.08", "3.09"],
             stepHour: "Select Hour", stepMinute: "Select Minute",
@@ -102,113 +102,113 @@ const translations: Record<string, any> = {
             verifyBtn: "Request Verification", finishBtn: "Back to Home"
         },
         sectionInstall: {
-            title: "Get CORLEONE on your mobile",
+            title: "Get MassageShop on your mobile",
             desc: "Scan the QR code to add to your home screen for faster and easier booking.",
             guide: "Scan to install immediately",
             btnText: "Show Install Guide"
         },
         footer: {
-            desc1: "Leading the best men's grooming culture.", desc2: "Experience true relaxation at our premium barbershop.",
-            contact: "Contact Info", address: "CORLEONE BARBERSHOP", time: "Daily 10:00 - 21:00 (Closed on Tuesdays)",
-            support: "Customer Support", copyright: "© 2026 CORLEONE BARBERSHOP. All rights reserved."
+            desc1: "Leading the best wellness culture.", desc2: "Experience true relaxation at our premium massage shop.",
+            contact: "Contact Info", address: "MassageShop PREMIUM SPA", time: "Daily 10:00 - 02:00 (Open 365 Days)",
+            support: "Customer Support", copyright: "© 2026 MassageShop PREMIUM SPA. All rights reserved."
         }
     },
     tl: {
         services: [
-            { title: "Signature Barber Cut", price: "₱ 1,800", desc: "Premium custom cut na iniakma sa hugis ng iyong ulo at uri ng buhok." },
-            { title: "Classic Hot Towel Shave", price: "₱ 1,400", desc: "Tradisyonal na ahit na may mainit na tuwalya at premium na lather." },
-            { title: "Ivy League Down Perm", price: "₱ 2,200", desc: "Down perm na perpektong kumokontrol sa buhok sa tagiliran at itaas." },
+            { title: "Signature Aroma Therapy", price: "₱ 2,500", desc: "Premium na full body relaxing care gamit ang natural essential oils." },
+            { title: "Swedish Healing Massage", price: "₱ 2,200", desc: "Masahe na nagpapakalma sa kalamnan at tumutulong sa sirkulasyon." },
+            { title: "Deep Tissue Sports Care", price: "₱ 2,800", desc: "Intensibong pangangalaga sa malalim na kalamnan para sa pagod." },
         ],
-        nav: { services: "Mga Serbisyo", portfolio: "Portfolio", booking: "Pag-book", bookNow: "Mag-book Ngayon", admin: "Admin", myPage: "Profile", logout: "Logout", login: "Login" },
+        nav: { services: "Mga Treatment", portfolio: "Fasibilidad", booking: "Pag-book", bookNow: "Mag-book Ngayon", admin: "Admin", myPage: "Profile", logout: "Logout", login: "Login" },
         hero: {
-            title1: "Pinapatunayan ang Iyong Tunay na Halaga", title2: "Ang Nag-iisang Barbershop",
-            subtitle1: "Pinakamataas na kasanayan at eleganteng serbisyo.", subtitle2: "Isang pribadong grooming lounge na nagpapaperpekto sa tunay na istilo ng mga lalaki.",
-            btnMakeBooking: "Mag-book Ngayon", btnViewPortfolio: "Tingnan ang Portfolio"
+            title1: "Tunay na Relaxation para sa", title2: "Iyong Pagod na Buhay",
+            subtitle1: "Hawak ng mga bihasang therapist.", subtitle2: "Isang premium healing lounge para sa iyong katawan at isip.",
+            btnMakeBooking: "Mag-book Ngayon", btnViewPortfolio: "Tingnan ang Fasibilidad"
         },
-        sectionService: { title: "Mga Premium na Serbisyo", desc: "Tapat sa mga pangunahing kaalaman, lumilikha ng pagkakaiba sa mga detalye.", bookText: "Mag-book Ngayon" },
-        sectionPortfolio: { title: "Trend Portfolio", visitInsta: "Bisitahin ang Instagram" },
+        sectionService: { title: "Premium Therapy", desc: "Ibinabalik ang iyong sigla gamit ang husay sa masahe.", bookText: "Mag-book Ngayon" },
+        sectionPortfolio: { title: "Relaxing Space", visitInsta: "Bisitahin ang Instagram" },
         portfolio: [
-            { img: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop", style: "Ivy League Cut", designer: "Master Kim" },
-            { img: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=800&auto=format&fit=crop", style: "Slick Back Undercut", designer: "Barber Lee" },
-            { img: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=800&auto=format&fit=crop", style: "High Fade Cut", designer: "Director Park" },
-            { img: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=800&auto=format&fit=crop", style: "Skin Fade", designer: "Stylist Choi" },
-            { img: "https://images.unsplash.com/photo-1554774853-719586f82d77?q=80&w=800&auto=format&fit=crop", style: "Hot Towel Ahit", designer: "Senior Jung" },
-            { img: "https://images.unsplash.com/photo-1583001931096-959e9a1a6223?q=80&w=800&auto=format&fit=crop", style: "Textured Undercut", designer: "Master Kim" },
+            { img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop", style: "Private Room", designer: "Level 1 Room" },
+            { img: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800&auto=format&fit=crop", style: "Couple Spa", designer: "VIP Suite" },
+            { img: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=800&auto=format&fit=crop", style: "Aroma Zone", designer: "Healing Deck" },
+            { img: "https://images.unsplash.com/photo-1570172619380-410183ad1f55?q=80&w=800&auto=format&fit=crop", style: "Lava Stone", designer: "Zen Garden" },
+            { img: "https://images.unsplash.com/photo-1591343395902-1adcb454c2e4?q=80&w=800&auto=format&fit=crop", style: "Thai Massage", designer: "Traditional Area" },
+            { img: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop", style: "Foot Spa", designer: "Relax Zone" },
         ],
         sectionBooking: {
-            title: "Madaling Online Booking", desc: "Mangyaring piliin ang iyong gustong designer at oras.",
+            title: "Madaling Online Booking", desc: "Piliin ang iyong bihasang therapist at oras.",
             step1: "1. Pumili ng Petsa", step2: "2. Pumili ng Oras",
             days: ["Ngayon", "Bukas", "Sunod", "3.08", "3.09"],
             stepHour: "Piliin ang Oras", stepMinute: "Piliin ang Minuto",
             selectedLabel: "Napiling Iskedyul:", bookingRequested: "Hiniling na ang reserbasyon.",
-            timeAlert: "Mangyaring pumili ng oras.", refAlert: "Mangyaring ilagay ang 8-digit Reference No.",
-            errorMsg: "Nagkaroon ng error sa pag-book. Pakisubukang muli mamaya.",
-            paymentTitle: "Piliin ang Paraan ng Pagbabayad", paymentMethod: "Magbayad gamit ang GCash",
-            paymentGuide: "Mangyaring i-scan ang QR code o magbayad sa rehistradong numero.",
+            timeAlert: "Pumili ng oras.", refAlert: "Ilagay ang 8-digit Ref No.",
+            errorMsg: "Nagkaroon ng error sa pag-book.",
+            paymentTitle: "Paraan ng Pagbabayad", paymentMethod: "Magbayad sa GCash",
+            paymentGuide: "I-scan ang QR code.",
             priceLabel: "Tinatayang Presyo", priceValue: "₱ 500",
-            modalTitle: "Gabay sa Pagbabayad ng GCash", modalStep1: "Suriin ang Deposito", modalStep2: "Sini-verify ang Bayad", modalStep3: "Nakumpirma ang Booking!",
-            qrGuide: "Mangyaring i-scan ang QR code sa ibaba para magbayad.", copyNumber: "Kopyahin ang Numero", refPlaceholder: "Ilagay ang 8-digit Reference No.",
+            modalTitle: "Gabay sa GCash", modalStep1: "Deposito", modalStep2: "Beripikasyon", modalStep3: "Kumpirmado!",
+            qrGuide: "I-scan ang QR sa ibaba.", copyNumber: "Kopyahin", refPlaceholder: "8-digit Reference No.",
             verifyBtn: "Humiling ng Beripikasyon", finishBtn: "Bumalik sa Home"
         },
         sectionInstall: {
-            title: "Damhin ang K-Barber bilang isang App",
-            desc: "I-scan ang QR code para idagdag sa iyong home screen at mag-book nang mas mabilis at madali.",
-            guide: "I-scan para Mag-install Agad",
-            btnText: "Tingnan ang Gabay sa Pag-install"
+            title: "Kuhanin ang MassageShop App",
+            desc: "I-scan ang QR code para sa mabilis na appointment.",
+            guide: "I-scan para Mag-install",
+            btnText: "Gabay sa Pag-install"
         },
         footer: {
-            desc1: "Nangunguna sa pinakamahusay na kultura ng grooming para sa mga lalaki.", desc2: "Maranasan ang tunay na pagpapahinga sa isang premium na barbershop.",
-            contact: "Impormasyon sa Pakikipag-ugnayan", address: "123 Dosan-daero, Gangnam-gu, Seoul", time: "Araw-araw 10:00 - 21:00 (Sarado tuwing Martes)",
-            support: "Suporta sa Customer", copyright: "© 2026 K-Barber Premium Salon. Nakalaan ang lahat ng karapatan."
+            desc1: "Nangunguna sa wellness culture.", desc2: "Maranasan ang relaxation sa aming premium shop.",
+            contact: "Impormasyon", address: "MassageShop PREMIUM SPA", time: "Araw-araw 10:00 - 02:00",
+            support: "Suporta", copyright: "© 2026 MassageShop PREMIUM SPA. Nakalaan ang lahat."
         }
     },
     ceb: {
         services: [
-            { title: "Signature Barber Cut", price: "₱ 1,800", desc: "Premium custom cut nga gipahaum sa porma sa imong ulo ug klase sa buhok." },
-            { title: "Classic Hot Towel Shave", price: "₱ 1,400", desc: "Tradisyonal nga pag-alot nga adunay init nga tualya ug premium nga lather." },
-            { title: "Ivy League Down Perm", price: "₱ 2,200", desc: "Down perm nga hingpit nga nagdumala sa buhok sa kilid ug ibabaw." },
+            { title: "Signature Aroma Therapy", price: "₱ 2,500", desc: "Premium full body relaxing care gamit ang natural essential oils." },
+            { title: "Swedish Healing Massage", price: "₱ 2,200", desc: "Masahe nga nagpagawas sa kainit ug nag-init sa sirkulasyon." },
+            { title: "Deep Tissue Sports Care", price: "₱ 2,800", desc: "Intensibong pagmamentinar sa lawom nga kaunuran alang sa kakapoy." },
         ],
-        nav: { services: "Mga Serbisyo", portfolio: "Portfolio", booking: "Pag-book", bookNow: "Pag-book Karon", admin: "Admin", myPage: "Profile", logout: "Logout", login: "Login" },
+        nav: { services: "Mga Treatment", portfolio: "Fasilidad", booking: "Pag-book", bookNow: "Mag-book Karon", admin: "Admin", myPage: "Profile", logout: "Logout", login: "Login" },
         hero: {
-            title1: "Nagpamatuod sa Imong Tinuod nga Bili", title2: "Ang Bugtong Barbershop",
-            subtitle1: "Pinakataas nga kahanas ug classy nga serbisyo.", subtitle2: "Usa ka pribadong grooming lounge nga nagperpekto sa tinuod nga istilo sa mga lalaki.",
-            btnMakeBooking: "Pag-book Karon", btnViewPortfolio: "Tan-awa ang Portfolio"
+            title1: "Tinuod nga Relaxation para sa", title2: "Imong Kakapoy",
+            subtitle1: "Hikap sa mga hanas nga therapist.", subtitle2: "Usa ka premium healing lounge para sa imong lawas ug hunahuna.",
+            btnMakeBooking: "Pag-book Karon", btnViewPortfolio: "Tan-awa ang Fasilidad"
         },
-        sectionService: { title: "Mga Premium nga Serbisyo", desc: "Matinumanon sa mga sukaranan, naghimo og kalainan sa mga detalye.", bookText: "Pag-book Karon" },
-        sectionPortfolio: { title: "Trend Portfolio", visitInsta: "Bisitaha ang Instagram" },
+        sectionService: { title: "Premium Therapy", desc: "Ibalik ang imong kalagsik gamit ang kahanas sa masahe.", bookText: "Pag-book Karon" },
+        sectionPortfolio: { title: "Relaxing Space", visitInsta: "Bisitaha ang Instagram" },
         portfolio: [
-            { img: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop", style: "Ivy League Cut", designer: "Master Kim" },
-            { img: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=800&auto=format&fit=crop", style: "Slick Back Undercut", designer: "Barber Lee" },
-            { img: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=800&auto=format&fit=crop", style: "High Fade Cut", designer: "Director Park" },
-            { img: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=800&auto=format&fit=crop", style: "Skin Fade", designer: "Stylist Choi" },
-            { img: "https://images.unsplash.com/photo-1554774853-719586f82d77?q=80&w=800&auto=format&fit=crop", style: "Hot Towel Pag-alot", designer: "Senior Jung" },
-            { img: "https://images.unsplash.com/photo-1583001931096-959e9a1a6223?q=80&w=800&auto=format&fit=crop", style: "Textured Undercut", designer: "Master Kim" },
+            { img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop", style: "Private Room", designer: "Level 1 Room" },
+            { img: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800&auto=format&fit=crop", style: "Couple Spa", designer: "VIP Suite" },
+            { img: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=800&auto=format&fit=crop", style: "Aroma Zone", designer: "Healing Deck" },
+            { img: "https://images.unsplash.com/photo-1570172619380-410183ad1f55?q=80&w=800&auto=format&fit=crop", style: "Lava Stone", designer: "Zen Garden" },
+            { img: "https://images.unsplash.com/photo-1591343395902-1adcb454c2e4?q=80&w=800&auto=format&fit=crop", style: "Thai Massage", designer: "Traditional Area" },
+            { img: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop", style: "Foot Spa", designer: "Relax Zone" },
         ],
         sectionBooking: {
-            title: "Sayon nga Online Booking", desc: "Palihug pilia ang imong gusto nga designer ug oras.",
+            title: "Sayon nga Online Booking", desc: "Palihug pilia ang imong hanas nga therapist ug oras.",
             step1: "1. Pagpili og Petsa", step2: "2. Pagpili og Oras",
             days: ["Karon", "Ugma", "Sunod", "3.08", "3.09"],
             stepHour: "Pagpili og Oras", stepMinute: "Pagpili og Minuto",
             selectedLabel: "Napili nga Iskedyul:", bookingRequested: "Gipangayo na ang reserbasyon.",
-            timeAlert: "Palihug pilia ang oras.", refAlert: "Palihug isulod ang 8-digit Reference No.",
-            errorMsg: "Naay error sa pag-book. Palihug sulayi pag-usab unya.",
-            paymentTitle: "Pagpili og Paagi sa Pagbayad", paymentMethod: "Pagbayad gamit ang GCash",
-            paymentGuide: "Palihug i-scan ang QR code o magbayad sa rehistradong numero.",
+            timeAlert: "Palihug pilia ang oras.", refAlert: "Isulod ang 8-digit Ref No.",
+            errorMsg: "Naay error sa pag-book.",
+            paymentTitle: "Paagi sa Pagbayad", paymentMethod: "Pagbayad sa GCash",
+            paymentGuide: "Pali-i-scan ang QR code.",
             priceLabel: "Gibanabana nga Presyo", priceValue: "₱ 500",
-            modalTitle: "Giya sa Pagbayad sa GCash", modalStep1: "Susiha ang Deposito", modalStep2: "Nag-verify sa Bayad", modalStep3: "Nakumpirma ang Booking!",
-            qrGuide: "Palihug i-scan ang QR code sa ubos aron magbayad.", copyNumber: "Kopyaha ang Numero", refPlaceholder: "Isulod ang 8-digit Reference No.",
+            modalTitle: "Giya sa GCash", modalStep1: "Deposito", modalStep2: "Beripikasyon", modalStep3: "Kumpirmado!",
+            qrGuide: "I-scan ang QR sa ubos.", copyNumber: "Kopyaha", refPlaceholder: "8-digit Reference No.",
             verifyBtn: "Hangyo og Beripikasyon", finishBtn: "Balik sa Home"
         },
         sectionInstall: {
-            title: "Masinati ang K-Barber isip usa ka App",
-            desc: "I-scan ang QR code aron idugang sa imong home screen ug mag-book nga mas paspas ug sayon.",
-            guide: "I-scan aron Ma-install Diha-diha dayon",
-            btnText: "Tan-awa ang Giya sa Pag-install"
+            title: "Kuhanha ang MassageShop App",
+            desc: "I-scan ang QR code para sa paspas nga appointment.",
+            guide: "I-scan aron Ma-install",
+            btnText: "Giya sa Pag-install"
         },
         footer: {
-            desc1: "Nag-una sa labing maayo nga kultura sa grooming alang sa mga lalaki.", desc2: "Masinati ang tinuod nga pagpahayahay sa usa ka premium nga barbershop.",
-            contact: "Impormasyon sa Pagkontak", address: "123 Dosan-daero, Gangnam-gu, Seoul", time: "Kada Adlaw 10:00 - 21:00 (Sira matag Martes)",
-            support: "Suporta sa Kustomer", copyright: "© 2026 K-Barber Premium Salon. Gireserba ang tanang katungod."
+            desc1: "Nag-una sa wellness culture.", desc2: "Sinati ang relaxation sa among premium shop.",
+            contact: "Impormasyon", address: "MassageShop PREMIUM SPA", time: "Kada Adlaw 10:00 - 02:00",
+            support: "Suporta", copyright: "© 2026 MassageShop PREMIUM SPA. Gireserba tanan adlaw."
         }
     }
 };
@@ -313,7 +313,7 @@ export default function LandingPage() {
             {/* Navigation */}
             <nav className="fixed top-0 w-full z-50 glass border-b-0 py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
                 <div className="text-2xl font-black tracking-tighter gold-gradient-text uppercase">
-                    CORLEONE
+                    MassageShop
                 </div>
 
                 {/* Desktop Menu */}

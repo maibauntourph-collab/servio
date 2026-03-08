@@ -7,16 +7,16 @@
 import { supabase } from '../lib/supabase';
 
 // 백엔드 API 주소: 개발 중에는 로컬, 배포 시에는 real URL
-const API_BASE = (import.meta as any).env.VITE_API_URL || 'https://barbershop-api.maibauntourph.workers.dev';
+const API_BASE = (import.meta as any).env.VITE_API_URL || 'https://massageshop-api.maibauntourph.workers.dev';
 
 // 💡 공통 fetch 함수: JWT 토큰 자동 첨부, 에러 처리 통합
 async function apiFetch(path: string, options: RequestInit = {}) {
     // 💡 [2026-03-08] 최신 세션 토큰 가져오기 (만료 대비)
     const { data: { session } } = await supabase.auth.getSession();
-    let token = session?.access_token || localStorage.getItem('k_barber_token');
+    let token = session?.access_token || localStorage.getItem('massage_shop_token');
 
     if (session?.access_token) {
-        localStorage.setItem('k_barber_token', session.access_token);
+        localStorage.setItem('massage_shop_token', session.access_token);
     }
 
     const headers: Record<string, string> = {
@@ -32,8 +32,8 @@ async function apiFetch(path: string, options: RequestInit = {}) {
 
         // 401 자동 로그아웃
         if (res.status === 401) {
-            localStorage.removeItem('k_barber_token');
-            localStorage.removeItem('k_barber_user');
+            localStorage.removeItem('massage_shop_token');
+            localStorage.removeItem('massage_shop_user');
         }
 
         const contentType = res.headers.get('content-type');

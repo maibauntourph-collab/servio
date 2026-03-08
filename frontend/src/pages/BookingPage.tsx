@@ -18,11 +18,11 @@ import GcashPaymentModal from '../components/booking/GcashPaymentModal';
 const translations: Record<string, any> = {
     ko: {
         title: "실시간 온라인 예약",
-        step1: { title: "1. 스타일 선택", more: "전체 스타일 보기 \u2192" },
-        step2: { title: "2. 디자이너 선택", selected: "선택한 스타일" },
-        step3: { title: "3. 날짜 & 시간", date: "날짜 선택 (화요일 휴무)", time: "시간 선택", tenMin: "10\uBD84 \uB2E8\uC704 \uC120\uD0DD \uAC00\uB2A5" },
-        step4: { title: "4. 예약 확인", style: "\uC2A4\uD0C0\uC77C", price: "\uAC00\uACA9", designer: "\uB514\uC790\uC774\uB108", date: "\uB0A0\uC9DC", time: "\uC2DC\uAC04", duration: "\uC18C\uC694 \uC2DC\uAC04", min: "\uBD84", notes: "\uC694\uCCAD\uC0AC\uD56D\uC774 \uC700\uC704\uBA74 \uC785\uB825\uD574\uC8FC\uC138\uC694 (\uC120\uD0DD)" },
-        btn: { next: "\uB2E4\uC74C \u2192", back: "\uB4A4\uB85C", backStyle: "\u2190 \uC2A4\uD0C0\uC77C \uB2E4\uC2DC \uC120\uD0DD", backDesigner: "\u2190 \uB514\uC790\uC774\uB108 \uB2E4\uC2DC \uC120\uD0DD", backTime: "\u2190 \uB0A0\uC9DC/\uC2DC\uAC04 \uB2E4\uC2DC \uC120\uD0DD", confirm: "\u2705 \uC608\uC57D \uD655\uC815\uD558\uAE30", booking: "\uC608\uC57D \uC911...", login: "3\uCD08 \uB9CC\uC601 \uC608\uC57D \uB85C\uADF8\uC778\uD558\uAE30", loginMsg: "\uC608\uC57D\uC744 \uD655\uC815\uD558\uC2DC\uB824\uBA74 \uB85C\uADF8\uC778\uC774 \uD544\uC694\uD569\uB2C8\uB2E4.", snsMsg: "\uAC04\uD3B8\uD558\uAC8C SNS\uB85C \uB85C\uADF8\uC778\uD558\uC2DC\uBA74 \uBC11\uB85C \uC608\uC57D\uC774 \uC9C4\uD589\uB429\uB2C8\uB2E4." },
+        step1: { title: "1. 트리트먼트 선택", more: "전체 프로그램 보기 \u2192" },
+        step2: { title: "2. 테라피스트 선택", selected: "선택한 프로그램" },
+        step3: { title: "3. 날짜 & 시간", date: "날짜 선택", time: "시간 선택", tenMin: "10\uBD84 \uB2E8\uC704 \uC120\uD0DD \uAC00\uB2A5" },
+        step4: { title: "4. 예약 확인", style: "\uD504\uB85C\uADF8\uB7A8", price: "\uAC00\uACA9", designer: "\uD14C\uB77C\uD53C\uC2A4\uD1B8", date: "\uB0A0\uC9DC", time: "\uC2DC\uAC04", duration: "\uC18C\uC694 \uC2DC\uAC04", min: "\uBD84", notes: "\uC694\uCCAD\uC0AC\uD56D\uC774 \uC700\uC704\uBA74 \uC785\uB825\uD574\uC8FC\uC138\uC694 (\uC120\uD0DD)" },
+        btn: { next: "\uB2E4\uC74C \u2192", back: "\uB4A4\uB85C", backStyle: "\u2190 \uD504\uB85C\uADF8\uB7A8 \uB2E4\uC2DC \uC120\uD0DD", backDesigner: "\u2190 \uD14C\uB77C\uD53C\uC2A4\uD1B8 \uB2E4\uC2DC \uC120\uD0DD", backTime: "\u2190 \uB0A0\uC9DC/\uC2DC\uAC04 \uB2E4\uC2DC \uC120\uD0DD", confirm: "\u2705 \uC608\uC57D \uD655\uC815\uD558\uAE30", booking: "\uC608\uC57D \uC911...", login: "3\uCD08 \uB9CC\uC601 \uC608\uC57D \uB85C\uADF8\uC778\uD558\uAE30", loginMsg: "\uC608\uC57D\uC744 \uD655\uC815\uD558\uC2DC\uB824\uBA74 \uB85C\uADF8\uC778\uC774 \uD544\uC694\uD569\uB2C8\uB2E4.", snsMsg: "\uAC04\uD3B8\uD558\uAC8C SNS\uB85C \uB85C\uADF8\uC778\uD558\uC2DC\uBA74 \uBC11\uB85C \uC608\uC57D\uC774 \uC9C4\uD589\uB429\uB2C8\uB2E4." },
         msg: { success: "\uC608\uC57D\uC774 \uC604\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4! \uD83C\uDF89", fail: "\uC608\uC57D\uC5D0 \uC2E4\uD328\uD534\uC2B5\uB2C8\uB2E4.", error: "\uC114\uBC84 \uC5F0\uACB0 \uC2E4\uD328. \uC7A0\uC2DC \uD6C4 \uB2E4\uC2DC \uC2DC\uB3C4\uD574\uC8FC\uC138\uC694.", mypage: "\uC608\uC57D \uB0B4\uC5ED \uBC34\uAE30", home: "\uD648\uC73C\uB85C" }
     },
     en: {
@@ -203,7 +203,7 @@ export default function BookingPage() {
                     <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
                     <span className="font-medium text-sm">{t.btn.back}</span>
                 </button>
-                <Link to="/" className="text-2xl font-black gold-gradient-text tracking-tighter uppercase">K-Barber</Link>
+                <Link to="/" className="text-2xl font-black gold-gradient-text tracking-tighter uppercase">MassageShop</Link>
                 {isLoggedIn
                     ? <Link to="/mypage" className="text-sm font-bold text-primary hover:underline transition-all">My Page</Link>
                     : <Link to="/login" className="text-sm text-primary font-black uppercase hover:underline tracking-tight transition-all">Login</Link>
@@ -244,7 +244,7 @@ export default function BookingPage() {
                                     <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center"><UserIcon size={18} className="text-primary" /></div>
                                     <div className="text-left">
                                         <p className="font-bold">{d}</p>
-                                        <p className="text-xs text-muted-foreground">{language === 'ko' ? 'CORLEONE 전문 디자이너' : 'CORLEONE BARBERSHOP Professional'}</p>
+                                        <p className="text-xs text-muted-foreground">{language === 'ko' ? 'Massage 전문 테라피스트' : 'MassageShop Professional Therapist'}</p>
                                     </div>
                                     {selectedDesigner === d && <Check size={18} className="text-primary ml-auto" />}
                                 </button>
