@@ -7,7 +7,7 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "deploy": "npm run build && wrangler pages deploy dist --project-name barbershop-ui --commit-dirty=true --branch=main"
+        "deploy": "npm run build && wrangler pages deploy dist --project-name massagehop --commit-dirty=true --branch=main"
     },
     "dependencies": {
         "@supabase/supabase-js": "^2.98.0",
