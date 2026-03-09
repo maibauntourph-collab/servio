@@ -59,12 +59,12 @@ app.get('/', async (c) => {
   }
 });
 
-// ── 공개 라우트 (로그인 불필요) ──
-app.route('/api/auth', auth);
-app.route('/api/styles', styles);
+// ── 공개 라우트 (로그인 불필요, 샵 코드 기반) ──
+app.route('/api/:shopId/auth', auth);
+app.route('/api/:shopId/styles', styles);
 
-// 스타일 수정 (PATCH) 보호 - 로그인 필요
-app.use('/api/styles/:id', async (c, next) => {
+// 스타일 수정 (PATCH) 보호 - 로그인 및 샵 코드 필요
+app.use('/api/:shopId/styles/:id', async (c, next) => {
   if (c.req.method === 'PATCH') {
     return supabaseAuth()(c, next);
   } else {
@@ -72,13 +72,13 @@ app.use('/api/styles/:id', async (c, next) => {
   }
 });
 
-app.route('/api/designers', designers);
+app.route('/api/:shopId/designers', designers);
 
 // ── 보호 라우트: 👨‍🏫 Supabase 인증 미들웨어 적용 (로그인 필요) ──
-app.use('/api/bookings/*', supabaseAuth());
+app.use('/api/:shopId/bookings/*', supabaseAuth());
 
-// 디자이너 관리 (CUD) 보호 - 관리자 권한 체크 (추후 Supabase Role 연동 가능)
-app.use('/api/designers/*', async (c, next) => {
+// 디자이너 관리 (CUD) 보호
+app.use('/api/:shopId/designers/*', async (c, next) => {
   if (['POST', 'PATCH', 'DELETE'].includes(c.req.method)) {
     return supabaseAuth()(c, next);
   } else {
@@ -86,8 +86,8 @@ app.use('/api/designers/*', async (c, next) => {
   }
 });
 
-app.route('/api/bookings', bookings);
-app.route('/api/admin/settings', adminSettings);
+app.route('/api/:shopId/bookings', bookings);
+app.route('/api/:shopId/admin/settings', adminSettings);
 
 // ── 404 핸들러: 없는 경로 접근 시 친절한 안내 ──
 app.notFound((c) => c.json({ success: false, message: '요청한 경로를 찾을 수 없습니다.' }, 404));

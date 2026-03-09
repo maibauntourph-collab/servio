@@ -3,26 +3,126 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* 🌸 Premium Pastel Luxury Palette */
+    --background: 40 30% 98%;
+    /* 🍦 Creamy Off-White */
+    --foreground: 20 10% 20%;
+    /* 🌑 Charcoal Soft */
+    --primary: 38 45% 65%;
+    /* 🏺 Muted Pearl Gold */
+    --primary-foreground: 40 30% 98%;
+    --secondary: 155 15% 92%;
+    /* 🌿 Sage Whisper */
+    --secondary-foreground: 20 10% 25%;
+    --accent: 350 25% 94%;
+    /* 🐚 Shell Pink Pastel */
+    --accent-foreground: 20 10% 20%;
+    --muted: 40 10% 94%;
+    --muted-foreground: 20 10% 45%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 10% 20%;
+    --border: 38 20% 90%;
+    --input: 38 20% 90%;
+    --ring: 38 45% 65%;
+    --radius: 2rem;
+  }
+
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased selection:bg-primary/20;
+    font-family: 'Outfit', 'Inter', sans-serif;
+    /* 🎨 Soft Ambient Gradient Background */
+    background-image:
+      radial-gradient(at 0% 0%, hsla(38, 45%, 96%, 1) 0, transparent 50%),
+      radial-gradient(at 50% 0%, hsla(155, 15%, 96%, 1) 0, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(350, 25%, 96%, 1) 0, transparent 50%);
+    background-attachment: fixed;
   }
 }
 
 @layer utilities {
+
+  /* ✨ Premium Pastel Glassmorphism */
   .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+    @apply bg-white/60 backdrop-blur-xl border border-white/80 shadow-sm;
   }
+
   .glass-card {
-    @apply bg-neutral-900/60 backdrop-blur-xl border border-white/10 shadow-xl;
+    @apply bg-white/70 backdrop-blur-2xl border border-white/90 shadow-[0_8px_40px_rgba(38, 45, 65, 0.06)];
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
+
+  .glass-card:hover {
+    @apply bg-white/90 shadow-[0_20px_60px_rgba(38, 45, 65, 0.1)] -translate-y-2;
+  }
+
+  /* 🏺 Refined Gold Gradient Text (Pastel Edition) */
   .gold-gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#C5A059] via-[#D4AF37] to-[#E6BE8A] font-black;
+    background-size: 200% auto;
+    animation: gold-shimmer 4s linear infinite;
   }
+
+  @keyframes gold-shimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  /* 🕯️ Soft Zen Shadows */
+  .shadow-soft {
+    box-shadow: 0 10px 50px -10px rgba(38, 45, 65, 0.12);
+  }
+
+  /* 👨‍🏫 부드러운 페이지 전환 애니메이션 */
+  .page-transition-enter {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  .page-transition-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 500ms ease-out;
+  }
+
+  .page-transition-exit {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .page-transition-exit-active {
+    opacity: 0;
+    transform: scale(1.02);
+    transition: all 400ms ease-in;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
   }
 }

@@ -1,5 +1,5 @@
 /**
- * 👨‍🏫 K-Barber 메인 랜딩 페이지 (2026-03-08 업데이트)
+ * 👨‍🏫 MassageShop 메인 랜딩 페이지 (2026-03-08 업데이트)
  * 주요 기능: 서비스 소개, 포트폴리오(스타일북), 간편 온라인 예약, GCash 결제 연동, PWA 설치 안내
  * 특징: Framer Motion을 활용한 프리미엄 애니메이션과 Glassmorphism 디자인 적용
  */
@@ -17,28 +17,28 @@ import { usePWAInstall } from '../hooks/usePWAInstall';
 const translations: Record<string, any> = {
     ko: {
         services: [
-            { title: "시그니처 바버 커트", price: "₱ 1,800", desc: "개인의 두상과 모질을 고려한 맞춤형 프리미엄 커트" },
-            { title: "클래식 핫타월 면도", price: "₱ 1,400", desc: "따뜻한 타월과 최고급 거품을 이용한 전통 면도" },
-            { title: "아이비리그 다운펌", price: "₱ 2,200", desc: "뜨는 옆머리와 윗머리를 완벽하게 잡아주는 다운펌" },
+            { title: "시그니처 아로마 테라피", price: "₱ 2,500", desc: "천연 에센셜 오일을 활용한 고품격 전신 릴렉싱 케어" },
+            { title: "스웨디시 힐링 마사지", price: "₱ 2,200", desc: "부드러운 터치로 근육의 긴장을 완화하고 혈액순환을 돕는 마사지" },
+            { title: "딥 티슈 스포츠 케어", price: "₱ 2,800", desc: "심부 근육층을 자극하여 만성 통증과 피로를 해소하는 집중 관리" },
         ],
-        nav: { services: "서비스", portfolio: "스타일북", booking: "온라인 예약", bookNow: "예약하기", admin: "관리자", myPage: "마이페이지", logout: "로그아웃", login: "로그인" },
+        nav: { services: "프로그램", portfolio: "시설안내", booking: "온라인 예약", bookNow: "예약하기", admin: "관리자", myPage: "마이페이지", logout: "로그아웃", login: "로그인" },
         hero: {
-            title1: "당신의 가치를 증명하는", title2: "단 하나의 바버샵",
-            subtitle1: "최고의 기술과 품격 있는 서비스.", subtitle2: "남자의 진정한 멋을 완성하는 프라이빗 그루밍 라운지.",
-            btnMakeBooking: "지금 예약하기", btnViewPortfolio: "포트폴리오 보기"
+            title1: "지친 일상에 선사하는", title2: "최강의 휴식",
+            subtitle1: "숙련된 테라피스트의 정성 어린 손길.", subtitle2: "당신의 몸과 마음이 머무는 프리미엄 힐링 라운지.",
+            btnMakeBooking: "지금 예약하기", btnViewPortfolio: "시설 둘러보기"
         },
-        sectionService: { title: "Premium Services", desc: "기본에 충실하며 디테일의 차이를 만듭니다.", bookText: "예약하기" },
-        sectionPortfolio: { title: "Trend Portfolio", visitInsta: "인스타그램 방문하기" },
+        sectionService: { title: "Premium Therapy", desc: "숙련된 기술로 일상의 활력을 되찾아 드립니다.", bookText: "예약하기" },
+        sectionPortfolio: { title: "Relaxing Space", visitInsta: "인스타그램 방문하기" },
         portfolio: [
-            { img: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop", style: "버스트 페이드", designer: "Master Kim" },
-            { img: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop", style: "모던 울프 컷", designer: "Barber Lee" },
-            { img: "https://images.unsplash.com/photo-1593702288056-7cc91f2a4e9d?q=80&w=800&auto=format&fit=crop", style: "멀렛 페이드", designer: "Director Park" },
-            { img: "https://images.unsplash.com/photo-1583001931096-959e9a1a6223?q=80&w=800&auto=format&fit=crop", style: "리프 컷", designer: "Stylist Choi" },
-            { img: "https://images.unsplash.com/photo-1604004555489-723a93d6ce74?q=80&w=800&auto=format&fit=crop", style: "드롭 페이드", designer: "Senior Jung" },
-            { img: "https://images.unsplash.com/photo-1599580778813-fd70c39ee91d?q=80&w=800&auto=format&fit=crop", style: "네오 퀴프", designer: "Master Kim" },
+            { img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop", style: "프라이빗 룸", designer: "Level 1 Room" },
+            { img: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800&auto=format&fit=crop", style: "커플 스파", designer: "VIP Suite" },
+            { img: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=800&auto=format&fit=crop", style: "아로마 존", designer: "Healing Deck" },
+            { img: "https://images.unsplash.com/photo-1570172619380-410183ad1f55?q=80&w=800&auto=format&fit=crop", style: "라바 스톤", designer: "Zen Garden" },
+            { img: "https://images.unsplash.com/photo-1591343395902-1adcb454c2e4?q=80&w=800&auto=format&fit=crop", style: "타이 마사지", designer: "Traditional Area" },
+            { img: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop", style: "풋 스파", designer: "Relax Zone" },
         ],
         sectionBooking: {
-            title: "온라인 간편 예약", desc: "원하시는 디자이너와 시간을 선택해주세요.",
+            title: "온라인 간편 예약", desc: "원하시는 테라피스트와 시간을 선택해주세요.",
             step1: "1. 날짜 선택", step2: "2. 시간 선택",
             days: ["오늘", "내일", "모레", "3.08", "3.09"],
             stepHour: "시간 선택", stepMinute: "분 선택",
@@ -53,41 +53,41 @@ const translations: Record<string, any> = {
             verifyBtn: "결제 확인 요청", finishBtn: "홈으로 돌아가기"
         },
         sectionInstall: {
-            title: "CORLEONE를 앱으로 만나보세요",
+            title: "MassageShop를 앱으로 만나보세요",
             desc: "QR 코드를 스캔하여 홈 화면에 추가하고, 더 빠르고 간편하게 예약하세요.",
             guide: "스캔하여 즉시 설치",
             btnText: "설치 가이드 보기"
         },
         footer: {
-            desc1: "최고의 남성 그루밍 문화를 선도합니다.", desc2: "프리미엄 바버샵에서 진정한 휴식을 경험하세요.",
-            contact: "Contact Info", address: "CORLEONE BARBERSHOP", time: "매일 10:00 - 21:00 (화요일 휴무)",
-            support: "Customer Support", copyright: "© 2026 CORLEONE BARBERSHOP. All rights reserved."
+            desc1: "최고의 웰니스 문화를 선도합니다.", desc2: "프리미엄 마사지샵에서 진정한 휴식을 경험하세요.",
+            contact: "Contact Info", address: "MassageShop PREMIUM SPA", time: "매일 10:00 - 02:00 (전중무휴)",
+            support: "Customer Support", copyright: "© 2026 MassageShop PREMIUM SPA. All rights reserved."
         }
     },
     en: {
         services: [
-            { title: "Signature Barber Cut", price: "₱ 1,800", desc: "Premium custom cut tailored to your head shape and hair type." },
-            { title: "Classic Hot Towel Shave", price: "₱ 1,400", desc: "Traditional shave with hot towel and premium lather." },
-            { title: "Ivy League Down Perm", price: "₱ 2,200", desc: "Down perm that perfectly manages side and top hair." },
+            { title: "Signature Aroma Therapy", price: "₱ 2,500", desc: "Premium full body relaxing care using natural essential oils." },
+            { title: "Swedish Healing Massage", price: "₱ 2,200", desc: "Massage that relieves muscle tension and aids circulation with gentle touch." },
+            { title: "Deep Tissue Sports Care", price: "₱ 2,800", desc: "Intensive care targeting deep muscle layers to relieve chronic pain and fatigue." },
         ],
-        nav: { services: "Services", portfolio: "Portfolio", booking: "Booking", bookNow: "Book Now", admin: "Admin", myPage: "My Page", logout: "Logout", login: "Login" },
+        nav: { services: "Treatments", portfolio: "Facilities", booking: "Online Booking", bookNow: "Book Now", admin: "Admin", myPage: "My Page", logout: "Logout", login: "Login" },
         hero: {
-            title1: "Proving Your True Value", title2: "The Only Barbershop",
-            subtitle1: "The highest skill and classy service.", subtitle2: "A private grooming lounge perfecting men's true style.",
-            btnMakeBooking: "Book Now", btnViewPortfolio: "View Portfolio"
+            title1: "Ultimate Relaxation for", title2: "Your Busy Life",
+            subtitle1: "The heart-felt touch of skilled therapists.", subtitle2: "A premium healing lounge where your body and mind rest.",
+            btnMakeBooking: "Book Now", btnViewPortfolio: "View Facilities"
         },
-        sectionService: { title: "Premium Services", desc: "Faithful to the basics, creating a difference in details.", bookText: "Book Now" },
-        sectionPortfolio: { title: "Trend Portfolio", visitInsta: "Visit Instagram" },
+        sectionService: { title: "Premium Therapy", desc: "Restoring your daily vitality with skilled techniques.", bookText: "Book Now" },
+        sectionPortfolio: { title: "Relaxing Space", visitInsta: "Visit Instagram" },
         portfolio: [
-            { img: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop", style: "Ivy League Cut", designer: "Master Kim" },
-            { img: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=800&auto=format&fit=crop", style: "Slick Back Undercut", designer: "Barber Lee" },
-            { img: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=800&auto=format&fit=crop", style: "High Fade Cut", designer: "Director Park" },
-            { img: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=800&auto=format&fit=crop", style: "Skin Fade", designer: "Stylist Choi" },
-            { img: "https://images.unsplash.com/photo-1554774853-719586f82d77?q=80&w=800&auto=format&fit=crop", style: "Hot Towel Shave", designer: "Senior Jung" },
-            { img: "https://images.unsplash.com/photo-1583001931096-959e9a1a6223?q=80&w=800&auto=format&fit=crop", style: "Textured Undercut", designer: "Master Kim" },
+            { img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop", style: "Private Room", designer: "Level 1 Room" },
+            { img: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800&auto=format&fit=crop", style: "Couple Spa", designer: "VIP Suite" },
+            { img: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=800&auto=format&fit=crop", style: "Aroma Zone", designer: "Healing Deck" },
+            { img: "https://images.unsplash.com/photo-1570172619380-410183ad1f55?q=80&w=800&auto=format&fit=crop", style: "Lava Stone", designer: "Zen Garden" },
+            { img: "https://images.unsplash.com/photo-1591343395902-1adcb454c2e4?q=80&w=800&auto=format&fit=crop", style: "Thai Massage", designer: "Traditional Area" },
+            { img: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop", style: "Foot Spa", designer: "Relax Zone" },
         ],
         sectionBooking: {
-            title: "Easy Online Booking", desc: "Please select your preferred designer and time.",
+            title: "Easy Online Booking", desc: "Please select your preferred therapist and time.",
             step1: "1. Select Date", step2: "2. Select Time",
             days: ["Today", "Tomorrow", "After", "3.08", "3.09"],
             stepHour: "Select Hour", stepMinute: "Select Minute",
@@ -102,113 +102,113 @@ const translations: Record<string, any> = {
             verifyBtn: "Request Verification", finishBtn: "Back to Home"
         },
         sectionInstall: {
-            title: "Get CORLEONE on your mobile",
+            title: "Get MassageShop on your mobile",
             desc: "Scan the QR code to add to your home screen for faster and easier booking.",
             guide: "Scan to install immediately",
             btnText: "Show Install Guide"
         },
         footer: {
-            desc1: "Leading the best men's grooming culture.", desc2: "Experience true relaxation at our premium barbershop.",
-            contact: "Contact Info", address: "CORLEONE BARBERSHOP", time: "Daily 10:00 - 21:00 (Closed on Tuesdays)",
-            support: "Customer Support", copyright: "© 2026 CORLEONE BARBERSHOP. All rights reserved."
+            desc1: "Leading the best wellness culture.", desc2: "Experience true relaxation at our premium massage shop.",
+            contact: "Contact Info", address: "MassageShop PREMIUM SPA", time: "Daily 10:00 - 02:00 (Open 365 Days)",
+            support: "Customer Support", copyright: "© 2026 MassageShop PREMIUM SPA. All rights reserved."
         }
     },
     tl: {
         services: [
-            { title: "Signature Barber Cut", price: "₱ 1,800", desc: "Premium custom cut na iniakma sa hugis ng iyong ulo at uri ng buhok." },
-            { title: "Classic Hot Towel Shave", price: "₱ 1,400", desc: "Tradisyonal na ahit na may mainit na tuwalya at premium na lather." },
-            { title: "Ivy League Down Perm", price: "₱ 2,200", desc: "Down perm na perpektong kumokontrol sa buhok sa tagiliran at itaas." },
+            { title: "Signature Aroma Therapy", price: "₱ 2,500", desc: "Premium na full body relaxing care gamit ang natural essential oils." },
+            { title: "Swedish Healing Massage", price: "₱ 2,200", desc: "Masahe na nagpapakalma sa kalamnan at tumutulong sa sirkulasyon." },
+            { title: "Deep Tissue Sports Care", price: "₱ 2,800", desc: "Intensibong pangangalaga sa malalim na kalamnan para sa pagod." },
         ],
-        nav: { services: "Mga Serbisyo", portfolio: "Portfolio", booking: "Pag-book", bookNow: "Mag-book Ngayon", admin: "Admin", myPage: "Profile", logout: "Logout", login: "Login" },
+        nav: { services: "Mga Treatment", portfolio: "Fasibilidad", booking: "Pag-book", bookNow: "Mag-book Ngayon", admin: "Admin", myPage: "Profile", logout: "Logout", login: "Login" },
         hero: {
-            title1: "Pinapatunayan ang Iyong Tunay na Halaga", title2: "Ang Nag-iisang Barbershop",
-            subtitle1: "Pinakamataas na kasanayan at eleganteng serbisyo.", subtitle2: "Isang pribadong grooming lounge na nagpapaperpekto sa tunay na istilo ng mga lalaki.",
-            btnMakeBooking: "Mag-book Ngayon", btnViewPortfolio: "Tingnan ang Portfolio"
+            title1: "Tunay na Relaxation para sa", title2: "Iyong Pagod na Buhay",
+            subtitle1: "Hawak ng mga bihasang therapist.", subtitle2: "Isang premium healing lounge para sa iyong katawan at isip.",
+            btnMakeBooking: "Mag-book Ngayon", btnViewPortfolio: "Tingnan ang Fasibilidad"
         },
-        sectionService: { title: "Mga Premium na Serbisyo", desc: "Tapat sa mga pangunahing kaalaman, lumilikha ng pagkakaiba sa mga detalye.", bookText: "Mag-book Ngayon" },
-        sectionPortfolio: { title: "Trend Portfolio", visitInsta: "Bisitahin ang Instagram" },
+        sectionService: { title: "Premium Therapy", desc: "Ibinabalik ang iyong sigla gamit ang husay sa masahe.", bookText: "Mag-book Ngayon" },
+        sectionPortfolio: { title: "Relaxing Space", visitInsta: "Bisitahin ang Instagram" },
         portfolio: [
-            { img: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop", style: "Ivy League Cut", designer: "Master Kim" },
-            { img: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=800&auto=format&fit=crop", style: "Slick Back Undercut", designer: "Barber Lee" },
-            { img: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=800&auto=format&fit=crop", style: "High Fade Cut", designer: "Director Park" },
-            { img: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=800&auto=format&fit=crop", style: "Skin Fade", designer: "Stylist Choi" },
-            { img: "https://images.unsplash.com/photo-1554774853-719586f82d77?q=80&w=800&auto=format&fit=crop", style: "Hot Towel Ahit", designer: "Senior Jung" },
-            { img: "https://images.unsplash.com/photo-1583001931096-959e9a1a6223?q=80&w=800&auto=format&fit=crop", style: "Textured Undercut", designer: "Master Kim" },
+            { img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop", style: "Private Room", designer: "Level 1 Room" },
+            { img: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800&auto=format&fit=crop", style: "Couple Spa", designer: "VIP Suite" },
+            { img: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=800&auto=format&fit=crop", style: "Aroma Zone", designer: "Healing Deck" },
+            { img: "https://images.unsplash.com/photo-1570172619380-410183ad1f55?q=80&w=800&auto=format&fit=crop", style: "Lava Stone", designer: "Zen Garden" },
+            { img: "https://images.unsplash.com/photo-1591343395902-1adcb454c2e4?q=80&w=800&auto=format&fit=crop", style: "Thai Massage", designer: "Traditional Area" },
+            { img: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop", style: "Foot Spa", designer: "Relax Zone" },
         ],
         sectionBooking: {
-            title: "Madaling Online Booking", desc: "Mangyaring piliin ang iyong gustong designer at oras.",
+            title: "Madaling Online Booking", desc: "Piliin ang iyong bihasang therapist at oras.",
             step1: "1. Pumili ng Petsa", step2: "2. Pumili ng Oras",
             days: ["Ngayon", "Bukas", "Sunod", "3.08", "3.09"],
             stepHour: "Piliin ang Oras", stepMinute: "Piliin ang Minuto",
             selectedLabel: "Napiling Iskedyul:", bookingRequested: "Hiniling na ang reserbasyon.",
-            timeAlert: "Mangyaring pumili ng oras.", refAlert: "Mangyaring ilagay ang 8-digit Reference No.",
-            errorMsg: "Nagkaroon ng error sa pag-book. Pakisubukang muli mamaya.",
-            paymentTitle: "Piliin ang Paraan ng Pagbabayad", paymentMethod: "Magbayad gamit ang GCash",
-            paymentGuide: "Mangyaring i-scan ang QR code o magbayad sa rehistradong numero.",
+            timeAlert: "Pumili ng oras.", refAlert: "Ilagay ang 8-digit Ref No.",
+            errorMsg: "Nagkaroon ng error sa pag-book.",
+            paymentTitle: "Paraan ng Pagbabayad", paymentMethod: "Magbayad sa GCash",
+            paymentGuide: "I-scan ang QR code.",
             priceLabel: "Tinatayang Presyo", priceValue: "₱ 500",
-            modalTitle: "Gabay sa Pagbabayad ng GCash", modalStep1: "Suriin ang Deposito", modalStep2: "Sini-verify ang Bayad", modalStep3: "Nakumpirma ang Booking!",
-            qrGuide: "Mangyaring i-scan ang QR code sa ibaba para magbayad.", copyNumber: "Kopyahin ang Numero", refPlaceholder: "Ilagay ang 8-digit Reference No.",
+            modalTitle: "Gabay sa GCash", modalStep1: "Deposito", modalStep2: "Beripikasyon", modalStep3: "Kumpirmado!",
+            qrGuide: "I-scan ang QR sa ibaba.", copyNumber: "Kopyahin", refPlaceholder: "8-digit Reference No.",
             verifyBtn: "Humiling ng Beripikasyon", finishBtn: "Bumalik sa Home"
         },
         sectionInstall: {
-            title: "Damhin ang K-Barber bilang isang App",
-            desc: "I-scan ang QR code para idagdag sa iyong home screen at mag-book nang mas mabilis at madali.",
-            guide: "I-scan para Mag-install Agad",
-            btnText: "Tingnan ang Gabay sa Pag-install"
+            title: "Kuhanin ang MassageShop App",
+            desc: "I-scan ang QR code para sa mabilis na appointment.",
+            guide: "I-scan para Mag-install",
+            btnText: "Gabay sa Pag-install"
         },
         footer: {
-            desc1: "Nangunguna sa pinakamahusay na kultura ng grooming para sa mga lalaki.", desc2: "Maranasan ang tunay na pagpapahinga sa isang premium na barbershop.",
-            contact: "Impormasyon sa Pakikipag-ugnayan", address: "123 Dosan-daero, Gangnam-gu, Seoul", time: "Araw-araw 10:00 - 21:00 (Sarado tuwing Martes)",
-            support: "Suporta sa Customer", copyright: "© 2026 K-Barber Premium Salon. Nakalaan ang lahat ng karapatan."
+            desc1: "Nangunguna sa wellness culture.", desc2: "Maranasan ang relaxation sa aming premium shop.",
+            contact: "Impormasyon", address: "MassageShop PREMIUM SPA", time: "Araw-araw 10:00 - 02:00",
+            support: "Suporta", copyright: "© 2026 MassageShop PREMIUM SPA. Nakalaan ang lahat."
         }
     },
     ceb: {
         services: [
-            { title: "Signature Barber Cut", price: "₱ 1,800", desc: "Premium custom cut nga gipahaum sa porma sa imong ulo ug klase sa buhok." },
-            { title: "Classic Hot Towel Shave", price: "₱ 1,400", desc: "Tradisyonal nga pag-alot nga adunay init nga tualya ug premium nga lather." },
-            { title: "Ivy League Down Perm", price: "₱ 2,200", desc: "Down perm nga hingpit nga nagdumala sa buhok sa kilid ug ibabaw." },
+            { title: "Signature Aroma Therapy", price: "₱ 2,500", desc: "Premium full body relaxing care gamit ang natural essential oils." },
+            { title: "Swedish Healing Massage", price: "₱ 2,200", desc: "Masahe nga nagpagawas sa kainit ug nag-init sa sirkulasyon." },
+            { title: "Deep Tissue Sports Care", price: "₱ 2,800", desc: "Intensibong pagmamentinar sa lawom nga kaunuran alang sa kakapoy." },
         ],
-        nav: { services: "Mga Serbisyo", portfolio: "Portfolio", booking: "Pag-book", bookNow: "Pag-book Karon", admin: "Admin", myPage: "Profile", logout: "Logout", login: "Login" },
+        nav: { services: "Mga Treatment", portfolio: "Fasilidad", booking: "Pag-book", bookNow: "Mag-book Karon", admin: "Admin", myPage: "Profile", logout: "Logout", login: "Login" },
         hero: {
-            title1: "Nagpamatuod sa Imong Tinuod nga Bili", title2: "Ang Bugtong Barbershop",
-            subtitle1: "Pinakataas nga kahanas ug classy nga serbisyo.", subtitle2: "Usa ka pribadong grooming lounge nga nagperpekto sa tinuod nga istilo sa mga lalaki.",
-            btnMakeBooking: "Pag-book Karon", btnViewPortfolio: "Tan-awa ang Portfolio"
+            title1: "Tinuod nga Relaxation para sa", title2: "Imong Kakapoy",
+            subtitle1: "Hikap sa mga hanas nga therapist.", subtitle2: "Usa ka premium healing lounge para sa imong lawas ug hunahuna.",
+            btnMakeBooking: "Pag-book Karon", btnViewPortfolio: "Tan-awa ang Fasilidad"
         },
-        sectionService: { title: "Mga Premium nga Serbisyo", desc: "Matinumanon sa mga sukaranan, naghimo og kalainan sa mga detalye.", bookText: "Pag-book Karon" },
-        sectionPortfolio: { title: "Trend Portfolio", visitInsta: "Bisitaha ang Instagram" },
+        sectionService: { title: "Premium Therapy", desc: "Ibalik ang imong kalagsik gamit ang kahanas sa masahe.", bookText: "Pag-book Karon" },
+        sectionPortfolio: { title: "Relaxing Space", visitInsta: "Bisitaha ang Instagram" },
         portfolio: [
-            { img: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop", style: "Ivy League Cut", designer: "Master Kim" },
-            { img: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=800&auto=format&fit=crop", style: "Slick Back Undercut", designer: "Barber Lee" },
-            { img: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=800&auto=format&fit=crop", style: "High Fade Cut", designer: "Director Park" },
-            { img: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?q=80&w=800&auto=format&fit=crop", style: "Skin Fade", designer: "Stylist Choi" },
-            { img: "https://images.unsplash.com/photo-1554774853-719586f82d77?q=80&w=800&auto=format&fit=crop", style: "Hot Towel Pag-alot", designer: "Senior Jung" },
-            { img: "https://images.unsplash.com/photo-1583001931096-959e9a1a6223?q=80&w=800&auto=format&fit=crop", style: "Textured Undercut", designer: "Master Kim" },
+            { img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop", style: "Private Room", designer: "Level 1 Room" },
+            { img: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=800&auto=format&fit=crop", style: "Couple Spa", designer: "VIP Suite" },
+            { img: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=800&auto=format&fit=crop", style: "Aroma Zone", designer: "Healing Deck" },
+            { img: "https://images.unsplash.com/photo-1570172619380-410183ad1f55?q=80&w=800&auto=format&fit=crop", style: "Lava Stone", designer: "Zen Garden" },
+            { img: "https://images.unsplash.com/photo-1591343395902-1adcb454c2e4?q=80&w=800&auto=format&fit=crop", style: "Thai Massage", designer: "Traditional Area" },
+            { img: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop", style: "Foot Spa", designer: "Relax Zone" },
         ],
         sectionBooking: {
-            title: "Sayon nga Online Booking", desc: "Palihug pilia ang imong gusto nga designer ug oras.",
+            title: "Sayon nga Online Booking", desc: "Palihug pilia ang imong hanas nga therapist ug oras.",
             step1: "1. Pagpili og Petsa", step2: "2. Pagpili og Oras",
             days: ["Karon", "Ugma", "Sunod", "3.08", "3.09"],
             stepHour: "Pagpili og Oras", stepMinute: "Pagpili og Minuto",
             selectedLabel: "Napili nga Iskedyul:", bookingRequested: "Gipangayo na ang reserbasyon.",
-            timeAlert: "Palihug pilia ang oras.", refAlert: "Palihug isulod ang 8-digit Reference No.",
-            errorMsg: "Naay error sa pag-book. Palihug sulayi pag-usab unya.",
-            paymentTitle: "Pagpili og Paagi sa Pagbayad", paymentMethod: "Pagbayad gamit ang GCash",
-            paymentGuide: "Palihug i-scan ang QR code o magbayad sa rehistradong numero.",
+            timeAlert: "Palihug pilia ang oras.", refAlert: "Isulod ang 8-digit Ref No.",
+            errorMsg: "Naay error sa pag-book.",
+            paymentTitle: "Paagi sa Pagbayad", paymentMethod: "Pagbayad sa GCash",
+            paymentGuide: "Pali-i-scan ang QR code.",
             priceLabel: "Gibanabana nga Presyo", priceValue: "₱ 500",
-            modalTitle: "Giya sa Pagbayad sa GCash", modalStep1: "Susiha ang Deposito", modalStep2: "Nag-verify sa Bayad", modalStep3: "Nakumpirma ang Booking!",
-            qrGuide: "Palihug i-scan ang QR code sa ubos aron magbayad.", copyNumber: "Kopyaha ang Numero", refPlaceholder: "Isulod ang 8-digit Reference No.",
+            modalTitle: "Giya sa GCash", modalStep1: "Deposito", modalStep2: "Beripikasyon", modalStep3: "Kumpirmado!",
+            qrGuide: "I-scan ang QR sa ubos.", copyNumber: "Kopyaha", refPlaceholder: "8-digit Reference No.",
             verifyBtn: "Hangyo og Beripikasyon", finishBtn: "Balik sa Home"
         },
         sectionInstall: {
-            title: "Masinati ang K-Barber isip usa ka App",
-            desc: "I-scan ang QR code aron idugang sa imong home screen ug mag-book nga mas paspas ug sayon.",
-            guide: "I-scan aron Ma-install Diha-diha dayon",
-            btnText: "Tan-awa ang Giya sa Pag-install"
+            title: "Kuhanha ang MassageShop App",
+            desc: "I-scan ang QR code para sa paspas nga appointment.",
+            guide: "I-scan aron Ma-install",
+            btnText: "Giya sa Pag-install"
         },
         footer: {
-            desc1: "Nag-una sa labing maayo nga kultura sa grooming alang sa mga lalaki.", desc2: "Masinati ang tinuod nga pagpahayahay sa usa ka premium nga barbershop.",
-            contact: "Impormasyon sa Pagkontak", address: "123 Dosan-daero, Gangnam-gu, Seoul", time: "Kada Adlaw 10:00 - 21:00 (Sira matag Martes)",
-            support: "Suporta sa Kustomer", copyright: "© 2026 K-Barber Premium Salon. Gireserba ang tanang katungod."
+            desc1: "Nag-una sa wellness culture.", desc2: "Sinati ang relaxation sa among premium shop.",
+            contact: "Impormasyon", address: "MassageShop PREMIUM SPA", time: "Kada Adlaw 10:00 - 02:00",
+            support: "Suporta", copyright: "© 2026 MassageShop PREMIUM SPA. Gireserba tanan adlaw."
         }
     }
 };
@@ -224,7 +224,7 @@ export default function LandingPage() {
     const { isInstallable, install } = usePWAInstall();
 
     // QR 프레임 상태
-    const [qrFrame, setQrFrame] = useState('premium-qr-original-A.png');
+    const [qrFrame] = useState('massageshop-qr.png');
 
     const [selectedDayIdx, setSelectedDayIdx] = useState(0); // 👨‍🏫 초기값 0(오늘)으로 통일
     const [selectedHour, setSelectedHour] = useState<string | null>(null);
@@ -311,40 +311,47 @@ export default function LandingPage() {
     return (
         <div className="relative w-full overflow-hidden bg-background">
             {/* Navigation */}
-            <nav className="fixed top-0 w-full z-50 glass border-b-0 py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
-                <div className="text-2xl font-black tracking-tighter gold-gradient-text uppercase">
-                    CORLEONE
-                </div>
+            <nav className="fixed top-0 w-full z-50 glass border-b-0 py-6 px-6 md:px-12 flex justify-between items-center transition-all duration-500">
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="text-3xl font-black tracking-tighter gold-gradient-text uppercase"
+                >
+                    MassageShop
+                </motion.div>
 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-muted-foreground">
-                    <a href="#booking" className="hover:text-primary transition-colors">{t.nav.booking}</a>
+                <div className="hidden md:flex items-center space-x-10 text-[13px] font-bold tracking-widest text-foreground/70 uppercase">
+                    <a href="#services" className="hover:text-primary transition-all duration-300 hover:tracking-[0.2em]">{t.nav.services}</a>
+                    <a href="#portfolio" className="hover:text-primary transition-all duration-300 hover:tracking-[0.2em]">{t.nav.portfolio}</a>
+                    <a href="#booking" className="hover:text-primary transition-all duration-300 hover:tracking-[0.2em]">{t.nav.booking}</a>
                     {user?.role === 'ADMIN' && (
-                        <Link to="/admin" className="px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-lg hover:bg-primary hover:text-primary-foreground transition-all font-bold">
+                        <Link to="/admin" className="px-5 py-2 bg-primary/10 text-primary border border-primary/20 rounded-full hover:bg-primary hover:text-primary-foreground transition-all">
                             {t.nav.admin}
                         </Link>
                     )}
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                     {/* Language Selector */}
                     <div className="relative">
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                            className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors bg-white/5 border border-white/10 px-3 py-1.5 rounded-full"
+                            className="flex items-center gap-2 text-[11px] font-bold text-foreground hover:text-primary transition-colors bg-white/5 border border-white/10 px-4 py-2 rounded-full"
                         >
-                            <Globe size={16} />
-                            <span className="uppercase">{language}</span>
-                        </button>
+                            <Globe size={14} className="text-primary" />
+                            <span className="uppercase tracking-widest">{language}</span>
+                        </motion.button>
 
                         <AnimatePresence>
                             {isLangMenuOpen && (
                                 <motion.div
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: 10 }}
-                                    transition={{ duration: 0.2 }}
-                                    className="absolute right-0 top-full mt-2 w-32 bg-background/95 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden shadow-2xl z-50"
+                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    className="absolute right-0 top-full mt-3 w-40 glass rounded-2xl overflow-hidden shadow-2xl z-50 p-1"
                                 >
                                     {[
                                         { code: 'ko', label: '한국어' },
@@ -358,7 +365,7 @@ export default function LandingPage() {
                                                 setLanguage(lang.code as LanguageCode);
                                                 setIsLangMenuOpen(false);
                                             }}
-                                            className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-white/10 ${language === lang.code ? 'text-primary font-bold bg-white/5' : 'text-muted-foreground'}`}
+                                            className={`w-full text-left px-4 py-3 text-xs font-bold transition-all rounded-xl hover:bg-white/10 ${language === lang.code ? 'text-primary bg-primary/10' : 'text-white/60'}`}
                                         >
                                             {lang.label}
                                         </button>
@@ -369,19 +376,19 @@ export default function LandingPage() {
                     </div>
 
                     {isLoggedIn ? (
-                        <div className="hidden md:flex items-center gap-3">
-                            <Link to="/mypage" className="text-sm font-medium hover:text-primary">{t.nav.myPage}</Link>
-                            <button onClick={logout} className="text-xs bg-white/5 px-3 py-2 rounded-lg hover:bg-white/10 font-bold">{t.nav.logout}</button>
+                        <div className="hidden md:flex items-center gap-4">
+                            <Link to="/mypage" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">{t.nav.myPage}</Link>
+                            <button onClick={logout} className="text-[10px] font-black uppercase tracking-widest bg-red-500/10 text-red-400 px-4 py-2 rounded-full border border-red-500/20 hover:bg-red-500 hover:text-white transition-all">{t.nav.logout}</button>
                         </div>
                     ) : (
-                        <Link to="/login" className="hidden md:flex bg-primary text-primary-foreground px-6 py-2.5 rounded-full font-bold text-sm hover:scale-105 transition-transform duration-300 shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                        <Link to="/login" className="hidden md:flex bg-primary text-primary-foreground px-8 py-3 rounded-full font-black text-[12px] uppercase tracking-widest hover:scale-105 transition-all shadow-[0_10px_20px_rgba(212,175,55,0.2)] hover:shadow-primary/40">
                             {t.nav.login}
                         </Link>
                     )}
 
                     {/* Mobile Toggle */}
-                    <button className="md:hidden text-foreground ml-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                        {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                    <button className="md:hidden text-foreground ml-2 p-2 glass rounded-xl" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
 
@@ -389,31 +396,24 @@ export default function LandingPage() {
                 <AnimatePresence>
                     {isMenuOpen && (
                         <motion.div
-                            initial={{ opacity: 0, x: '100%' }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: '100%' }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-2xl flex flex-col items-center justify-center gap-8 md:hidden"
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="fixed inset-0 z-40 bg-background/98 backdrop-blur-3xl flex flex-col items-center justify-center gap-10 md:hidden"
                         >
-                            <a href="#services" onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold hover:text-primary transition-colors">{t.nav.services}</a>
-                            <a href="#portfolio" onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold hover:text-primary transition-colors">{t.nav.portfolio}</a>
-                            <a href="#booking" onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold hover:text-primary transition-colors">{t.nav.booking}</a>
-
-                            {user?.role === 'ADMIN' && (
-                                <Link to="/admin" onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold text-primary border border-primary/30 px-6 py-2 rounded-xl bg-primary/10">
-                                    {t.nav.admin}
-                                </Link>
-                            )}
+                            <a href="#services" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.services}</a>
+                            <a href="#portfolio" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.portfolio}</a>
+                            <a href="#booking" onClick={() => setIsMenuOpen(false)} className="text-3xl font-black uppercase tracking-tighter hover:text-primary transition-colors">{t.nav.booking}</a>
 
                             <div className="h-px w-20 bg-white/10 my-4" />
 
                             {isLoggedIn ? (
                                 <>
-                                    <Link to="/mypage" onClick={() => setIsMenuOpen(false)} className="text-xl font-bold">{t.nav.myPage}</Link>
-                                    <button onClick={() => { logout(); setIsMenuOpen(false); }} className="text-xl text-red-400 font-bold">{t.nav.logout}</button>
+                                    <Link to="/mypage" onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold">{t.nav.myPage}</Link>
+                                    <button onClick={() => { logout(); setIsMenuOpen(false); }} className="text-2xl text-red-400 font-bold">{t.nav.logout}</button>
                                 </>
                             ) : (
-                                <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-2xl font-black gold-gradient-text uppercase">{t.nav.login}</Link>
+                                <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-4xl font-black gold-gradient-text uppercase tracking-tighter">{t.nav.login}</Link>
                             )}
                         </motion.div>
                     )}
@@ -421,38 +421,55 @@ export default function LandingPage() {
             </nav>
 
             {/* Hero Section */}
-            <section className="relative h-screen flex items-center justify-center pt-20">
+            <section className="relative h-screen flex items-center justify-center pt-20 overflow-hidden">
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2000&auto=format&fit=crop"
-                        alt="Barbershop Atmosphere"
-                        className="w-full h-full object-cover opacity-40 mix-blend-overlay"
+                    <motion.img
+                        initial={{ scale: 1.1, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 0.15 }}
+                        transition={{ duration: 2 }}
+                        src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2000&auto=format&fit=crop"
+                        alt="Luxury Spa Atmosphere"
+                        className="w-full h-full object-cover mix-blend-multiply"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/80 to-background"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background"></div>
+                    {/* Floating Glow Elements */}
+                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse"></div>
+                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/30 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
                 </div>
 
-                <div className="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center text-center">
+                <div className="relative z-10 w-full max-w-6xl px-6 flex flex-col items-center text-center">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        transition={{ duration: 1, ease: "circOut" }}
                     >
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight mb-6">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.5 }}
+                            className="inline-block mb-6 px-4 py-1.5 glass rounded-full border-primary/20"
+                        >
+                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">The Art of Healing</span>
+                        </motion.div>
+
+                        <h1 className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] mb-8 uppercase italic">
                             {t.hero.title1} <br />
                             <span className="gold-gradient-text">{t.hero.title2}</span>
                         </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 font-light">
-                            {t.hero.subtitle1} <br className="md:hidden" />
-                            {t.hero.subtitle2}
+                        <p className="text-base md:text-2xl text-foreground/60 max-w-3xl mx-auto mb-12 font-medium tracking-tight leading-relaxed">
+                            {t.hero.subtitle1} {t.hero.subtitle2}
                         </p>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                             <Link to="/booking"
-                                className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground rounded-full font-bold text-lg hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all duration-300 hover:-translate-y-1 text-center">
-                                {t.hero.btnMakeBooking}
+                                className="w-full sm:w-auto px-12 py-5 bg-primary text-black rounded-full font-black text-sm uppercase tracking-widest hover:shadow-[0_0_50px_rgba(212,175,55,0.4)] transition-all duration-500 hover:-translate-y-2 text-center group">
+                                <span className="flex items-center justify-center gap-2">
+                                    {t.hero.btnMakeBooking}
+                                    <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                                </span>
                             </Link>
-                            <Link to="/styles"
-                                className="w-full sm:w-auto px-8 py-4 glass text-foreground rounded-full font-bold text-lg hover:bg-white/10 transition-all duration-300 border border-white/20 text-center">
+                            <Link to="/treatments"
+                                className="w-full sm:w-auto px-12 py-5 glass text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all duration-500 border border-white/10 hover:border-white/30 text-center">
                                 {t.hero.btnViewPortfolio}
                             </Link>
                         </div>
@@ -461,74 +478,95 @@ export default function LandingPage() {
             </section>
 
             {/* 서비스 섹션 - key={language}로 언어 바뀔때마다 강제 재렌더링 */}
-            <section key={`services-${language}`} id="services" className="py-24 px-6 relative z-10">
-                <div className="max-w-6xl mx-auto">
-                    <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                        <div>
-                            <h2 className="text-3xl md:text-5xl font-bold mb-4">{t.sectionService.title}</h2>
-                            <p className="text-muted-foreground text-lg">{t.sectionService.desc}</p>
+            {/* Global Content Protection Section */}
+            <section id="services" className="py-24 px-6 relative z-10">
+                <div className="max-w-7xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6"
+                    >
+                        <div className="max-w-2xl">
+                            <h2 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-tighter gold-gradient-text italic">
+                                {t.sectionService.title}
+                            </h2>
+                            <p className="text-foreground/40 text-lg font-medium leading-relaxed">
+                                {t.sectionService.desc}
+                            </p>
                         </div>
-                    </div>
+                        <Link to="/treatments" className="group flex items-center gap-3 text-primary font-black uppercase tracking-widest text-sm bg-primary/5 px-8 py-4 rounded-full border border-primary/20 hover:bg-primary hover:text-black transition-all duration-500">
+                            Explore All Programs
+                            <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
+                        </Link>
+                    </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {t.services.map((service: any, idx: number) => (
                             <motion.div
-                                key={`${language}-${idx}`}
+                                key={idx}
                                 initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.1, duration: 0.5 }}
-                                className="glass-card p-8 rounded-2xl hover:border-primary/50 transition-colors group cursor-pointer"
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="glass-card rounded-[2.5rem] p-10 group relative overflow-hidden"
                             >
-                                <div className="flex justify-between items-start mb-6">
-                                    <h3 className="text-xl font-bold">{service.title}</h3>
-                                    <span className="text-primary font-semibold">{service.price}</span>
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/10 transition-colors"></div>
+                                <div className="relative z-10">
+                                    <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-8 border border-primary/20 group-hover:bg-primary group-hover:text-black transition-all">
+                                        <Star size={24} />
+                                    </div>
+                                    <h3 className="text-2xl font-black mb-4 group-hover:gold-gradient-text transition-all duration-500">{service.title}</h3>
+                                    <p className="text-white/40 text-sm mb-8 leading-relaxed font-medium">{service.desc}</p>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xl font-black text-primary font-mono">{service.price}</span>
+                                        <button onClick={handleBookingClick} className="text-xs font-black uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">Book Now</button>
+                                    </div>
                                 </div>
-                                <p className="text-muted-foreground leading-relaxed">{service.desc}</p>
-
-                                <button
-                                    onClick={handleBookingClick}
-                                    className="mt-8 flex items-center text-sm font-medium text-white/50 group-hover:text-primary transition-colors group/btn"
-                                >
-                                    {t.sectionService.bookText} <ChevronRight size={16} className="ml-1 group-hover/btn:translate-x-1 transition-transform" />
-                                </button>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* 포트폴리오 - key={language}로 강제 재렌더링 */}
-            <section key={`portfolio-${language}`} id="portfolio" className="py-24 px-6 bg-secondary/30 relative z-10 border-y border-white/5">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-16 text-center">{t.sectionPortfolio.title}</h2>
+            {/* Portfolio (시설안내) 섹션 - 럭셔리 그리드 */}
+            <section id="portfolio" className="py-24 px-6 relative z-10 bg-[#121214]">
+                <div className="max-w-7xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-20"
+                    >
+                        <h2 className="text-4xl md:text-7xl font-black mb-6 uppercase tracking-tighter gold-gradient-text italic">
+                            {t.sectionPortfolio.title}
+                        </h2>
+                        <div className="h-1 w-24 bg-primary mx-auto rounded-full"></div>
+                    </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                         {t.portfolio.map((item: any, idx: number) => (
                             <motion.div
-                                key={`${language}-${idx}`}
+                                key={idx}
                                 initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                whileHover={{ y: -10 }}
-                                transition={{ duration: 0.4 }}
-                                className="relative overflow-hidden rounded-2xl group aspect-[4/5] cursor-pointer"
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: idx * 0.05 }}
+                                className="group relative aspect-[4/5] overflow-hidden rounded-[3rem] cursor-pointer"
                             >
-                                <Link to="/styles" className="block w-full h-full">
-                                    <img src={item.img} alt={item.style} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 opacity-80 group-hover:opacity-100 transition-opacity">
-                                        <h1 className="text-xl font-bold tracking-tighter text-white">CORLEONE</h1>
-                                        <p className="text-primary font-medium text-sm flex items-center">
-                                            <Star size={14} className="mr-1 fill-primary" /> {item.designer}
-                                        </p>
-                                    </div>
-                                </Link>
+                                <img
+                                    src={item.img}
+                                    alt={item.style}
+                                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
+                                <div className="absolute bottom-0 left-0 p-10 w-full translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-3 block">{item.designer}</span>
+                                    <h4 className="text-2xl font-black text-white uppercase tracking-tight">{item.style}</h4>
+                                    <div className="h-0.5 w-0 group-hover:w-full bg-primary mt-4 transition-all duration-500"></div>
+                                </div>
                             </motion.div>
                         ))}
-                    </div>
-
-                    <div className="mt-12 text-center">
-                        <button className="px-8 py-3 glass rounded-full font-medium hover:bg-white/10 transition-colors">
-                            {t.sectionPortfolio.visitInsta}
-                        </button>
                     </div>
                 </div>
             </section>
@@ -668,7 +706,6 @@ export default function LandingPage() {
                                 )}
                             </div>
                         </div>
-
                     </div>
                 </div>
             </section>
@@ -677,198 +714,200 @@ export default function LandingPage() {
 
             {/* 💳 GCash Payment Modal */}
             <AnimatePresence>
-                {isPaymentModalOpen && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => paymentStep !== 2 && setIsPaymentModalOpen(false)}
-                            className="absolute inset-0 bg-black/80 backdrop-blur-md"
-                        />
+                {
+                    isPaymentModalOpen && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => paymentStep !== 2 && setIsPaymentModalOpen(false)}
+                                className="absolute inset-0 bg-black/80 backdrop-blur-md"
+                            />
 
-                        <motion.div
-                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                            animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                            className="relative w-full max-w-lg bg-[#1a1c1e] border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl"
-                        >
-                            {/* Header */}
-                            <div className="bg-[#007DFE] p-6 text-white flex justify-between items-center">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center p-1.5">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/GCash_logo.svg" alt="GCash" className="w-full" />
-                                    </div>
-                                    <h3 className="font-bold text-lg">{t.sectionBooking.modalTitle}</h3>
-                                </div>
-                                {paymentStep !== 2 && (
-                                    <button onClick={() => setIsPaymentModalOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
-                                        <X size={24} />
-                                    </button>
-                                )}
-                            </div>
-
-                            <div className="p-8">
-                                {/* Step Indicator */}
-                                <div className="flex justify-between mb-8 relative">
-                                    <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/5 -translate-y-1/2 z-0"></div>
-                                    {[1, 2, 3].map((step) => (
-                                        <div
-                                            key={step}
-                                            className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-500 ${paymentStep >= step ? 'bg-[#007DFE] text-white scale-110 shadow-[0_0_15px_rgba(0,125,254,0.5)]' : 'bg-[#2a2d30] text-white/30'}`}
-                                        >
-                                            {step}
+                            <motion.div
+                                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                                animate={{ scale: 1, opacity: 1, y: 0 }}
+                                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                                className="relative w-full max-w-lg bg-[#1a1c1e] border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl"
+                            >
+                                {/* Header */}
+                                <div className="bg-[#007DFE] p-6 text-white flex justify-between items-center">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center p-1.5">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/GCash_logo.svg" alt="GCash" className="w-full" />
                                         </div>
-                                    ))}
+                                        <h3 className="font-bold text-lg">{t.sectionBooking.modalTitle}</h3>
+                                    </div>
+                                    {paymentStep !== 2 && (
+                                        <button onClick={() => setIsPaymentModalOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                                            <X size={24} />
+                                        </button>
+                                    )}
                                 </div>
 
-                                <AnimatePresence mode="wait">
-                                    {paymentStep === 1 && (
-                                        <motion.div
-                                            key="step1"
-                                            initial={{ opacity: 0, scale: 0.95 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            exit={{ opacity: 0, scale: 0.95 }}
-                                            className="space-y-6"
-                                        >
-                                            <div className="text-center">
-                                                <p className="text-white/70 mb-6 text-sm leading-relaxed">{t.sectionBooking.qrGuide}</p>
+                                <div className="p-8">
+                                    {/* Step Indicator */}
+                                    <div className="flex justify-between mb-8 relative">
+                                        <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/5 -translate-y-1/2 z-0"></div>
+                                        {[1, 2, 3].map((step) => (
+                                            <div
+                                                key={step}
+                                                className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-500 ${paymentStep >= step ? 'bg-[#007DFE] text-white scale-110 shadow-[0_0_15px_rgba(0,125,254,0.5)]' : 'bg-[#2a2d30] text-white/30'}`}
+                                            >
+                                                {step}
+                                            </div>
+                                        ))}
+                                    </div>
 
-                                                {/* 👨‍🏫 프리미엄 QR 카드 디자인 */}
-                                                <div className="relative inline-block mb-6 group">
-                                                    <div className="absolute -inset-2 bg-gradient-to-r from-primary/30 to-[#007DFE]/30 rounded-[2.5rem] blur-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                                                    <div className="relative p-6 bg-white rounded-[2rem] shadow-2xl">
-                                                        <div className="w-48 h-48 bg-white flex items-center justify-center rounded-2xl overflow-hidden">
-                                                            <img
-                                                                src={gcashInfo.gcash_qr_url || "/images/premium-qr-original.png"}
-                                                                alt="GCash QR"
-                                                                className="w-full h-full object-contain rounded-xl"
-                                                            />
+                                    <AnimatePresence mode="wait">
+                                        {paymentStep === 1 && (
+                                            <motion.div
+                                                key="step1"
+                                                initial={{ opacity: 0, scale: 0.95 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                exit={{ opacity: 0, scale: 0.95 }}
+                                                className="space-y-6"
+                                            >
+                                                <div className="text-center">
+                                                    <p className="text-white/70 mb-6 text-sm leading-relaxed">{t.sectionBooking.qrGuide}</p>
+
+                                                    {/* 👨‍🏫 프리미엄 QR 카드 디자인 */}
+                                                    <div className="relative inline-block mb-6 group">
+                                                        <div className="absolute -inset-2 bg-gradient-to-r from-primary/30 to-[#007DFE]/30 rounded-[2.5rem] blur-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                                                        <div className="relative p-6 bg-white rounded-[2rem] shadow-2xl">
+                                                            <div className="w-48 h-48 bg-white flex items-center justify-center rounded-2xl overflow-hidden">
+                                                                <img
+                                                                    src={gcashInfo.gcash_qr_url || "/images/premium-qr-original.png"}
+                                                                    alt="GCash QR"
+                                                                    className="w-full h-full object-contain rounded-xl"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex flex-col items-center gap-2">
+                                                        <span className="text-xs text-white/40 uppercase tracking-widest font-bold">Account Number</span>
+                                                        <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-2xl">
+                                                            <span className="text-2xl font-black text-white tracking-widest leading-none">{gcashInfo.gcash_number}</span>
+                                                            <button
+                                                                onClick={() => { navigator.clipboard.writeText(gcashInfo.gcash_number); alert(t.sectionBooking.copyNumber + "!"); }}
+                                                                className="p-2 bg-primary/20 hover:bg-primary text-primary hover:text-black rounded-lg transition-all"
+                                                            >
+                                                                <Clock size={14} className="rotate-45" /> {/* Copy 아이콘 대신 간이 표시 */}
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div className="flex flex-col items-center gap-2">
-                                                    <span className="text-xs text-white/40 uppercase tracking-widest font-bold">Account Number</span>
-                                                    <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-2xl">
-                                                        <span className="text-2xl font-black text-white tracking-widest leading-none">{gcashInfo.gcash_number}</span>
-                                                        <button
-                                                            onClick={() => { navigator.clipboard.writeText(gcashInfo.gcash_number); alert(t.sectionBooking.copyNumber + "!"); }}
-                                                            className="p-2 bg-primary/20 hover:bg-primary text-primary hover:text-black rounded-lg transition-all"
-                                                        >
-                                                            <Clock size={14} className="rotate-45" /> {/* Copy 아이콘 대신 간이 표시 */}
-                                                        </button>
+                                                <div className="space-y-4 pt-4 border-t border-white/5">
+                                                    <div className="relative">
+                                                        <input
+                                                            type="text"
+                                                            maxLength={20}
+                                                            value={referenceNumber}
+                                                            onChange={(e) => setReferenceNumber(e.target.value.replace(/[^0-9]/g, ''))}
+                                                            placeholder={t.sectionBooking.refPlaceholder}
+                                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-center text-2xl font-black tracking-[0.3em] focus:border-[#007DFE] focus:bg-white/10 outline-none transition-all placeholder:tracking-normal placeholder:font-normal placeholder:text-sm placeholder:text-white/20"
+                                                        />
+                                                        {referenceNumber.length > 0 && (
+                                                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-white/30 uppercase">
+                                                                {referenceNumber.length} Digits
+                                                            </motion.div>
+                                                        )}
+                                                    </div>
+
+                                                    <button
+                                                        disabled={referenceNumber.length < 8}
+                                                        onClick={handleBook}
+                                                        className="w-full py-5 bg-[#007DFE] disabled:opacity-20 disabled:grayscale text-white rounded-2xl font-black text-lg hover:bg-[#007DFE]/80 hover:shadow-[0_0_30px_rgba(0,125,254,0.4)] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+                                                    >
+                                                        {t.sectionBooking.verifyBtn}
+                                                        <ArrowRight size={20} />
+                                                    </button>
+                                                </div>
+                                            </motion.div>
+                                        )}
+
+                                        {paymentStep === 2 && (
+                                            <motion.div
+                                                key="step2"
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                exit={{ opacity: 0, scale: 1.1 }}
+                                                className="py-16 flex flex-col items-center justify-center text-center"
+                                            >
+                                                <div className="relative w-24 h-24 mb-8">
+                                                    <div className="absolute inset-0 border-4 border-[#007DFE]/20 rounded-full"></div>
+                                                    <div className="absolute inset-0 border-4 border-[#007DFE] border-t-transparent rounded-full animate-spin"></div>
+                                                    <div className="absolute inset-4 bg-[#007DFE]/10 rounded-full flex items-center justify-center">
+                                                        <Clock size={32} className="text-[#007DFE] animate-pulse" />
                                                     </div>
                                                 </div>
-                                            </div>
+                                                <h4 className="text-2xl font-black text-white mb-3 tracking-tight">{t.sectionBooking.modalStep2}</h4>
+                                                <div className="bg-white/5 px-4 py-2 rounded-full border border-white/5">
+                                                    <p className="text-white/40 text-xs font-mono uppercase tracking-widest">Ref: <span className="text-primary">{referenceNumber}</span></p>
+                                                </div>
+                                            </motion.div>
+                                        )}
 
-                                            <div className="space-y-4 pt-4 border-t border-white/5">
-                                                <div className="relative">
-                                                    <input
-                                                        type="text"
-                                                        maxLength={20}
-                                                        value={referenceNumber}
-                                                        onChange={(e) => setReferenceNumber(e.target.value.replace(/[^0-9]/g, ''))}
-                                                        placeholder={t.sectionBooking.refPlaceholder}
-                                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-center text-2xl font-black tracking-[0.3em] focus:border-[#007DFE] focus:bg-white/10 outline-none transition-all placeholder:tracking-normal placeholder:font-normal placeholder:text-sm placeholder:text-white/20"
-                                                    />
-                                                    {referenceNumber.length > 0 && (
-                                                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-white/30 uppercase">
-                                                            {referenceNumber.length} Digits
-                                                        </motion.div>
-                                                    )}
+                                        {paymentStep === 3 && (
+                                            <motion.div
+                                                key="step3"
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                className="text-center py-6"
+                                            >
+                                                <div className="relative w-24 h-24 mx-auto mb-8">
+                                                    <motion.div
+                                                        initial={{ scale: 0 }}
+                                                        animate={{ scale: 1 }}
+                                                        transition={{ type: "spring", damping: 12, stiffness: 200 }}
+                                                        className="w-full h-full bg-green-500 rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(34,197,94,0.4)]"
+                                                    >
+                                                        <Check size={48} className="text-white" strokeWidth={4} />
+                                                    </motion.div>
+                                                    <motion.div
+                                                        animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                                                        transition={{ duration: 2, repeat: Infinity }}
+                                                        className="absolute -inset-4 border-2 border-green-500/30 rounded-full"
+                                                    ></motion.div>
+                                                </div>
+
+                                                <h4 className="text-3xl font-black text-white mb-4 tracking-tighter">{t.sectionBooking.modalStep3}</h4>
+
+                                                <div className="bg-white/5 rounded-[2rem] p-6 mb-10 text-left border border-white/5 relative overflow-hidden group">
+                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/20 transition-colors"></div>
+                                                    <div className="space-y-4 relative z-10">
+                                                        <div className="flex justify-between items-center pb-3 border-b border-white/5">
+                                                            <span className="text-white/40 text-xs font-bold uppercase">{t.sectionBooking.selectedLabel}</span>
+                                                            <span className="text-white font-black">{t.sectionBooking.days[selectedDayIdx]} • {selectedHour}:{selectedMinute}</span>
+                                                        </div>
+                                                        <div className="flex justify-between items-center">
+                                                            <span className="text-white/40 text-xs font-bold uppercase">Ref Number</span>
+                                                            <span className="text-primary font-mono font-black tracking-widest text-lg">{referenceNumber}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <button
-                                                    disabled={referenceNumber.length < 8}
-                                                    onClick={handleBook}
-                                                    className="w-full py-5 bg-[#007DFE] disabled:opacity-20 disabled:grayscale text-white rounded-2xl font-black text-lg hover:bg-[#007DFE]/80 hover:shadow-[0_0_30px_rgba(0,125,254,0.4)] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+                                                    onClick={() => { setIsPaymentModalOpen(false); setPaymentStep(0); setReferenceNumber(""); }}
+                                                    className="w-full py-5 bg-white text-black rounded-2xl font-black text-lg hover:scale-[1.05] active:scale-[0.95] transition-all shadow-xl"
                                                 >
-                                                    {t.sectionBooking.verifyBtn}
-                                                    <ArrowRight size={20} />
+                                                    {t.sectionBooking.finishBtn}
                                                 </button>
-                                            </div>
-                                        </motion.div>
-                                    )}
-
-                                    {paymentStep === 2 && (
-                                        <motion.div
-                                            key="step2"
-                                            initial={{ opacity: 0, scale: 0.9 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            exit={{ opacity: 0, scale: 1.1 }}
-                                            className="py-16 flex flex-col items-center justify-center text-center"
-                                        >
-                                            <div className="relative w-24 h-24 mb-8">
-                                                <div className="absolute inset-0 border-4 border-[#007DFE]/20 rounded-full"></div>
-                                                <div className="absolute inset-0 border-4 border-[#007DFE] border-t-transparent rounded-full animate-spin"></div>
-                                                <div className="absolute inset-4 bg-[#007DFE]/10 rounded-full flex items-center justify-center">
-                                                    <Clock size={32} className="text-[#007DFE] animate-pulse" />
-                                                </div>
-                                            </div>
-                                            <h4 className="text-2xl font-black text-white mb-3 tracking-tight">{t.sectionBooking.modalStep2}</h4>
-                                            <div className="bg-white/5 px-4 py-2 rounded-full border border-white/5">
-                                                <p className="text-white/40 text-xs font-mono uppercase tracking-widest">Ref: <span className="text-primary">{referenceNumber}</span></p>
-                                            </div>
-                                        </motion.div>
-                                    )}
-
-                                    {paymentStep === 3 && (
-                                        <motion.div
-                                            key="step3"
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            className="text-center py-6"
-                                        >
-                                            <div className="relative w-24 h-24 mx-auto mb-8">
-                                                <motion.div
-                                                    initial={{ scale: 0 }}
-                                                    animate={{ scale: 1 }}
-                                                    transition={{ type: "spring", damping: 12, stiffness: 200 }}
-                                                    className="w-full h-full bg-green-500 rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(34,197,94,0.4)]"
-                                                >
-                                                    <Check size={48} className="text-white" strokeWidth={4} />
-                                                </motion.div>
-                                                <motion.div
-                                                    animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-                                                    transition={{ duration: 2, repeat: Infinity }}
-                                                    className="absolute -inset-4 border-2 border-green-500/30 rounded-full"
-                                                ></motion.div>
-                                            </div>
-
-                                            <h4 className="text-3xl font-black text-white mb-4 tracking-tighter">{t.sectionBooking.modalStep3}</h4>
-
-                                            <div className="bg-white/5 rounded-[2rem] p-6 mb-10 text-left border border-white/5 relative overflow-hidden group">
-                                                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-primary/20 transition-colors"></div>
-                                                <div className="space-y-4 relative z-10">
-                                                    <div className="flex justify-between items-center pb-3 border-b border-white/5">
-                                                        <span className="text-white/40 text-xs font-bold uppercase">{t.sectionBooking.selectedLabel}</span>
-                                                        <span className="text-white font-black">{t.sectionBooking.days[selectedDayIdx]} • {selectedHour}:{selectedMinute}</span>
-                                                    </div>
-                                                    <div className="flex justify-between items-center">
-                                                        <span className="text-white/40 text-xs font-bold uppercase">Ref Number</span>
-                                                        <span className="text-primary font-mono font-black tracking-widest text-lg">{referenceNumber}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <button
-                                                onClick={() => { setIsPaymentModalOpen(false); setPaymentStep(0); setReferenceNumber(""); }}
-                                                className="w-full py-5 bg-white text-black rounded-2xl font-black text-lg hover:scale-[1.05] active:scale-[0.95] transition-all shadow-xl"
-                                            >
-                                                {t.sectionBooking.finishBtn}
-                                            </button>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )
+                }
+            </AnimatePresence >
 
             {/* ── 앱 설치 유도 섹션 (QR 코드) ── */}
-            <section className="py-24 px-6 relative z-10 bg-secondary/20">
+            < section className="py-24 px-6 relative z-10 bg-secondary/20" >
                 <div className="max-w-5xl mx-auto">
                     <div className="glass-card rounded-[40px] p-8 md:p-16 border border-primary/20 flex flex-col md:flex-row items-center gap-12 relative overflow-hidden">
 
@@ -896,25 +935,12 @@ export default function LandingPage() {
                         <div className="relative z-10 flex-shrink-0">
                             <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[32px] p-2 shadow-2xl flex flex-col items-center">
                                 <div className="relative w-[320px] h-[320px] mx-auto overflow-hidden rounded-[2.5rem]">
-                                    {/* 선택된 프리미엄 QR 이미지 (레이어 없음, 이미지 단독 표출) */}
+                                    {/* 신규 프리미엄 MassageShop QR 이미지 */}
                                     <img
                                         src={`/images/${qrFrame}`}
-                                        alt="Premium QR Frame"
+                                        alt="Premium MassageShop QR"
                                         className="w-full h-full object-cover"
                                     />
-                                </div>
-
-                                {/* 4가지 프레임 선택 버튼 */}
-                                <div className="mt-6 flex space-x-3 z-30 relative">
-                                    {['premium-qr-original-A.png', 'premium-qr-original-B.png', 'premium-qr-original-D.png', 'premium-qr-inal-C.png'].map((img, i) => (
-                                        <button
-                                            key={img}
-                                            onClick={() => setQrFrame(img)}
-                                            className={`w-10 h-10 rounded-full bg-cover bg-center border-2 transition-all duration-300 ${qrFrame === img ? 'border-[#D4AF37] scale-110 shadow-[0_0_15px_rgba(212,175,55,0.6)]' : 'border-white/20 hover:border-white/50 opacity-60 hover:opacity-100'}`}
-                                            style={{ backgroundImage: `url('/images/${img}')` }}
-                                            title={`Style ${i + 1}`}
-                                        />
-                                    ))}
                                 </div>
                             </div>
                         </div>
@@ -927,7 +953,7 @@ export default function LandingPage() {
             <footer className="border-t border-white/10 bg-background pt-16 pb-8 px-6 relative z-10">
                 <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
                     <div>
-                        <h3 className="text-2xl font-black gold-gradient-text uppercase mb-4">K-Barber</h3>
+                        <h3 className="text-2xl font-black gold-gradient-text uppercase mb-4">MassageShop</h3>
                         <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                             {t.footer.desc1}<br />{t.footer.desc2}
                         </p>

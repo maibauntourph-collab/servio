@@ -1,80 +1,107 @@
 -- =====================================================
--- K-BARBER DB 스키마 (NeonDB PostgreSQL) 2026-03-03
--- 학생 여러분, 이 파일은 데이터를 저장할 "그릇(테이블)"을 만드는 설계도입니다!
--- NeonDB 콘솔의 SQL 에디터에 그대로 붙여넣기 해서 실행하세요.
+-- 🏢 SaaS 멀티테넌시 DB 스키마 (NeonDB PostgreSQL) 2026-03-09
+-- 여러 샵을 관리하기 위해 'shop_id'를 도입한 확장판입니다!
 -- =====================================================
 
--- 확장 기능: UUID 생성을 위한 함수 활성화
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- =====================================================
--- 1. 사용자(users) 테이블
+-- 0. 샵 정보(shops) 테이블 - NEW!
+-- =====================================================
+CREATE TABLE IF NOT EXISTS shops (
+    id          TEXT PRIMARY KEY,              -- 고유 샵 코드 (예: 'massage01', 'barber01')
+    name        TEXT NOT NULL,                 -- 샵 이름
+    type        TEXT NOT NULL DEFAULT 'massage', -- 'massage' 또는 'hair'
+    theme_color TEXT DEFAULT '#d4af37',        -- 샵별 테마 색상
+    created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- =====================================================
+-- 1. 사용자(users) 테이블 (샵별 분리)
 -- =====================================================
 CREATE TABLE IF NOT EXISTS users (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email       TEXT UNIQUE NOT NULL,           -- 로그인에 사용할 이메일 (중복 불가)
-    password_hash TEXT NOT NULL,               -- 절대 평문 저장 금지! 해시값만 저장
-    name        TEXT NOT NULL,                 -- 사용자 실명
-    phone       TEXT,                          -- 연락처 (선택)
-    role        TEXT DEFAULT 'customer',       -- 'customer' 또는 'admin'
-    created_at  TIMESTAMPTZ DEFAULT NOW()      -- 가입일시 (시간대 포함)
+    shop_id     TEXT REFERENCES shops(id) ON DELETE CASCADE, -- 소속된 샵 코드
+    email       TEXT NOT NULL,                 -- 샵 내에서 고유 (전체 고유일 필요는 없으나 보안상 보수적 설정)
+    password_hash TEXT NOT NULL,
+    name        TEXT NOT NULL,
+    phone       TEXT,
+    role        TEXT DEFAULT 'customer',
+    created_at  TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(shop_id, email)                    -- 샵 내에서 이메일 중복 금지
 );
 
 -- =====================================================
--- 2. 헤어스타일(hairstyles) 테이블
+-- 2. 스타일/메뉴(styles) 테이블 (샵별 분리)
 -- =====================================================
-CREATE TABLE IF NOT EXISTS hairstyles (
+CREATE TABLE IF NOT EXISTS hairstyles ( -- 마사지샵의 경우 'treatments'로 볼 수 있음
     id          SERIAL PRIMARY KEY,
-    name_ko     TEXT NOT NULL,                 -- 한국어 이름
-    name_en     TEXT NOT NULL,                 -- 영어 이름
-    name_tl     TEXT,                          -- 따갈로그어 이름
-    name_ceb    TEXT,                          -- 세부아노어 이름
-    price       INTEGER NOT NULL,              -- 가격 (원)
-    category    TEXT NOT NULL,                 -- 카테고리 (클래식, 페이드 등)
-    description_ko TEXT,                       -- 한국어 설명
-    description_en TEXT,                       -- 영어 설명
-    duration    INTEGER DEFAULT 45,            -- 시술 시간 (분)
-    designer    TEXT,                          -- 담당 디자이너
-    img_url     TEXT,                          -- 이미지 URL
-    is_active   BOOLEAN DEFAULT TRUE,          -- 노출 여부
+    shop_id     TEXT REFERENCES shops(id) ON DELETE CASCADE,
+    name_ko     TEXT NOT NULL,
+    name_en     TEXT NOT NULL,
+    name_tl     TEXT,
+    name_ceb    TEXT,
+    price       INTEGER NOT NULL,
+    category    TEXT NOT NULL,
+    description_ko TEXT,
+    description_en TEXT,
+    duration    INTEGER DEFAULT 45,
+    designer    TEXT,
+    img_url     TEXT,
+    is_active   BOOLEAN DEFAULT TRUE,
     created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- =====================================================
--- 3. 예약(bookings) 테이블
+-- 3. 예약(bookings) 테이블 (샵별 분리)
 -- =====================================================
 CREATE TABLE IF NOT EXISTS bookings (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id     UUID REFERENCES users(id) ON DELETE SET NULL, -- 예약한 사용자
-    style_id    INTEGER REFERENCES hairstyles(id),            -- 예약한 스타일
-    designer    TEXT NOT NULL,                                -- 담당 디자이너
-    booking_date DATE NOT NULL,                               -- 예약 날짜
-    booking_time TIME NOT NULL,                               -- 예약 시간
-    status      TEXT DEFAULT 'pending',                       -- pending / confirmed / cancelled
-    notes       TEXT,                                         -- 요청사항
-    ref_number  TEXT,                                         -- GCash 결제 확인 번호
+    shop_id     TEXT REFERENCES shops(id) ON DELETE CASCADE,
+    user_id     UUID REFERENCES users(id) ON DELETE SET NULL,
+    style_id    INTEGER REFERENCES hairstyles(id),
+    designer    TEXT NOT NULL,
+    booking_date DATE NOT NULL,
+    booking_time TIME NOT NULL,
+    status      TEXT DEFAULT 'pending',
+    notes       TEXT,
+    ref_number  TEXT,
     created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- =====================================================
--- 4. 시스템 설정(settings) 테이블
+-- 4. 디자이너/테라피스트(designers) 테이블 (샵별 분리)
 -- =====================================================
-CREATE TABLE IF NOT EXISTS settings (
-    key         TEXT PRIMARY KEY,
-    value       TEXT,
-    updated_at  TIMESTAMPTZ DEFAULT NOW()
+CREATE TABLE IF NOT EXISTS designers (
+    id          SERIAL PRIMARY KEY,
+    shop_id     TEXT REFERENCES shops(id) ON DELETE CASCADE,
+    name        TEXT NOT NULL,
+    role        TEXT,
+    description TEXT,
+    image_url   TEXT,
+    created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 초기 데이터
-INSERT INTO settings (key, value) VALUES 
-('gcash_number', '0917-123-4567'),
-('gcash_qr_url', 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=GCash:09171234567')
-ON CONFLICT (key) DO NOTHING;
+-- =====================================================
+-- 5. 시스템 설정(settings) 테이블 (샵별 분리)
+-- =====================================================
+CREATE TABLE IF NOT EXISTS settings (
+    shop_id     TEXT REFERENCES shops(id) ON DELETE CASCADE,
+    key         TEXT NOT NULL,
+    value       TEXT,
+    updated_at  TIMESTAMPTZ DEFAULT NOW(),
+    PRIMARY KEY (shop_id, key)
+);
 
 -- =====================================================
--- 5. 인덱스 (자주 검색하는 컬럼에 붙여 속도 향상!)
+-- 6. 인덱스 및 초기 데이터
 -- =====================================================
-CREATE INDEX IF NOT EXISTS idx_bookings_date ON bookings(booking_date);
-CREATE INDEX IF NOT EXISTS idx_bookings_user ON bookings(user_id);
-CREATE INDEX IF NOT EXISTS idx_users_email   ON users(email);
-CREATE INDEX IF NOT EXISTS idx_styles_cat    ON hairstyles(category);
+CREATE INDEX IF NOT EXISTS idx_shops_type ON shops(type);
+CREATE INDEX IF NOT EXISTS idx_users_shop ON users(shop_id);
+CREATE INDEX IF NOT EXISTS idx_styles_shop ON hairstyles(shop_id);
+CREATE INDEX IF NOT EXISTS idx_bookings_shop ON bookings(shop_id);
+CREATE INDEX IF NOT EXISTS idx_designers_shop ON designers(shop_id);
+
+-- 초기 시드 데이터 (테스트용)
+INSERT INTO shops (id, name, type) VALUES ('barber01', 'K-Barber Shop', 'hair') ON CONFLICT DO NOTHING;
+INSERT INTO shops (id, name, type) VALUES ('massage01', 'Premium Massage', 'massage') ON CONFLICT DO NOTHING;

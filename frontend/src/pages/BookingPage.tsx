@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Check, Calendar, Clock, User as UserIcon } from 'lucide-react';
-import { hairstyles } from '../data/hairstyles';
+import { treatments } from '../data/treatments';
 import { bookingsApi } from '../services/api';
 import { useAuthContext } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -18,11 +18,11 @@ import GcashPaymentModal from '../components/booking/GcashPaymentModal';
 const translations: Record<string, any> = {
     ko: {
         title: "실시간 온라인 예약",
-        step1: { title: "1. 스타일 선택", more: "전체 스타일 보기 \u2192" },
-        step2: { title: "2. 디자이너 선택", selected: "선택한 스타일" },
-        step3: { title: "3. 날짜 & 시간", date: "날짜 선택 (화요일 휴무)", time: "시간 선택", tenMin: "10\uBD84 \uB2E8\uC704 \uC120\uD0DD \uAC00\uB2A5" },
-        step4: { title: "4. 예약 확인", style: "\uC2A4\uD0C0\uC77C", price: "\uAC00\uACA9", designer: "\uB514\uC790\uC774\uB108", date: "\uB0A0\uC9DC", time: "\uC2DC\uAC04", duration: "\uC18C\uC694 \uC2DC\uAC04", min: "\uBD84", notes: "\uC694\uCCAD\uC0AC\uD56D\uC774 \uC700\uC704\uBA74 \uC785\uB825\uD574\uC8FC\uC138\uC694 (\uC120\uD0DD)" },
-        btn: { next: "\uB2E4\uC74C \u2192", back: "\uB4A4\uB85C", backStyle: "\u2190 \uC2A4\uD0C0\uC77C \uB2E4\uC2DC \uC120\uD0DD", backDesigner: "\u2190 \uB514\uC790\uC774\uB108 \uB2E4\uC2DC \uC120\uD0DD", backTime: "\u2190 \uB0A0\uC9DC/\uC2DC\uAC04 \uB2E4\uC2DC \uC120\uD0DD", confirm: "\u2705 \uC608\uC57D \uD655\uC815\uD558\uAE30", booking: "\uC608\uC57D \uC911...", login: "3\uCD08 \uB9CC\uC601 \uC608\uC57D \uB85C\uADF8\uC778\uD558\uAE30", loginMsg: "\uC608\uC57D\uC744 \uD655\uC815\uD558\uC2DC\uB824\uBA74 \uB85C\uADF8\uC778\uC774 \uD544\uC694\uD569\uB2C8\uB2E4.", snsMsg: "\uAC04\uD3B8\uD558\uAC8C SNS\uB85C \uB85C\uADF8\uC778\uD558\uC2DC\uBA74 \uBC11\uB85C \uC608\uC57D\uC774 \uC9C4\uD589\uB429\uB2C8\uB2E4." },
+        step1: { title: "1. 트리트먼트 선택", more: "전체 프로그램 보기 \u2192" },
+        step2: { title: "2. 테라피스트 선택", selected: "선택한 프로그램" },
+        step3: { title: "3. 날짜 & 시간", date: "날짜 선택", time: "시간 선택", tenMin: "10\uBD84 \uB2E8\uC704 \uC120\uD0DD \uAC00\uB2A5" },
+        step4: { title: "4. 예약 확인", style: "\uD504\uB85C\uADF8\uB7A8", price: "\uAC00\uACA9", designer: "\uD14C\uB77C\uD53C\uC2A4\uD1B8", date: "\uB0A0\uC9DC", time: "\uC2DC\uAC04", duration: "\uC18C\uC694 \uC2DC\uAC04", min: "\uBD84", notes: "\uC694\uCCAD\uC0AC\uD56D\uC774 \uC700\uC704\uBA74 \uC785\uB825\uD574\uC8FC\uC138\uC694 (\uC120\uD0DD)" },
+        btn: { next: "\uB2E4\uC74C \u2192", back: "\uB4A4\uB85C", backStyle: "\u2190 \uD504\uB85C\uADF8\uB7A8 \uB2E4\uC2DC \uC120\uD0DD", backDesigner: "\u2190 \uD14C\uB77C\uD53C\uC2A4\uD1B8 \uB2E4\uC2DC \uC120\uD0DD", backTime: "\u2190 \uB0A0\uC9DC/\uC2DC\uAC04 \uB2E4\uC2DC \uC120\uD0DD", confirm: "\u2705 \uC608\uC57D \uD655\uC815\uD558\uAE30", booking: "\uC608\uC57D \uC911...", login: "3\uCD08 \uB9CC\uC601 \uC608\uC57D \uB85C\uADF8\uC778\uD558\uAE30", loginMsg: "\uC608\uC57D\uC744 \uD655\uC815\uD558\uC2DC\uB824\uBA74 \uB85C\uADF8\uC778\uC774 \uD544\uC694\uD569\uB2C8\uB2E4.", snsMsg: "\uAC04\uD3B8\uD558\uAC8C SNS\uB85C \uB85C\uADF8\uC778\uD558\uC2DC\uBA74 \uBC11\uB85C \uC608\uC57D\uC774 \uC9C4\uD589\uB429\uB2C8\uB2E4." },
         msg: { success: "\uC608\uC57D\uC774 \uC604\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4! \uD83C\uDF89", fail: "\uC608\uC57D\uC5D0 \uC2E4\uD328\uD534\uC2B5\uB2C8\uB2E4.", error: "\uC114\uBC84 \uC5F0\uACB0 \uC2E4\uD328. \uC7A0\uC2DC \uD6C4 \uB2E4\uC2DC \uC2DC\uB3C4\uD574\uC8FC\uC138\uC694.", mypage: "\uC608\uC57D \uB0B4\uC5ED \uBC34\uAE30", home: "\uD648\uC73C\uB85C" }
     },
     en: {
@@ -73,7 +73,7 @@ function generateTimeSlots(): string[] {
     return slots;
 }
 
-const DESIGNERS = ['Master Kim', 'Barber Lee', 'Director Park', 'Stylist Choi', 'Senior Jung'];
+const THERAPISTS = ['Master Kim', 'Therapist Lee', 'Manager Park', 'Therapist Choi', 'Senior Jung'];
 const TIME_SLOTS = generateTimeSlots();
 
 function getAvailableDates(): string[] {
@@ -96,10 +96,10 @@ export default function BookingPage() {
     const { language } = useLanguage();
     const t = translations[language] || translations.en;
 
-    const initialStyle = styleId ? hairstyles.find(h => h.id === Number(styleId)) : undefined;
-    const [step, setStep] = useState(initialStyle ? 2 : 1);
-    const [selectedStyle, setSelectedStyle] = useState(initialStyle);
-    const [selectedDesigner, setSelectedDesigner] = useState('');
+    const initialTreatment = styleId ? treatments.find(t_item => t_item.id === Number(styleId)) : undefined;
+    const [step, setStep] = useState(initialTreatment ? 2 : 1);
+    const [selectedTreatment, setSelectedTreatment] = useState(initialTreatment);
+    const [selectedTherapist, setSelectedTherapist] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedTime, setSelectedTime] = useState('');
     const [notes, setNotes] = useState('');
@@ -111,18 +111,18 @@ export default function BookingPage() {
     const [isGcashModalOpen, setIsGcashModalOpen] = useState(false);
 
     const handleBook = async (directData?: any) => {
-        const style = directData?.style || selectedStyle;
-        const designer = directData?.designer || selectedDesigner;
+        const treatment = directData?.treatment || selectedTreatment;
+        const therapist = directData?.therapist || selectedTherapist;
         const date = directData?.date || selectedDate;
         const time = directData?.time || selectedTime;
         const bNotes = directData?.notes ?? notes;
-        if (!style || !designer || !date || !time) return;
+        if (!treatment || !therapist || !date || !time) return;
         setLoading(true);
         setError('');
         try {
             const res = await bookingsApi.create({
-                style_id: style.id,
-                designer,
+                style_id: treatment.id,
+                designer: therapist,
                 booking_date: date,
                 booking_time: time,
                 notes: bNotes,
@@ -150,18 +150,18 @@ export default function BookingPage() {
         if (saved) {
             try {
                 const data = JSON.parse(saved);
-                let restoredStyle = selectedStyle;
+                let restoredTreatment = selectedTreatment;
                 if (data.styleId) {
-                    const style = hairstyles.find(h => h.id === data.styleId);
-                    if (style) { setSelectedStyle(style); restoredStyle = style; }
+                    const treatment = treatments.find(t_item => t_item.id === data.styleId);
+                    if (treatment) { setSelectedTreatment(treatment); restoredTreatment = treatment; }
                 }
-                if (data.designer) setSelectedDesigner(data.designer);
+                if (data.designer) setSelectedTherapist(data.designer);
                 if (data.date) setSelectedDate(data.date);
                 if (data.time) setSelectedTime(data.time);
                 if (data.notes) setNotes(data.notes);
                 if (data.step) setStep(data.step);
                 if (autoSubmit && isLoggedIn && data.step === 4) {
-                    handleBook({ style: restoredStyle, designer: data.designer, date: data.date, time: data.time, notes: data.notes });
+                    handleBook({ treatment: restoredTreatment, therapist: data.designer, date: data.date, time: data.time, notes: data.notes });
                 }
                 sessionStorage.removeItem('pending_booking');
             } catch (e) { console.error("Restore failed", e); }
@@ -169,11 +169,11 @@ export default function BookingPage() {
     }, [isLoggedIn]);
 
     useEffect(() => {
-        if (step > 1 || selectedStyle) {
-            const data = { styleId: selectedStyle?.id, designer: selectedDesigner, date: selectedDate, time: selectedTime, notes, step };
+        if (step > 1 || selectedTreatment) {
+            const data = { styleId: selectedTreatment?.id, designer: selectedTherapist, date: selectedDate, time: selectedTime, notes, step };
             sessionStorage.setItem('pending_booking', JSON.stringify(data));
         }
-    }, [selectedStyle, selectedDesigner, selectedDate, selectedTime, notes, step]);
+    }, [selectedTreatment, selectedTherapist, selectedDate, selectedTime, notes, step]);
 
     // \uD83D\uDC68\u200D\uD83C\uDFEB \uC608\uC57D \uC644\uB8CC \uD654\uBA74 (\uB2E4\uAD6D\uC5B4)
     if (done) {
@@ -184,8 +184,8 @@ export default function BookingPage() {
                         <Check size={40} className="text-primary" />
                     </div>
                     <h2 className="text-3xl font-bold mb-4">{t.msg.success}</h2>
-                    <p className="text-muted-foreground mb-2">{language === 'ko' ? selectedStyle?.ko : selectedStyle?.en}</p>
-                    <p className="text-muted-foreground mb-2">{selectedDesigner} \u00B7 {selectedDate} \u00B7 {selectedTime}</p>
+                    <p className="text-muted-foreground mb-2">{language === 'ko' ? selectedTreatment?.ko : selectedTreatment?.en}</p>
+                    <p className="text-muted-foreground mb-2">{selectedTherapist} \u00B7 {selectedDate} \u00B7 {selectedTime}</p>
                     <div className="flex gap-3 justify-center mt-8">
                         <Link to="/mypage" className="bg-primary text-primary-foreground px-6 py-3 rounded-xl font-bold">{t.msg.mypage}</Link>
                         <Link to="/" className="glass px-6 py-3 rounded-xl font-bold">{t.msg.home}</Link>
@@ -203,7 +203,7 @@ export default function BookingPage() {
                     <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
                     <span className="font-medium text-sm">{t.btn.back}</span>
                 </button>
-                <Link to="/" className="text-2xl font-black gold-gradient-text tracking-tighter uppercase">K-Barber</Link>
+                <Link to="/" className="text-2xl font-black gold-gradient-text tracking-tighter uppercase">MassageShop</Link>
                 {isLoggedIn
                     ? <Link to="/mypage" className="text-sm font-bold text-primary hover:underline transition-all">My Page</Link>
                     : <Link to="/login" className="text-sm text-primary font-black uppercase hover:underline tracking-tight transition-all">Login</Link>
@@ -222,11 +222,11 @@ export default function BookingPage() {
                     <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                         <h2 className="text-2xl font-bold mb-6">{t.step1.title}</h2>
                         <div className="grid grid-cols-2 gap-3 max-h-[60vh] overflow-y-auto pr-1">
-                            {hairstyles.slice(0, 20).map(h => (
-                                <div key={h.id} onClick={() => { setSelectedStyle(h); setStep(2); }} className={`glass-card rounded-xl p-3 cursor-pointer hover:border-primary/50 transition-all ${selectedStyle?.id === h.id ? 'border-primary' : ''}`}>
-                                    <img src={h.img} alt={h[language as keyof typeof h] as string} className="w-full aspect-video object-cover rounded-lg mb-2" />
-                                    <p className="text-sm font-bold truncate">{h[language as keyof typeof h] as string}</p>
-                                    <p className="text-xs text-primary">\u20B1 {h.price.toLocaleString()}</p>
+                            {treatments.slice(0, 20).map(t_item => (
+                                <div key={t_item.id} onClick={() => { setSelectedTreatment(t_item); setStep(2); }} className={`glass-card rounded-xl p-3 cursor-pointer hover:border-primary/50 transition-all ${selectedTreatment?.id === t_item.id ? 'border-primary' : ''}`}>
+                                    <img src={t_item.img} alt={t_item[language as keyof typeof t_item] as string} className="w-full aspect-video object-cover rounded-lg mb-2" />
+                                    <p className="text-sm font-bold truncate">{t_item[language as keyof typeof t_item] as string}</p>
+                                    <p className="text-xs text-primary">\u20B1 {t_item.price.toLocaleString()}</p>
                                 </div>
                             ))}
                         </div>
@@ -237,16 +237,16 @@ export default function BookingPage() {
                 {step === 2 && (
                     <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                         <h2 className="text-2xl font-bold mb-2">{t.step2.title}</h2>
-                        {selectedStyle && <p className="text-muted-foreground mb-6">{t.step2.selected}: <span className="text-primary">{selectedStyle[language as keyof typeof selectedStyle] as string}</span></p>}
+                        {selectedTreatment && <p className="text-muted-foreground mb-6">{t.step2.selected}: <span className="text-primary">{selectedTreatment[language as keyof typeof selectedTreatment] as string}</span></p>}
                         <div className="space-y-3">
-                            {DESIGNERS.map(d => (
-                                <button key={d} onClick={() => { setSelectedDesigner(d); setStep(3); }} className={`w-full glass-card rounded-xl p-4 flex items-center gap-4 hover:border-primary/50 transition-all ${selectedDesigner === d ? 'border-primary' : ''}`}>
+                            {THERAPISTS.map(d_name => (
+                                <button key={d_name} onClick={() => { setSelectedTherapist(d_name); setStep(3); }} className={`w-full glass-card rounded-xl p-4 flex items-center gap-4 hover:border-primary/50 transition-all ${selectedTherapist === d_name ? 'border-primary' : ''}`}>
                                     <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center"><UserIcon size={18} className="text-primary" /></div>
                                     <div className="text-left">
-                                        <p className="font-bold">{d}</p>
-                                        <p className="text-xs text-muted-foreground">{language === 'ko' ? 'CORLEONE 전문 디자이너' : 'CORLEONE BARBERSHOP Professional'}</p>
+                                        <p className="font-bold">{d_name}</p>
+                                        <p className="text-xs text-muted-foreground">{language === 'ko' ? 'Massage 전문 테라피스트' : 'MassageShop Professional Therapist'}</p>
                                     </div>
-                                    {selectedDesigner === d && <Check size={18} className="text-primary ml-auto" />}
+                                    {selectedTherapist === d_name && <Check size={18} className="text-primary ml-auto" />}
                                 </button>
                             ))}
                         </div>
@@ -296,12 +296,12 @@ export default function BookingPage() {
                     <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                         <h2 className="text-2xl font-bold mb-6">{t.step4.title}</h2>
                         <div className="glass-card rounded-2xl p-6 space-y-4 mb-6">
-                            <div className="flex justify-between"><span className="text-muted-foreground">{t.step4.style}</span><span className="font-bold">{selectedStyle?.[language as keyof typeof selectedStyle] || selectedStyle?.en}</span></div>
-                            <div className="flex justify-between"><span className="text-muted-foreground">{t.step4.price}</span><span className="text-primary font-bold">\u20B1 {selectedStyle?.price.toLocaleString()}</span></div>
-                            <div className="flex justify-between"><span className="text-muted-foreground">{t.step4.designer}</span><span className="font-bold">{selectedDesigner}</span></div>
+                            <div className="flex justify-between"><span className="text-muted-foreground">{t.step4.style}</span><span className="font-bold">{selectedTreatment?.[language as keyof typeof selectedTreatment] || selectedTreatment?.en}</span></div>
+                            <div className="flex justify-between"><span className="text-muted-foreground">{t.step4.price}</span><span className="text-primary font-bold">\u20B1 {selectedTreatment?.price.toLocaleString()}</span></div>
+                            <div className="flex justify-between"><span className="text-muted-foreground">{t.step4.designer}</span><span className="font-bold">{selectedTherapist}</span></div>
                             <div className="flex justify-between"><span className="text-muted-foreground">{t.step4.date}</span><span className="font-bold">{selectedDate}</span></div>
                             <div className="flex justify-between"><span className="text-muted-foreground">{t.step4.time}</span><span className="font-bold">{selectedTime}</span></div>
-                            <div className="flex justify-between"><span className="text-muted-foreground">{t.step4.duration}</span><span className="font-bold">{selectedStyle?.duration}{t.step4.min}</span></div>
+                            <div className="flex justify-between"><span className="text-muted-foreground">{t.step4.duration}</span><span className="font-bold">{selectedTreatment?.duration}{t.step4.min}</span></div>
                         </div>
                         <textarea placeholder={t.step4.notes} value={notes} onChange={e => setNotes(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-sm focus:outline-none focus:border-primary/50 mb-4 h-24 resize-none" />
                         {error && <div className="mb-4 px-4 py-3 bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl text-sm">{error}</div>}
@@ -319,7 +319,7 @@ export default function BookingPage() {
                 )}
             </div>
             <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
-            <GcashPaymentModal isOpen={isGcashModalOpen} onClose={() => setIsGcashModalOpen(false)} onConfirm={(ref) => handleBook({ ref_number: ref })} amount={selectedStyle?.price || 0} loading={loading} />
+            <GcashPaymentModal isOpen={isGcashModalOpen} onClose={() => setIsGcashModalOpen(false)} onConfirm={(ref) => handleBook({ ref_number: ref })} amount={selectedTreatment?.price || 0} loading={loading} />
         </div>
     );
 }

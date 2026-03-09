@@ -33,32 +33,32 @@ async function verifyPassword(pw: string, hash: string): Promise<boolean> {
 }
 
 // ──────────────────────────────────────────────────
-// POST /api/auth/register — 회원가입
+// POST /api/:shopId/auth/register — 회원가입
 // ──────────────────────────────────────────────────
 auth.post('/register', async (c) => {
     try {
+        const shopId = c.req.param('shopId');
         const { email, password, name, phone } = await c.req.json();
 
-        // 필수값 검증
         if (!email || !password || !name)
             return c.json({ success: false, message: '이메일, 비밀번호, 이름은 필수입니다.' }, 400);
 
-        // 이메일 형식 검사 (간단한 정규식)
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-            return c.json({ success: false, message: '이메일 형식이 올바르지 않습니다.' }, 400);
-
         const sql = getDb(c.env.DATABASE_URL);
 
-        // 중복 이메일 확인
-        const existing = await sql`SELECT id FROM users WHERE email = ${email}`;
-        if (existing.length > 0)
-            return c.json({ success: false, message: '이미 사용 중인 이메일입니다.' }, 409);
+        // 샵 존재 여부 확인 (SaaS 무결성)
+        const shop = await sql`SELECT id FROM shops WHERE id = ${shopId}`;
+        if (shop.length === 0)
+            return c.json({ success: false, message: '유효하지 않은 샵 코드입니다.' }, 404);
 
-        // 비밀번호 해싱 후 저장
+        // 중복 이메일 확인 (샵 내에서)
+        const existing = await sql`SELECT id FROM users WHERE shop_id = ${shopId} AND email = ${email}`;
+        if (existing.length > 0)
+            return c.json({ success: false, message: '이미 이 샵에 등록된 이메일입니다.' }, 409);
+
         const password_hash = await hashPassword(password);
         const result = await sql`
-            INSERT INTO users (email, password_hash, name, phone)
-            VALUES (${email}, ${password_hash}, ${name}, ${phone ?? null})
+            INSERT INTO users (shop_id, email, password_hash, name, phone)
+            VALUES (${shopId}, ${email}, ${password_hash}, ${name}, ${phone ?? null})
             RETURNING id, email, name, role, created_at
         `;
 
@@ -70,31 +70,35 @@ auth.post('/register', async (c) => {
 });
 
 // ──────────────────────────────────────────────────
-// POST /api/auth/login — 로그인 + JWT 발급
+// POST /api/:shopId/auth/login — 로그인
 // ──────────────────────────────────────────────────
 auth.post('/login', async (c) => {
     try {
+        const shopId = c.req.param('shopId');
         const { email, password } = await c.req.json();
         if (!email || !password)
             return c.json({ success: false, message: '이메일과 비밀번호를 입력하세요.' }, 400);
 
         const sql = getDb(c.env.DATABASE_URL);
 
-        // 사용자 조회
-        const users = await sql`SELECT * FROM users WHERE email = ${email} LIMIT 1`;
+        // 해당 샵의 사용자만 조회!
+        const users = await sql`SELECT * FROM users WHERE shop_id = ${shopId} AND email = ${email} LIMIT 1`;
         if (users.length === 0)
             return c.json({ success: false, message: '이메일 또는 비밀번호가 틀렸습니다.' }, 401);
 
         const user = users[0] as any;
-
-        // 비밀번호 검증
         const valid = await verifyPassword(password, user.password_hash);
         if (!valid)
             return c.json({ success: false, message: '이메일 또는 비밀번호가 틀렸습니다.' }, 401);
 
-        // JWT 발급 (유효기간 7일)
         const token = await sign(
-            { userId: user.id, email: user.email, role: user.role, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7 },
+            {
+                userId: user.id,
+                shopId: user.shop_id,
+                email: user.email,
+                role: user.role,
+                exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
+            },
             c.env.JWT_SECRET
         );
 
@@ -102,7 +106,7 @@ auth.post('/login', async (c) => {
             success: true,
             message: '✅ 로그인 성공!',
             token,
-            user: { id: user.id, email: user.email, name: user.name, role: user.role }
+            user: { id: user.id, shopId: user.shop_id, email: user.email, name: user.name, role: user.role }
         });
     } catch (err) {
         console.error('로그인 에러:', err);
@@ -111,22 +115,27 @@ auth.post('/login', async (c) => {
 });
 
 // ──────────────────────────────────────────────────
-// GET /api/auth/me — 내 정보 조회 (JWT Bearer 토큰 필요)
+// GET /api/:shopId/auth/me — 내 정보 조회
 // ──────────────────────────────────────────────────
 auth.get('/me', async (c) => {
     try {
-        // Authorization: Bearer <token> 헤더에서 토큰 추출
+        const shopId = c.req.param('shopId');
         const authHeader = c.req.header('Authorization');
         if (!authHeader || !authHeader.startsWith('Bearer '))
             return c.json({ success: false, message: '인증 토큰이 필요합니다.' }, 401);
 
         const token = authHeader.split(' ')[1];
-        const payload = (await verify(token, c.env.JWT_SECRET, 'HS256')) as { userId: string; email: string; role: string };
+        const payload = (await verify(token, c.env.JWT_SECRET, 'HS256')) as { userId: string; shopId: string };
+
+        // 토큰의 shopId와 현재 접근한 shopId가 일치하는지 확인 (보안 강화)
+        if (payload.shopId !== shopId) {
+            return c.json({ success: false, message: '다른 샵의 계정으로는 접근할 수 없습니다.' }, 403);
+        }
 
         const sql = getDb(c.env.DATABASE_URL);
         const rows = await sql`
-            SELECT id, email, name, phone, role, created_at
-            FROM users WHERE id = ${payload.userId} LIMIT 1
+            SELECT id, shop_id, email, name, phone, role, created_at
+            FROM users WHERE id = ${payload.userId} AND shop_id = ${shopId} LIMIT 1
         `;
 
         if (rows.length === 0)

@@ -13,28 +13,28 @@ import { supabase } from '../lib/supabase';
 
 const translations: Record<string, any> = {
     ko: {
-        title: "로그인", subtitle: "프리미엄 바버샵 예약 서비스", email: "이메일", password: "비밀번호",
+        title: "로그인", subtitle: "프리미엄 마사지 예약 서비스", email: "이메일", password: "비밀번호",
         pwPlaceholder: "비밀번호를 입력하세요", loginBtn: "로그인", loggingIn: "로그인 중...",
         errorMatch: "이메일 또는 비밀번호가 일치하지 않습니다.",
         errorServer: "서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.",
         footer: "아직 회원이 아니신가요?", register: "회원가입", snsLabel: "OR SNS LOGIN"
     },
     en: {
-        title: "Login", subtitle: "Premium Barbershop Reservation", email: "Email", password: "Password",
+        title: "Login", subtitle: "Premium Massage Reservation", email: "Email", password: "Password",
         pwPlaceholder: "Enter your password", loginBtn: "Login", loggingIn: "Logging in...",
         errorMatch: "Email or password does not match.",
         errorServer: "Server connection failed. Please try again later.",
         footer: "Not a member yet?", register: "Sign Up", snsLabel: "OR SNS LOGIN"
     },
     tl: {
-        title: "Login", subtitle: "Premium Barbershop Reservation", email: "Email", password: "Password",
+        title: "Login", subtitle: "Premium Massage Reservation", email: "Email", password: "Password",
         pwPlaceholder: "Ilagay ang iyong password", loginBtn: "Login", loggingIn: "Naglo-log in...",
         errorMatch: "Ang email o password ay hindi tumutugma.",
         errorServer: "Nabigo ang koneksyon sa server. Pakisubukan muli mamaya.",
         footer: "Hindi ka pa miyembro?", register: "Mag-sign Up", snsLabel: "OR SNS LOGIN"
     },
     ceb: {
-        title: "Login", subtitle: "Premium Barbershop Reservation", email: "Email", password: "Password",
+        title: "Login", subtitle: "Premium Massage Reservation", email: "Email", password: "Password",
         pwPlaceholder: "Isulod ang imong password", loginBtn: "Login", loggingIn: "Nag-log in...",
         errorMatch: "Ang email o password wala nagtugma.",
         errorServer: "Napakyas ang koneksyon sa server. Palihug sulayi pag-usab sa ulahi.",
@@ -94,7 +94,7 @@ export default function LoginPage() {
             >
                 {/* 헤더 */}
                 <div className="text-center mb-10">
-                    <Link to="/" className="text-3xl font-black tracking-tighter gold-gradient-text uppercase">K-Barber</Link>
+                    <Link to="/" className="text-3xl font-black tracking-tighter gold-gradient-text uppercase">MassageShop</Link>
                     <p className="text-muted-foreground mt-2">{t.subtitle}</p>
                 </div>
 
