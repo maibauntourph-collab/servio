@@ -62,43 +62,43 @@ export const api = {
 
 // ── Auth API ──
 export const authApi = {
-    register: (body: { email: string; password: string; name: string; phone?: string }) =>
-        apiFetch('/api/auth/register', { method: 'POST', body: JSON.stringify(body) }),
+    register: (shopId: string, body: { email: string; password: string; name: string; phone?: string }) =>
+        apiFetch(`/api/${shopId}/auth/register`, { method: 'POST', body: JSON.stringify(body) }),
 
-    login: (body: { email: string; password: string }) =>
-        apiFetch('/api/auth/login', { method: 'POST', body: JSON.stringify(body) }),
+    login: (shopId: string, body: { email: string; password: string }) =>
+        apiFetch(`/api/${shopId}/auth/login`, { method: 'POST', body: JSON.stringify(body) }),
 
-    me: () => apiFetch('/api/auth/me'),
+    me: (shopId: string) => apiFetch(`/api/${shopId}/auth/me`),
 };
 
 // ── Treatments API ──
 export const treatmentsApi = {
-    list: () => apiFetch('/api/styles'),
-    detail: (id: number) => apiFetch(`/api/styles/${id}`),
-    byCategory: (cat: string) => apiFetch(`/api/styles/category/${encodeURIComponent(cat)}`),
+    list: (shopId: string) => apiFetch(`/api/${shopId}/styles`),
+    detail: (shopId: string, id: number) => apiFetch(`/api/${shopId}/styles/${id}`),
+    byCategory: (shopId: string, cat: string) => apiFetch(`/api/${shopId}/styles/category/${encodeURIComponent(cat)}`),
 };
 
 // ── Bookings API ──
 export const bookingsApi = {
-    available: (date: string) => api.get(`/api/bookings/available?date=${date}`),
-    myBookings: () => api.get('/api/bookings/my'),
-    all: () => api.get('/api/bookings/all'),
-    updateStatus: (id: number, status: string) => api.patch(`/api/bookings/${id}/status`, { status }),
-    create: (body: { style_id: number; designer: string; booking_date: string; booking_time: string; notes?: string; ref_number?: string }) =>
-        api.post('/api/bookings', body),
-    cancel: (id: string) => api.delete(`/api/bookings/${id}`),
+    available: (shopId: string, date: string) => api.get(`/api/${shopId}/bookings/available?date=${date}`),
+    myBookings: (shopId: string) => api.get(`/api/${shopId}/bookings/my`),
+    all: (shopId: string) => api.get(`/api/${shopId}/bookings/all`),
+    updateStatus: (shopId: string, id: number, status: string) => api.patch(`/api/${shopId}/bookings/${id}/status`, { status }),
+    create: (shopId: string, body: { style_id: number; designer: string; booking_date: string; booking_time: string; notes?: string; ref_number?: string }) =>
+        api.post(`/api/${shopId}/bookings`, body),
+    cancel: (shopId: string, id: string) => api.delete(`/api/${shopId}/bookings/${id}`),
 };
 
 // ── Therapists API ──
 export const therapistsApi = {
-    list: () => api.get('/api/designers'),
-    create: (body: { name: string; role: string; description: string; image_url: string }) => api.post('/api/designers', body),
-    update: (id: number, body: { name: string; role: string; description: string; image_url: string }) => api.patch(`/api/designers/${id}`, body),
-    delete: (id: number) => api.delete(`/api/designers/${id}`),
+    list: (shopId: string) => api.get(`/api/${shopId}/designers`),
+    create: (shopId: string, body: { name: string; role: string; description: string; image_url: string }) => api.post(`/api/${shopId}/designers`, body),
+    update: (shopId: string, id: number, body: { name: string; role: string; description: string; image_url: string }) => api.patch(`/api/${shopId}/designers/${id}`, body),
+    delete: (shopId: string, id: number) => api.delete(`/api/${shopId}/designers/${id}`),
 };
 
 // ── Settings API ──
 export const settingsApi = {
-    getGcash: () => api.get('/api/admin/settings/gcash'),
-    updateGcash: (body: { gcash_number?: string; gcash_qr_url?: string }) => api.put('/api/admin/settings/gcash', body),
+    getGcash: (shopId: string) => api.get(`/api/${shopId}/admin/settings/gcash`),
+    updateGcash: (shopId: string, body: { gcash_number?: string; gcash_qr_url?: string }) => api.put(`/api/${shopId}/admin/settings/gcash`, body),
 };
