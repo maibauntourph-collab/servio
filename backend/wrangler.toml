@@ -1,0 +1,12 @@
+name = "corleone-api"
+main = "src/index.ts"
+compatibility_date = "2024-03-03"
+
+# Cloudflare Workers 개발 환경 변수
+# 배포 시에는 npx wrangler secret put DATABASE_URL 로 등록
+[vars]
+DATABASE_URL = "postgresql://neondb_owner:npg_C8MgqN9xijwI@ep-muddy-leaf-a1um5pxz-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
+JWT_SECRET = "k-barber-premium-secret-2026"
+# 👨‍🏫 Supabase JWT Secret (2026-03-07 검증 필요)
+# 주의: 이 값은 Supabase Dashboard > Settings > API > JWT Settings > JWT Secret과 반드시 일치해야 합니다!
+SUPABASE_JWT_SECRET = "sb_secret_1eS-yNhbLTfcOnGGluoo8Q_NNTaMR3N"
