@@ -6,11 +6,15 @@
 
 import { supabase } from '../lib/supabase';
 
-// 백엔드 API 주소: 개발 중에는 로컬, 배포 시에는 real URL
-const API_BASE = (import.meta as any).env.VITE_API_URL || 'https://massageshop-api.maibauntourph.workers.dev';
+// 👨‍🏫 Cloudflare 통합 배포를 위해 상대 경로 사용
+// 개발 환경(localhost)에서는 Vite 프록시 설정을 통해 백엔드로 연결됩니다.
+const API_BASE = '/api';
 
 // 💡 공통 fetch 함수: JWT 토큰 자동 첨부, 에러 처리 통합
 async function apiFetch(path: string, options: RequestInit = {}) {
+    // path가 '/'로 시작하지 않으면 붙여주기
+    const fullPath = path.startsWith('/') ? path : `/${path}`;
+    
     // 💡 [2026-03-08] 최신 세션 토큰 가져오기 (만료 대비)
     const { data: { session } } = await supabase.auth.getSession();
     let token = session?.access_token || localStorage.getItem('massage_shop_token');
@@ -25,10 +29,10 @@ async function apiFetch(path: string, options: RequestInit = {}) {
     };
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    console.log(`📡 Sending request to: ${API_BASE}${path}`);
+    console.log(`📡 Sending request to: ${API_BASE}${fullPath}`);
     try {
-        const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
-        console.log(`📥 Response status: ${res.status} from ${path}`);
+        const res = await fetch(`${API_BASE}${fullPath}`, { ...options, headers });
+        console.log(`📥 Response status: ${res.status} from ${fullPath}`);
 
         // 401 자동 로그아웃
         if (res.status === 401) {
@@ -63,42 +67,42 @@ export const api = {
 // ── Auth API ──
 export const authApi = {
     register: (shopId: string, body: { email: string; password: string; name: string; phone?: string }) =>
-        apiFetch(`/api/${shopId}/auth/register`, { method: 'POST', body: JSON.stringify(body) }),
+        apiFetch(`/${shopId}/auth/register`, { method: 'POST', body: JSON.stringify(body) }),
 
     login: (shopId: string, body: { email: string; password: string }) =>
-        apiFetch(`/api/${shopId}/auth/login`, { method: 'POST', body: JSON.stringify(body) }),
+        apiFetch(`/${shopId}/auth/login`, { method: 'POST', body: JSON.stringify(body) }),
 
-    me: (shopId: string) => apiFetch(`/api/${shopId}/auth/me`),
+    me: (shopId: string) => apiFetch(`/${shopId}/auth/me`),
 };
 
 // ── Treatments API ──
 export const treatmentsApi = {
-    list: (shopId: string) => apiFetch(`/api/${shopId}/styles`),
-    detail: (shopId: string, id: number) => apiFetch(`/api/${shopId}/styles/${id}`),
-    byCategory: (shopId: string, cat: string) => apiFetch(`/api/${shopId}/styles/category/${encodeURIComponent(cat)}`),
+    list: (shopId: string) => apiFetch(`/${shopId}/styles`),
+    detail: (shopId: string, id: number) => apiFetch(`/${shopId}/styles/${id}`),
+    byCategory: (shopId: string, cat: string) => apiFetch(`/${shopId}/styles/category/${encodeURIComponent(cat)}`),
 };
 
 // ── Bookings API ──
 export const bookingsApi = {
-    available: (shopId: string, date: string) => api.get(`/api/${shopId}/bookings/available?date=${date}`),
-    myBookings: (shopId: string) => api.get(`/api/${shopId}/bookings/my`),
-    all: (shopId: string) => api.get(`/api/${shopId}/bookings/all`),
-    updateStatus: (shopId: string, id: number, status: string) => api.patch(`/api/${shopId}/bookings/${id}/status`, { status }),
+    available: (shopId: string, date: string) => api.get(`/${shopId}/bookings/available?date=${date}`),
+    myBookings: (shopId: string) => api.get(`/${shopId}/bookings/my`),
+    all: (shopId: string) => api.get(`/${shopId}/bookings/all`),
+    updateStatus: (shopId: string, id: number, status: string) => api.patch(`/${shopId}/bookings/${id}/status`, { status }),
     create: (shopId: string, body: { style_id: number; designer: string; booking_date: string; booking_time: string; notes?: string; ref_number?: string }) =>
-        api.post(`/api/${shopId}/bookings`, body),
-    cancel: (shopId: string, id: string) => api.delete(`/api/${shopId}/bookings/${id}`),
+        api.post(`/${shopId}/bookings`, body),
+    cancel: (shopId: string, id: string) => api.delete(`/${shopId}/bookings/${id}`),
 };
 
 // ── Therapists API ──
 export const therapistsApi = {
-    list: (shopId: string) => api.get(`/api/${shopId}/designers`),
-    create: (shopId: string, body: { name: string; role: string; description: string; image_url: string }) => api.post(`/api/${shopId}/designers`, body),
-    update: (shopId: string, id: number, body: { name: string; role: string; description: string; image_url: string }) => api.patch(`/api/${shopId}/designers/${id}`, body),
-    delete: (shopId: string, id: number) => api.delete(`/api/${shopId}/designers/${id}`),
+    list: (shopId: string) => api.get(`/${shopId}/designers`),
+    create: (shopId: string, body: { name: string; role: string; description: string; image_url: string }) => api.post(`/${shopId}/designers`, body),
+    update: (shopId: string, id: number, body: { name: string; role: string; description: string; image_url: string }) => api.patch(`/${shopId}/designers/${id}`, body),
+    delete: (shopId: string, id: number) => api.delete(`/${shopId}/designers/${id}`),
 };
 
 // ── Settings API ──
 export const settingsApi = {
-    getGcash: (shopId: string) => api.get(`/api/${shopId}/admin/settings/gcash`),
-    updateGcash: (shopId: string, body: { gcash_number?: string; gcash_qr_url?: string }) => api.put(`/api/${shopId}/admin/settings/gcash`, body),
+    getGcash: (shopId: string) => api.get(`/${shopId}/admin/settings/gcash`),
+    updateGcash: (shopId: string, body: { gcash_number?: string; gcash_qr_url?: string }) => api.put(`/${shopId}/admin/settings/gcash`, body),
 };

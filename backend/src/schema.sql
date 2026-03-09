@@ -1,20 +1,44 @@
 -- =====================================================
 -- 🏢 SaaS 멀티테넌시 DB 스키마 (NeonDB PostgreSQL) 2026-03-09
--- 여러 샵을 관리하기 위해 'shop_id'를 도입한 확장판입니다!
 -- =====================================================
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- =====================================================
--- 0. 샵 정보(shops) 테이블 - NEW!
+-- 0. 샵 정보(shops) 테이블 - 고도화!
 -- =====================================================
 CREATE TABLE IF NOT EXISTS shops (
-    id          TEXT PRIMARY KEY,              -- 고유 샵 코드 (예: 'massage01', 'barber01')
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    slug        TEXT UNIQUE NOT NULL,          -- URL용 고유 이름 (예: 'lotus-massage')
     name        TEXT NOT NULL,                 -- 샵 이름
-    type        TEXT NOT NULL DEFAULT 'massage', -- 'massage' 또는 'hair'
-    theme_color TEXT DEFAULT '#d4af37',        -- 샵별 테마 색상
+    category    TEXT NOT NULL DEFAULT 'MASSAGE', -- 'MASSAGE', 'HAIR', 'NAIL' 등 업종
+    status      TEXT DEFAULT 'ACTIVE',         -- 'ACTIVE', 'INACTIVE'
+    logo_url    TEXT,                          -- 샵 로고 이미지 주소
+    theme_config JSONB DEFAULT '{
+        "primaryColor": "#d4af37",
+        "secondaryColor": "#1a1a1a",
+        "fontFamily": "Inter",
+        "labels": {
+            "expert": "테라피스트",
+            "service": "마사지 코스",
+            "booking": "힐링 예약"
+        }
+    }',                                        -- 🎨 샵별 테마 및 용어 설정
     created_at  TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- 초기 시드 데이터 (SaaS 테스트용)
+INSERT INTO shops (slug, name, category, theme_config) 
+VALUES ('lotus-massage', '로터스 테라피', 'MASSAGE', '{
+    "primaryColor": "#2c5e1a", 
+    "labels": {"expert": "테라피스트", "service": "마사지 코스", "booking": "힐링 예약"}
+}') ON CONFLICT (slug) DO UPDATE SET category = 'MASSAGE';
+
+INSERT INTO shops (slug, name, category, theme_config) 
+VALUES ('ace-barber', '에이스 바버샵', 'HAIR', '{
+    "primaryColor": "#003366", 
+    "labels": {"expert": "디자이너", "service": "헤어 스타일", "booking": "스타일링 예약"}
+}') ON CONFLICT (slug) DO UPDATE SET category = 'HAIR';
 
 -- =====================================================
 -- 1. 사용자(users) 테이블 (샵별 분리)

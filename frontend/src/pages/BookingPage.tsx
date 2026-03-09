@@ -11,6 +11,7 @@ import { treatments } from '../data/treatments';
 import { bookingsApi } from '../services/api';
 import { useAuthContext } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useShop } from '../context/ShopContext';
 import LoginModal from '../components/auth/LoginModal';
 import GcashPaymentModal from '../components/booking/GcashPaymentModal';
 
@@ -120,7 +121,7 @@ export default function BookingPage() {
         setLoading(true);
         setError('');
         try {
-            const res = await bookingsApi.create({
+            const res = await bookingsApi.create(shopId, {
                 style_id: treatment.id,
                 designer: therapist,
                 booking_date: date,
@@ -194,6 +195,9 @@ export default function BookingPage() {
             </div>
         );
     }
+
+    const { shop } = useShop();
+    const shopId = shop?.slug || shop?.id || '';
 
     return (
         <div className="min-h-screen bg-background pb-20">

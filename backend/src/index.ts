@@ -23,13 +23,16 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-// ── CORS 미들웨어: 모든 Cloudflare Pages 도메인 및 로컬 환경 허용 ──
+// ── CORS 미들웨어: 같은 도메인(Same-Origin) 및 개발 환경 허용 ──
 app.use('/*', cors({
-  origin: (origin) => {
-    // 로컬 개발 환경 (http/https, localhost/127.0.0.1) 및 barbershop-ui 관련 모든 도메인 허용
-    if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1') || origin.endsWith('pages.dev')) {
-      return origin || 'https://barbershop-ui.pages.dev';
-    }
+  origin: (origin, c) => {
+    // 1. 요청 도메인이 없거나(Same-Origin), 로컬 환경이면 허용
+    if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1')) return origin;
+    
+    // 2. Cloudflare Pages 도메인(*.pages.dev) 및 특정 도메인 허용
+    if (origin.endsWith('pages.dev') || origin.includes('massageshop')) return origin;
+    
+    // 3. 기본 허용 도메인
     return 'https://barbershop-ui.pages.dev';
   },
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],

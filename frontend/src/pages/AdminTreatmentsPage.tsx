@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Edit2, Check, X, Search, Image as ImageIcon } from 'lucide-react';
 import { treatmentsApi, api } from '../services/api';
 import { useAuthContext } from '../context/AuthContext';
+import { useShop } from '../context/ShopContext';
 
 interface Treatment {
     id: number;
@@ -24,14 +25,18 @@ export default function AdminTreatmentsPage() {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editForm, setEditForm] = useState<Partial<Treatment>>({});
 
+    const { shop } = useShop();
+    const shopId = shop?.slug || shop?.id || '';
+
     useEffect(() => {
         if (!isLoggedIn) navigate('/login');
         loadStyles();
-    }, [isLoggedIn, navigate]);
+    }, [isLoggedIn, navigate, shopId]);
 
     const loadStyles = async () => {
+        if (!shopId) return;
         try {
-            const res = await treatmentsApi.list();
+            const res = await treatmentsApi.list(shopId);
             if (res.ok) setTreatments(res.data.data);
         } catch (err) {
             console.error('Failed to load styles:', err);

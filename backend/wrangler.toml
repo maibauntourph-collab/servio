@@ -1,10 +1,15 @@
 name = "massage-shop-backend"
-main = "src/index.js"
+main = "src/index.ts"
 compatibility_date = "2024-03-08"
 
-# 학생 여러분: wrangler.toml은 Cloudflare Workers의 환경 설정 파일입니다.
-# 여기에는 데이터베이스 연결 문자열(Environment Variables) 등이 포함됩니다.
+# 👨‍🏫 Cloudflare 통합 배포 설정
+# massageshop.com 도메인의 /api/* 경로로 오는 모든 요청을 이 Worker가 처리합니다.
+# (실제 도메인 연결 시 아래 주석을 해제하거나 대시보드에서 설정하세요)
+# routes = [
+#   { pattern = "massageshop.com/api/*", zone_name = "massageshop.com" }
+# ]
 
 [vars]
-# NeonDB / Supabase 연결 정보 (실제 연동 시 여기에 입력)
-# DB_URL = "postgres://user:password@neondb-hostname/dbname"
+# NeonDB / Supabase 연결 정보 (Cloudflare Dashboard Secrets에서 관리 권장)
+# DATABASE_URL = "..."
+# SUPABASE_JWT_SECRET = "..."

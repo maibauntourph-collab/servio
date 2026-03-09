@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Copy, Check, Info, CreditCard } from 'lucide-react';
 import { settingsApi } from '../../services/api';
+import { useShop } from '../../context/ShopContext';
 
 interface GcashPaymentModalProps {
     isOpen: boolean;
@@ -25,10 +26,13 @@ export default function GcashPaymentModal({ isOpen, onClose, onConfirm, amount, 
     const [fetching, setFetching] = useState(false);
 
     // 👨‍🏫 관리자 설정에서 GCash 정보를 가져옵니다.
+    const { shop } = useShop();
+    const shopId = shop?.slug || shop?.id || '';
+
     useEffect(() => {
-        if (isOpen) {
+        if (isOpen && shopId) {
             setFetching(true);
-            settingsApi.getGcash().then(res => {
+            settingsApi.getGcash(shopId).then(res => {
                 if (res.ok && res.data) {
                     setGcashInfo({
                         number: res.data.gcash_number || '0917-123-4567',
@@ -37,7 +41,7 @@ export default function GcashPaymentModal({ isOpen, onClose, onConfirm, amount, 
                 }
             }).finally(() => setFetching(false));
         }
-    }, [isOpen]);
+    }, [isOpen, shopId]);
 
     const handleCopy = () => {
         navigator.clipboard.writeText(gcashInfo.number);

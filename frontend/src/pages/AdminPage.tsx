@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { therapistsApi, bookingsApi, settingsApi, api } from '../services/api';
 import { useAuthContext } from '../context/AuthContext';
+import { useShop } from '../context/ShopContext';
 import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -98,20 +99,24 @@ export default function AdminPage() {
     const [actionLoading, setActionLoading] = useState<number | string | null>(null);
     const [error, setError] = useState('');
 
+    const { shop } = useShop();
+    const shopId = shop?.slug || shop?.id || '';
+
     const fetchData = async () => {
+        if (!shopId) return;
         setIsLoading(true);
         setError('');
         try {
             if (activeTab === 'BOOKINGS') {
-                const res = await bookingsApi.all(); // bookingsApi.all()이 올바른 메서드입니다.
+                const res = await bookingsApi.all(shopId); // bookingsApi.all()이 올바른 메서드입니다.
                 if (res.ok) setBookings(res.data);
                 else setError(res.data.message || 'Error fetching bookings');
             } else if (activeTab === 'DESIGNERS') {
-                const res = await therapistsApi.list();
+                const res = await therapistsApi.list(shopId);
                 if (res.ok) setDesigners(res.data);
                 else setError(res.data.message || 'Error fetching designers');
             } else if (activeTab === 'SETTINGS') {
-                const res = await settingsApi.getGcash();
+                const res = await settingsApi.getGcash(shopId);
                 if (res.ok) setGcashSettings(res.data);
                 else setError(res.data.message || 'Error fetching settings');
             }
@@ -160,9 +165,9 @@ export default function AdminPage() {
         try {
             let res;
             if (editingDesigner) {
-                res = await therapistsApi.update(editingDesigner.id, designerForm);
+                res = await therapistsApi.update(shopId, editingDesigner.id, designerForm);
             } else {
-                res = await therapistsApi.create(designerForm);
+                res = await therapistsApi.create(shopId, designerForm);
             }
 
             if (res.ok) {
@@ -176,7 +181,7 @@ export default function AdminPage() {
         if (!confirm(t.msg.confirmDelete)) return;
         setActionLoading(id);
         try {
-            const res = await therapistsApi.delete(id);
+            const res = await therapistsApi.delete(shopId, id);
             if (res.ok) setDesigners(prev => prev.filter(d => d.id !== id));
             else alert(res.data.message || 'Delete failed');
         } finally { setActionLoading(null); }
@@ -188,7 +193,7 @@ export default function AdminPage() {
         setActionLoading('settings');
         try {
             const { settingsApi } = await import('../services/api');
-            const res = await settingsApi.updateGcash(gcashSettings);
+            const res = await settingsApi.updateGcash(shopId, gcashSettings);
             if (res.ok) alert(t.settings.success);
             else alert(res.data.message || 'Update failed');
         } finally { setActionLoading(null); }

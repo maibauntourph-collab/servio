@@ -237,9 +237,13 @@ export default function LandingPage() {
     const [gcashInfo, setGcashInfo] = useState({ gcash_number: '0917-XXX-XXXX', gcash_qr_url: '' });
 
     // ── 실시간 결제 정보 가져오기 ──
+    const { shop } = useShop();
+    const shopId = shop?.slug || shop?.id || '';
+
     const fetchGcashInfo = async () => {
+        if (!shopId) return;
         try {
-            const res = await settingsApi.getGcash();
+            const res = await settingsApi.getGcash(shopId);
             if (res.ok) setGcashInfo(res.data);
         } catch (err) { console.error('Failed to fetch GCash info:', err); }
     };
@@ -283,7 +287,7 @@ export default function LandingPage() {
 
         try {
             // 👨‍🏫 백엔드 API 호출을 통해 예약을 생성합니다.
-            const res = await bookingsApi.create({
+            const res = await bookingsApi.create(shopId, {
                 style_id: selectedStyle.id || 1,
                 designer: selectedStyle.designer || 'Director Park',
                 booking_date: bookingDate,
