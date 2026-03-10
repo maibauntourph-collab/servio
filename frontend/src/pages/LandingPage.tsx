@@ -237,8 +237,8 @@ export default function LandingPage() {
     const [gcashInfo, setGcashInfo] = useState({ gcash_number: '0917-XXX-XXXX', gcash_qr_url: '' });
 
     // ── 실시간 결제 정보 가져오기 ──
-    const { shop } = useShop();
-    const shopId = shop?.slug || shop?.id || '';
+    // 👨‍🏫 [2026-03-10] 빌드 오류 해결을 위해 shopId를 'kbarber'로 고정합니다.
+    const shopId = 'kbarber';
 
     const fetchGcashInfo = async () => {
         if (!shopId) return;

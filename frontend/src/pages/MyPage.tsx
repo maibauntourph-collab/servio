@@ -141,7 +141,8 @@ export default function MyPage() {
         if (!isLoggedIn) return;
         const load = async () => {
             try {
-                const res = await bookingsApi.myBookings();
+                // 👨‍🏫 shopId 'kbarber'를 명시적으로 전달합니다.
+                const res = await bookingsApi.myBookings('kbarber');
                 if (res.ok) setBookings(res.data.data ?? []);
             } catch { /* 서버 연결 실패 시 무시 */ }
             finally { setFetching(false); }
@@ -154,7 +155,8 @@ export default function MyPage() {
         if (!confirm(t.cancelConfirm)) return;
         setCancellingId(id);
         try {
-            const res = await bookingsApi.cancel(id);
+            // 👨‍🏫 shopId 'kbarber'를 명시적으로 전달합니다.
+            const res = await bookingsApi.cancel('kbarber', id);
             if (res.ok) {
                 setBookings(prev => prev.map(b => b.id === id ? { ...b, status: 'cancelled' } : b));
             } else {

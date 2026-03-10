@@ -82,6 +82,9 @@ export const treatmentsApi = {
     byCategory: (shopId: string, cat: string) => apiFetch(`/${shopId}/styles/category/${encodeURIComponent(cat)}`),
 };
 
+// 👨‍🏫 [2026-03-10] AdminTreatmentPage.tsx와의 호환성을 위해 추가
+export const stylesApi = treatmentsApi;
+
 // ── Bookings API ──
 export const bookingsApi = {
     available: (shopId: string, date: string) => api.get(`/${shopId}/bookings/available?date=${date}`),

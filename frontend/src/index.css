@@ -48,12 +48,12 @@
   }
 
   .glass-card {
-    @apply bg-white/70 backdrop-blur-2xl border border-white/90 shadow-[0_8px_40px_rgba(38, 45, 65, 0.06)];
+    @apply bg-white/70 backdrop-blur-2xl border border-white/90 shadow-[0_8px_40px_rgba(38,45,65,0.06)];
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .glass-card:hover {
-    @apply bg-white/90 shadow-[0_20px_60px_rgba(38, 45, 65, 0.1)] -translate-y-2;
+    @apply bg-white/90 shadow-[0_20px_60px_rgba(38,45,65,0.1)] -translate-y-2;
   }
 
   /* 🏺 Refined Gold Gradient Text (Pastel Edition) */
@@ -88,7 +88,7 @@
 
   /* 🕯️ Soft Zen Shadows */
   .shadow-soft {
-    box-shadow: 0 10px 50px -10px rgba(38, 45, 65, 0.12);
+    box-shadow: 0 10px 50px -10px rgba(38,45,65,0.12);
   }
 
   /* 👨‍🏫 부드러운 페이지 전환 애니메이션 */

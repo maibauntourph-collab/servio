@@ -7,7 +7,7 @@ import { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ArrowLeft, Clock } from 'lucide-react';
-import { hairstyles, categories } from '../data/hairstyles';
+import { hairstyles, categories, Hairstyle } from '../data/hairstyles';
 import { useAuthContext } from '../context/AuthContext';
 
 // 👨‍🏫 가격 포맷 함수 (2026-03-08 표준화)
@@ -90,7 +90,7 @@ export default function StylesPage() {
     const filtered = useMemo(() => {
         // translations 리소스에서 '전체' 또는 'ALL'에 해당하는 값을 가져옵니다.
         const allLabel = t.all;
-        return hairstyles.filter(h => {
+        return hairstyles.filter((h: Hairstyle) => {
             // 현재 선택된 카테고리가 '전체'이거나, 스타일의 카테고리(DB 값)와 일치하는지 확인
             // h.category는 DB 원본 값이므로 언어 전환과 관계없이 일관성을 유지합니다.
             const matchCat = selectedCat === allLabel || h.category === selectedCat;
@@ -187,7 +187,7 @@ export default function StylesPage() {
             <div className="px-6 max-w-7xl mx-auto pb-20">
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                     <AnimatePresence mode="popLayout">
-                        {filtered.map((style, idx) => (
+                        {filtered.map((style: Hairstyle, idx: number) => (
                             <motion.div
                                 key={style.id}
                                 layout

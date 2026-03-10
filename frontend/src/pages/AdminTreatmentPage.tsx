@@ -31,7 +31,8 @@ export default function AdminStylesPage() {
 
     const loadStyles = async () => {
         try {
-            const res = await stylesApi.list();
+            // 👨‍🏫 shopId 'kbarber'를 명시적으로 전달합니다.
+            const res = await stylesApi.list('kbarber');
             if (res.ok) setStyles(res.data.data);
         } catch (err) {
             console.error('Failed to load styles:', err);

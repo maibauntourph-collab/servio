@@ -70,7 +70,8 @@ export default function RegisterPage() {
         }
         setLoading(true);
         try {
-            const res = await authApi.register(form);
+            // 👨‍🏫 'kbarber'를 shopId 인자로 추가 전달합니다.
+            const res = await authApi.register('kbarber', form);
             if (res.ok) {
                 setSuccess(t.successMsg);
                 setTimeout(() => navigate('/login'), 1500);
